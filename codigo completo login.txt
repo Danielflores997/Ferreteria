@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login_Administrador</title>
+    <link rel="icon" href="./imagenes/">
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+    <form2>
+    <div class="container">
+        <div class="container_from">
+            <h2>Administrador</h2>
+            <form>
+            <label for="Tex_Identificación">Identificación</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="password">Contraseña</label>
+            <div class="password field">
+                <input type="password" id="password" name="password" required>
+                <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility()">Mostrar</button>
+            </div>
+            
+            <div class="Botón_Pregunta">
+                <a href="#">¿Olvidaste tu contraseña?</a>
+            </div>
+            
+            <div class="Terminos_y_condiciones">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">Acepto los términos y condiciones</label>
+            </div>
+            
+            <input type="submit" value="Iniciar sesión">
+            </form>
+            <script>
+            function togglePasswordVisibility() {
+            const passwordField = document.getElementById("password");
+            
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+            }
+            </script>
+        </div>
+    </div>
+</form2>
+</body>
+</html>
+--------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login_Vendedor</title>
+    <link rel="icon" href="./imagenes/">
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+    <form1>
+    <div class="container">
+        <div class="container_from">
+            <h2>Vendedor</h2>
+            <form>
+            <label for="Tex_Identificación">Identificación</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="password">Contraseña</label>
+            <div class="password field">
+                <input type="password" id="password" name="password" required>
+                <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility()">Mostrar</button>
+            </div>
+            
+            <div class="Botón_Pregunta">
+                <a href="#">¿Olvidaste tu contraseña?</a>
+            </div>
+            
+            <div class="Terminos_y_condiciones">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">Acepto los términos y condiciones</label>
+            </div>
+            
+            <input type="submit" value="Iniciar sesión">
+            </form>
+            <script>
+            function togglePasswordVisibility() {
+            const passwordField = document.getElementById("password");
+            
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+            }
+            </script>
+        </div>
+    </div>
+    </form1>
+</body>
+</html>
+------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/Registro_Funcionario.css">
+	<title>Registro Nuevo Funcionario</title>
+
+</head>
+<body>
+	<h1>Registro Nuevo Funcionario</h1>
+	<form action="procesar_registro.php" method="POST">
+		<label for="rol">Rol:</label>
+		<select name="rol" id="rol">
+			<option value="administrador">Administrador</option>
+			<option value="vendedor">Vendedor</option>
+		</select><br><br>
+
+		<label for="nombres">Nombres:</label>
+		<input type="text" name="nombres" id="nombres" required><br><br>
+
+		<label for="apellidos">Apellidos:</label>
+		<input type="text" name="apellidos" id="apellidos" required><br><br>
+
+		<label for="tipo_documento">Tipo de Documento:</label>
+		<select name="tipo_documento" id="tipo_documento">
+			<option value="cc">Cédula de Ciudadanía</option>
+			<option value="ce">Cédula Extrangeria</option>
+		</select><br><br>
+
+		<label for="num_documento">Número de Documento:</label>
+		<input type="text" name="num_documento" id="num_documento" required><br><br>
+
+		<label for="correo">Correo Electrónico:</label>
+		<input type="email" name="correo" id="correo" required><br><br>
+
+		<label for="direccion">Dirección:</label>
+		<input type="text" name="direccion" id="direccion" required><br><br>
+
+		<label for="telefono">Teléfono:</label>
+		<input type="tel" name="telefono" id="telefono" required><br><br>
+
+		<label for="password">Contraseña:</label>
+		<input type="password" name="password" id="password" required>
+		<button type="button" onclick="mostrarContrasena('password')">Mostrar</button><br><br>
+
+		<label for="confirm_password">Confirmar Contraseña:</label>
+		<input type="password" name="confirm_password" id="confirm_password" required>
+		<button type="button" onclick="mostrarContrasena('confirm_password')">Mostrar</button><br><br>
+
+		<label1 for="terminos">Acepto los Términos y Condiciones:</label>
+		<input type="checkbox" name="terminos" id="terminos" required><br><br>
+
+		<input type="submit" value="Registrarse">
+	</form>
+
+	<script>
+		function mostrarContrasena(id) {
+			var input = document.getElementById(id);
+			if (input.type === "password") {
+				input.type = "text";
+			} else {
+				input.type = "password";
+			}
+		}
+	</script>
+</body>
+</html>
+---------------------------------------------------------------------------------------------
+/* Resetear estilos por defecto de formularios */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+   /* Estilos para el formulario */
+  form1{
+  background-image:url(/imagenes/loginVendedor.jpg);
+  background-size: cover;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}  
+   /* Estilos para el formulario */
+  form2{
+    background-image:url(/imagenes/loginAdmin.jpg);
+    background-size: cover;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }  
+  /* Estilos para el formulario */
+  form {
+    background-color: transparent;
+    border-radius: 10px;
+    box-shadow: 2px 2px 8px none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 32px;
+    width: 450px;
+  }
+  /*Estilo para el Texto Administrador*/
+  h2 {
+    color: whitesmoke;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  /*Estilo para el Texto Identificacion y Contraseña*/
+  label {
+    color: whitesmoke;
+    border-style:initial;
+    border-color: #0c0c0c;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  /*Esto es lo que va dentro de las cajas de texto*/
+  input[type="text"],
+  input[type="password"] {
+    border-radius: 8px;
+    border:#151414;
+    border-style:none;
+    font-size: 16px;
+    height: 40px;
+    margin-bottom: 16px;
+    padding: 8px;
+    box-shadow: 2px 2px 8px #bcb8b8;
+    background: linear-gradient(to bottom, #fcfcfc, #f6f4f4);
+  }
+  /*Esto es para mostrar contraseña*/
+  .password {
+    position: relative;
+  }
+  /*Esto es estilo y posición mostrar contraseña*/
+  .password-toggle-btn {
+    background-color: transparent;
+    color: rgb(253, 255, 253);
+    cursor: pointer;
+    border-style: none;
+    font-size: 10px;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    transform: translateX(135%);
+  }
+  /*Esto es margen para pregunta olvide contraseña*/
+  .Botón_Pregunta {
+    margin: bottom 14px;
+    text-align: right;
+  }
+  /*Esto es estilo texto Olvide contraseña*/
+  .forgot-password a {
+    color: #0c0c0c;
+    font-size: 14px;
+    text-decoration:double;
+  }
+  /*Esto posición Terminos y condiciones*/
+  .Terminos_y_condiciones {
+    align-items: center;
+    display: flex;
+    margin-bottom: 10px;
+  }
+  /*Esto el cuadro Terminos*/
+  .Terminos_y_condiciones input[type="checkbox"] {
+    margin-right: 12px;
+  }
+  /*Esto es estilo texto*/
+  .Terminos_y_condiciones label {
+    color: white;
+    font-size: 14px;
+  }
+  /*Esto es estilo boton Iniciar Sesión*/
+  input[type="submit"] {
+    background-color: #496ef5;
+    border-radius: 5px;
+    border:none;
+    color: #faf7f7;
+    cursor: pointer;
+    font-size: 16px;
+    height: 40px;
+    margin-top: 16px;
+    transition: background-color 0.3s ease;
+  }
+
+  input[type="submit"]{
+    border-radius: 4px;
+    border: none;
+    font-size: 16px;
+    height: 40px;
+    margin-bottom: 16px;
+    padding: 8px;
+    box-shadow: 4px 4px 16px #0e0e0e;
+    background: linear-gradient(to bottom, #0b207c, #3e41f2);
+  }
+    /*Esto cambia el color del boton con clik del mouse*/
+    input[type="submit"]:hover {
+    background-color: #0f0f0f;
+    background-attachment: fixed;
+    }
+    ---------------------------------------------------------------------------------------
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f1f1f1;
+	background-image: url(/imagenes/RegistroFuncionario.jpg);
+	background-size: cover;
+	
+}
+
+h1 {
+	text-align: center;
+	margin-top: 50px;
+	color: whitesmoke;
+}
+
+form{
+	width: 500px;
+	margin: 0 auto;
+	background-color: transparent;
+	padding: 20px;
+	border-radius: 5px;
+}
+
+label {
+	display: block;
+	margin-bottom: 10px;
+	color: white;
+	
+}
+
+input[type="text"], input[type="email"], input[type="password"], input[type="tel"], select {
+	width: 100%;
+    padding: 8px;
+	border:#151414;
+	border-radius: 8px;
+	box-shadow: 2px 2px 8px #bcb8b8;
+	margin-bottom: 20px;
+	font-size: 16px;
+	background: linear-gradient(to bottom, #fcfcfc, #f6f4f4);
+	height: 28px;
+}
+
+select {
+	width: 513px;
+	height: 40px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	margin-bottom: 20px;
+	font-size: 16px;
+	box-shadow: #bcb8b8;
+	color: black;
+	
+
+}
+
+button[type="button"], input[type="submit"] {
+	background-color: #4CAF50;
+	color: #fff;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 16px;
+	margin-bottom: 20px;
+	box-shadow: #3e41f2;
+	background: linear-gradient(to bottom, #0b207c, #3e41f2);
+
+}
+
+button[type="button"]:hover, input[type="submit"]:hover {
+	background-color: greenyellow;
+	transition: background-color 0.3s ease;
+}
+
+
+
+a {
+	color: #4CAF50;
+}
+
+a:hover {
+	color: #45a049;
+}
+
+.error {
+	color: red;
+	font-size: 14px;
+	margin-bottom: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+	form {
+		width: 100%;
+	}
+}
+label1 {
+	display: block;
+	text-align: center;
+	margin-bottom: 20px;
+	color: white;
+}
+input#Terminos[type="checkbox"] {
+	display: inline-block;
+	margin-right: 10px;
+	margin: 10%;
+}
+-----------------------------------------------------------------------------------------------------
+*/esto es Javascrip/*
+
+function togglePasswordVisibility() {
+    const passwordField = document.getElementById("password");
+    if (passwordField.type === "password") {
+    passwordField.type = "text";
+    } else {
+    passwordField.type = "password";
+    }
+}

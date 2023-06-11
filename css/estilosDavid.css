@@ -1,0 +1,152 @@
+/* Resetear estilos por defecto de formularios */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+ /* Estilos para el formulario */
+form1{
+background-image:url(../imagenes/loginVendedor.jpg);
+background-size: cover;
+font-family: Arial, sans-serif;
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+}  
+ /* Estilos para el formulario */
+form2{
+  background-image:url(../imagenes/loginAdmin.jpg);
+  background-size: cover;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}  
+   /* Estilos para el formulario */
+   form3{
+    background-image:url(../imagenes/LoginCliente.jpg);
+    background-size: cover;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }  
+/* Estilos para el formulario */
+form {
+  background-color: transparent;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 32px;
+  width: 450px;
+}
+/*Estilo para el Texto Administrador*/
+h2 {
+  color: whitesmoke;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  text-align: center;
+}
+/*Estilo para el Texto Identificacion y Contraseña*/
+label {
+  color: whitesmoke;
+  border-style:initial;
+  border-color: #0c0c0c;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+/*Esto es lo que va dentro de las cajas de texto*/
+input[type="text"],
+input[type="password"] {
+  border-radius: 8px;
+  border:#151414;
+  border-style:none;
+  font-size: 16px;
+  height: 40px;
+  margin-bottom: 16px;
+  padding: 8px;
+  box-shadow: 2px 2px 8px #bcb8b8;
+  background: linear-gradient(to bottom, #fcfcfc, #f6f4f4);
+}
+/*Esto es para mostrar contraseña*/
+.password {
+  position: relative;
+}
+/*Esto es estilo y posición mostrar contraseña*/
+.password-toggle-btn {
+  background-color: transparent;
+  color: rgb(253, 255, 253);
+  cursor: pointer;
+  border-style: none;
+  font-size: 10px;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  transform: translateX(135%);
+}
+/*Esto es margen para pregunta olvide contraseña*/
+.Botón_Pregunta {
+  margin: bottom 14px;
+  text-align: right;
+}
+/*Esto es estilo texto Olvide contraseña*/
+.forgot-password a {
+  color: #0c0c0c;
+  font-size: 14px;
+  text-decoration:double;
+}
+/*Esto posición Terminos y condiciones*/
+.Terminos_y_condiciones {
+  align-items: center;
+  display: flex;
+  margin-bottom: 10px;
+}
+/*Esto el cuadro Terminos*/
+.Terminos_y_condiciones input[type="checkbox"] {
+  margin-right: 12px;
+}
+/*Esto es estilo texto*/
+.Terminos_y_condiciones label {
+  color: white;
+  font-size: 14px;
+}
+/*Esto es estilo boton Iniciar Sesión*/
+.boton {
+  background-color: #496ef5;
+  border-radius: 5px;
+  border:none;
+  color: #faf7f7;
+  cursor: pointer;
+  font-size: 16px;
+  height: 40px;
+  margin-top: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.boton {
+  border-radius: 4px;
+  border: none;
+  font-size: 16px;
+  height: 40px;
+  margin-bottom: 16px;
+  padding: 8px;
+  box-shadow: 4px 4px 16px #0e0e0e;
+  background: linear-gradient(to bottom, #0b207c, #3e41f2);
+}
+  /*Esto cambia el color del boton con clik del mouse*/
+  input[type="submit"]:hover {
+  background-color: #0f0f0f;
+  background-attachment: fixed;
+  }
+  .Registro{
+    color: white;
+  }

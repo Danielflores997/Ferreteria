@@ -1,0 +1,122 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+main {
+    display: flex;
+}
+
+h2 {
+    text-align: center;
+    font-size: 2.5rem;   
+}
+
+.contenedor_foto {
+    width: 20%;
+}
+
+.info-usuario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid;
+    border-radius: 25px;
+    padding: 12px;
+
+}
+.info-usuario p {
+    font-size: 2rem;
+}
+
+.botonesnavegacionadministrador {
+    height: 3rem;
+}
+
+.Contenedorformularioventa {
+    width: 80%;
+}
+
+.contenedorexistencia {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.contenedor_ventas {
+    border: 1px solid;
+    padding: 25px;
+}
+
+.botones {
+    display: flex;
+    flex-direction: column;
+}
+.botonagregar {
+display: flex;
+justify-content: end;
+}
+
+.botonagregar .botonagregaryeliminar {
+    width: 20%;
+    height: 30px;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+
+.label-input {
+    display: flex;
+    flex-direction: column;
+    width: 29%;
+    margin: 1%;
+}
+.Seleccionventa {
+    height: 30%;
+    margin: 2% 1% 0;
+    width: 28%;
+}
+.contenedor_ventas {
+    height: 50%;
+}
+
+.contenedorformularioventa {
+    display: flex;
+    flex-wrap: wrap;
+}
+.contenedortabla {
+    width: 100%;
+    min-width: 235px;
+    max-width: 100%;
+    margin: 0 auto;
+    
+}
+.tabla{
+    width: 95%;
+    margin: 2rem auto;
+
+
+}
+.titulotabla {   
+    margin-bottom: 15px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    line-height: 2.3rem;
+    text-align: center;
+}
+.contenedortabla .tabla {
+    width: 100%;
+    height: 100%;
+
+}
+.descripciontabla  {
+    text-align: center;
+}
+.descripciontabla_producto {
+    border: 1px solid black;
+    width: 15%;
+    height: 1.8rem;
+}

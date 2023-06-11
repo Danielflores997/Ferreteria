@@ -1,0 +1,79 @@
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f1f1f1;
+	background-image: url(../imagenes/RegistroFuncionario.jpg);
+	background-size: cover;
+	justify-content: center ;
+	
+}
+
+h3 {
+	margin-top: 5px;
+	color: whitesmoke;
+	margin-left: 60px;
+	
+}
+
+form{
+	justify-content: center;
+	width: 500px;
+	margin: 0 auto;
+	background-color: transparent;
+	border-radius: 5px;
+	
+}
+
+label {
+	display: block;
+	margin-bottom: 1px;
+	color: white;
+	font-size: small;
+	
+}
+
+input[type="text"], input[type="email"], input[type="password"], input[type="tel"], select {
+	width: 70%;
+    padding: 0%;
+	border: none;
+	border-radius: 2px;
+	box-shadow: 2px 2px 8px #bcb8b8;
+	margin-bottom: 0px;
+	font-size: 12px;
+	background: linear-gradient(to bottom, #fcfcfc, #f6f4f4);
+	height: 20px;
+
+	
+}
+
+
+
+button[type="button"], input[type="submit"], input[value="Registrarse"] {
+	color: #fff;
+	padding: 2px 4px;
+	border-radius: 2px;
+	cursor: pointer;
+	background: linear-gradient(to bottom, #0b207c, #3e41f2);
+
+}
+
+input#Terminos[type="checkbox"] {
+	display: inline-block;
+	margin-right: 10px;
+	margin: 10%;
+
+}
+button[type="button"] {
+	margin-left: 125px;
+	margin:10px;
+	background-color: transparent;
+
+}
+label[for="terminos"] {
+margin-left: 55px;
+font-size:small;
+}
+input[value="Registrarse"]
+{
+margin-left: 120px;
+
+}

@@ -1,0 +1,320 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Kanit', sans-serif;
+    background-color: whitesmoke;
+}
+
+header {
+    background-color: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo img {
+    max-width: 100%;
+    background-color: yellow;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+h1 {
+    color: yellow;
+    font-size: 250%;
+}
+
+nav.navbar {
+    background-color:red;
+    height: 60px;
+    padding-top: 10px;
+    border-style: double;
+    border-color: whitesmoke;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+a.Nosotros,
+a.Pintura,
+a.Electricas,
+a.Herramientas_Manuales,
+a.Accesorios {
+    font-size: 20px;
+    color: whitesmoke;
+    text-decoration: none;
+    padding: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-right: solid yellow;
+}
+
+a:hover {
+    color: yellow;
+}
+
+div.lista {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.encabezado {
+    background-color: yellow;
+}
+
+button.btn-login {
+    background-color: whitesmoke;
+    padding: 7px;
+    border-radius: 50px;
+    border-style: none;
+}
+
+a.btn-login:hover {
+    color: red;
+}
+
+a.btn-login {
+    color: black;
+    font-size: 20px;
+    font-style: none;
+    text-decoration: none;
+}
+
+button.btn-login:hover {
+    background-color: yellow;
+}
+/*estolos para slider*/
+.slider {
+    width: 100%;
+    overflow: hidden;
+}
+
+.slider ul {
+    display: flex;
+    animation: cambio 20s infinite alternate linear;
+    width: 400%;
+}
+
+.slider li {
+    width: 100%;
+    list-style: none;
+}
+
+.slider img {
+    width: 100%;
+    height: 300px;
+    padding-top: 5px;
+}
+
+@keyframes cambio {
+    0% {
+        margin-left: 0;
+    }
+
+    20% {
+        margin-left: 0;
+    }
+
+    25% {
+        margin-left: -100%;
+    }
+
+    45% {
+        margin-left: -100%;
+    }
+
+    50% {
+        margin-left: -200%;
+    }
+
+    70% {
+        margin-left: -200%;
+    }
+
+    75% {
+        margin-left: -300%;
+    }
+
+    100% {
+        margin-left: -300%;
+    }
+}
+/*estilos catalogo de productos*/
+h2 {
+    color: red;
+    font-size: 45px;
+    font-family: fantasy;
+    text-align: center;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Kanit&family=Open+Sans:wght@300;400;500;600&family=Poppins:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap');
+
+.contenedor {
+    font-family: 'Open Sans';
+    max-width: 100%;
+    padding: 10px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.contenedor .contenedor-items {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-gap: 30px;
+    grid-row-gap: 30px;
+    width: 100%;
+    transition: 0.3s;
+}
+
+.contenedor .contenedor-items .item {
+    max-width: 200px;
+    padding: 10px;
+    margin: auto;
+    border: 1px solid #666;
+    border-radius: 10px;
+    padding: 20px;
+    transition: 0.3s;
+}
+
+.contenedor-items .item:hover {
+    box-shadow: 0 0 25px black;
+    transform: scale(1.05);
+}
+
+.contenedor-items .item .img-iten {
+    width: 100%;
+}
+
+.contenedor-items .item .titulo-item {
+    display: block;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.contenedor-items .item .precio-item {
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.contenedor-items .item .boton-item {
+    display: block;
+    margin: 10px auto;
+    border: none;
+    background: black;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.img-catalogo {
+    width: 150px;
+    height: 150px;
+}
+/* Estilos para el footer */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    width: 100%;
+    height: 200px;
+    margin-top: 20px;
+}
+h4{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.enlaces{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size:small;
+}
+.enlaces ul {
+    list-style: none;
+    display: flex;
+}
+
+.enlaces ul li {
+    margin-right: 10px;
+    padding-left: 20px;
+}
+
+.enlaces ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.enlaces ul li a:hover{
+    color: yellow;
+}
+.sociales{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sociales-link a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 10px;
+    padding-left: 20px;
+}
+
+.sociales-link a:hover {
+    color:yellow;
+}
+
+.carrito .header-carrito {
+    background-color: darkred;
+    color: black;
+    text-align: center;
+    padding: 30px 0;
+    height: 50px;
+}
+.carrito{
+    border: 1px solid darkred;
+    width: 35%;
+    margin-top: 30px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+    transition: 0.3s;
+    opacity: 1;
+    margin-right: 0;
+}
+.compre{
+    font-size: 50px;
+    margin-top: 150px;
+    align-content: center;
+    position: absolute;
+    right: -2%;
+    top: -100px;
+}
+
+.compre img{
+    height: 70px;
+    margin-right: 150px;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    
+}

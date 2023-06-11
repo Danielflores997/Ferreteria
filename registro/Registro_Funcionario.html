@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/Registro_Funcionario.css">
+	<title>Registro Nuevo Funcionario</title>
+
+</head>
+<body>
+	
+	<form><br><br><br>
+		<h3>Registro Nuevo Funcionario</h3>
+		<label for="rol">Rol:</label>
+			<select name="rol" id="rol">
+			<option value="na"select>Seleccionar</option>
+			<option value="administrador">Administrador</option>
+			<option value="vendedor">Vendedor</option>
+			</select><br><br>
+
+			<label for="nombres">Nombres:</label>
+			<input type="text" name="nombres" id="nombres" required><br><br>
+
+			<label for="apellidos">Apellidos:</label>
+			<input type="text" name="apellidos" id="apellidos" required><br><br>
+
+			<label for="tipo_documento">Tipo de Documento:</label>
+			<select name="tipo_documento" id="tipo_documento">
+			<option value="na"select>Seleccionar</option>
+			<option value="cc">Cédula de Ciudadanía</option>
+			<option value="ce">Cédula Extrangeria</option>
+			</select><br><br>
+
+			<label for="num_documento">Número de Documento:</label>
+			<input type="text" name="num_documento" id="num_documento" required><br><br>
+
+			<label for="correo">Correo Electrónico:</label>
+			<input type="email" name="correo" id="correo" required><br><br>
+
+			<label for="direccion">Dirección:</label>
+			<input type="text" name="direccion" id="direccion" required><br><br>
+
+			<label for="telefono">Teléfono:</label>
+			<input type="tel" name="telefono" id="telefono" required><br><br>
+
+			<label for="password">Contraseña:</label>
+			<input type="password" name="password" id="password" required>
+			<button type="button" onclick="mostrarContrasena('password')">Mostrar</button><br><br>
+
+			<label for="confirm_password">Confirmar Contraseña:</label>
+			<input type="password" name="confirm_password" id="confirm_password" required>
+			<button type="button" onclick="mostrarContrasena('confirm_password')">Mostrar</button><br><br>
+
+			<label for="terminos">Acepto los Términos y Condiciones:
+			<input type="checkbox" name="terminos" id="terminos" required><br><br>
+			</label>
+			<label>
+			<input type="submit" value="Registrarse">
+			</label>
+	</form>
+
+	<script>
+		function mostrarContrasena(id) {
+			var input = document.getElementById(id);
+			if (input.type === "password") {
+				input.type = "text";
+			} else {
+				input.type = "password";
+			}
+		}
+	</script>
+</body>
+</html>
