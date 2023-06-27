@@ -1,0 +1,393 @@
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Kanit', sans-serif;
+}
+
+/* Estilos para el encabezado */
+header {
+    background-color: #ed1c23;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo img {
+    max-width: 100%;
+    background-color: yellow;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+h1 {
+    color: yellow;
+    font-size: 250%;
+}
+
+nav.navbar {
+    background-color: #a70207;
+    height: 60px;
+    padding-top: 10px;
+    border-style: double;
+    border-color: whitesmoke;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+a.CatalogoTodo,
+a.Pintura,
+a.Electricas,
+a.Herramientas_Manuales,
+a.Accesorios {
+    font-size: 20px;
+    color: whitesmoke;
+    text-decoration: none;
+    padding: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-right: solid yellow;
+}
+
+a:hover {
+    color: yellow;
+}
+
+div.lista {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.encabezado {
+    background-color: yellow;
+}
+
+button.btn-login {
+    background-color: whitesmoke;
+    padding: 7px;
+    border-radius: 50px;
+    border-style: none;
+}
+
+a.btn-login:hover {
+    color: red;
+}
+
+a.btn-login {
+    color: black;
+    font-size: 20px;
+    font-style: none;
+    text-decoration: none;
+}
+
+button.btn-login:hover {
+    background-color: yellow;
+}
+/* Cuerpo*/
+#contenido{
+    display: flex;
+    background-color: aliceblue;
+}
+.inventario{
+    width: 100%;
+    max-height: 400px; 
+    overflow:auto;
+    align-content: center;
+}
+#formulario-venta {
+    width: 100%;
+    gap: 10px;
+    padding-bottom: 15px;
+    background-color:aliceblue;
+    border-collapse: collapse;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 15px;
+    max-height: 80%;
+    color: rgb(6, 72, 6);
+    display: flex;
+    justify-content: center;
+    
+}
+
+.input-izquierda,
+.input-derecha {
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 5px;
+    justify-content:flex-end;
+}
+#tabla {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: auto;
+    padding-bottom: 0px;
+    
+}
+
+table {
+    border:solid rgb(23, 146, 23) 0.5px;
+    border-collapse: collapse;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 14px;
+    box-shadow: 5px 5px 10px rgba(4, 115, 25, 0.5);
+    margin-bottom: 20px;
+    max-height: 80%;
+}
+
+#celda-principal {
+    background-color: rgb(5, 138, 5);
+    padding-top: 5px;
+    padding-right: 10px;
+    padding-left: 5px;
+    border-bottom: solid #333 1px;
+    color: #eae7e7;
+}
+tr{
+    padding-right: 2px;
+    padding-bottom: 2px;
+    color:rgb(4, 66, 4);
+    padding-left: 2px;
+}
+td{
+    max-height: 15px;
+    min-width: 35px;
+    padding-right: 15px;
+    padding-left: 3px;
+    text-align: center;
+}
+tr:nth-child(even){
+    background-color:rgb(208, 243, 208);
+}
+tr:hover td {
+    background-color: rgb(158, 219, 158);
+}
+
+#titulo-tabla{
+    font-size: 25px;
+    margin-top: 5px;
+    padding: 0;
+    color: rgb(8, 109, 8);
+}
+
+button{
+    color:rgb(6, 64, 6);
+    background-color: transparent;
+    border: none;
+    margin-left:5px;
+    margin-right:5px;
+    cursor: pointer;
+}
+button:hover{
+    color:rgb(16, 161, 219);
+}
+#vacio{
+    background-color:rgb(208, 243, 208);
+}
+#conten-botones{
+    align-self: auto;
+    background-color:aliceblue;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#btn-venta {
+    background-color:rgb(71, 71, 172);
+    height: 50px;
+    padding: 5px;
+    color:whitesmoke;
+    border-radius: 5px;
+    border: solid #333 1px;
+    transition: transform 0.3s; /* Agregamos una transición para el cambio de tamaño */
+}
+
+#btn-venta:hover {
+    background-color:rgb(57, 57, 191);
+    height: 50px;
+    transform: scale(1.1); /* Aumentamos el tamaño al pasar el puntero por encima */
+}
+/* Estilos menu lateral*/
+h3{
+    color: #fff;
+}
+select option #selec-admin{
+    background-color:transparent;
+    color:#333;
+}
+#selec-admin{
+    border: none;
+    outline: none;
+    color: #fff;
+    background-color: #ed1c23;
+    width:95%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-left: 5px;
+    margin-right: 5px;
+    min-width: 85px;
+    cursor: pointer;
+}
+#select-categoria{
+    color: #333;
+}
+select option #select-categoria{
+    background-color:whitesmoke;
+    color: #fff;
+}
+
+#foto{
+    background-color:rgb(161, 166, 172);
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    max-width: 130px;
+    min-width: 80px;
+    min-height: 80px;
+    border-style:groove;
+    border-color:solid whitesmoke;
+    border-radius: 50%;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+#menu-lateral{
+    background-color:#ed1c23;
+    width: 20%;
+    max-width:300px;
+    min-width: 160px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 200px;
+    height: 100%;
+}
+
+
+
+/* Estilos para el footer */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    width: 100%;
+    height: 160px;
+}
+h4{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.enlaces{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size:small;
+}
+.enlaces ul {
+    list-style: none;
+    display: flex;
+}
+
+.enlaces ul li {
+    margin-right: 10px;
+    padding-left: 20px;
+}
+
+.enlaces ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.enlaces ul li a:hover{
+    color: yellow;
+}
+.sociales{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sociales-link a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 10px;
+    padding-left: 20px;
+}
+
+.sociales-link a:hover {
+    color:yellow;
+}
+/*estolos para slider*/
+.slider {
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+}
+
+.slider ul {
+    display: flex;
+    animation: cambio 20s infinite alternate linear;
+    width: 400%;
+}
+
+.slider li {
+    width: 100%;
+    list-style: none;
+}
+
+.slider img {
+    width: 100%;
+    height: 400px;
+    padding-top: 5px;
+}
+
+@keyframes cambio {
+    0% {
+        margin-left: 0;
+    }
+
+    20% {
+        margin-left: 0;
+    }
+
+    25% {
+        margin-left: -100%;
+    }
+
+    45% {
+        margin-left: -100%;
+    }
+
+    50% {
+        margin-left: -200%;
+    }
+
+    70% {
+        margin-left: -200%;
+    }
+
+    75% {
+        margin-left: -300%;
+    }
+
+    100% {
+        margin-left: -300%;
+    }
+}
