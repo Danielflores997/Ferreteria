@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="../imagenes/">
+    <link rel="stylesheet" href="../CSS/registroCliente.css">
+    <title>Registro</title>
+</head>
+<body>
+    <!-- Inicia encabezado -->
+    <div class="encabezado">
+        <header>
+            <div class="titulo">
+                <h1>FERRETERIA MEISSEN</h1>
+            </div>    
+            <div class="logo">
+                <img src="..//imagenes/ferreteria.jpeg" alt="logo ferreteria">
+            </div>
+        </header>
+        <nav class="navbar">
+            <div class="lista">
+                <a href="index.html" class="CatalogoTodo">Catalogo</a>
+                <a href="#" class="Pintura">Pintura</a>
+                <a href="elctricas.html" class="Electricas">Electricas</a>
+                <a href="#" class="Herramientas_Manuales">Herramientas Manuales</a>
+                <a href="#" class="Accesorios">Accesorios</a>
+                <button class="btn-login">
+                    <a class="btn-login" href="loginCliente.php">Acceder</a>
+                </button>
+                <button class="btn-login">
+                    <a class="btn-login" href="registroCliente.php">Regístrate</a>
+                </button>
+            </div>
+        </nav>
+    </div>
+    <!-- Fin encabezado -->
+
+    <form class="login">
+        <h2>Registrate</h2>
+
+        <?php
+        include "../compartido/conexion.php";
+        include "../compartido/registroCliente.php";
+         ?>
+
+        <div class="contenedor-form">
+			<select name="tipo_documento" id="tipo_documento">
+			<option value="na"select>Tipo Documento</option>
+			<option value="cc">Cédula de Ciudadanía</option>
+			<option value="ce">Cédula Extrangeria</option>
+			</select>
+            <label for="">
+                <input type="text" id="Documento" placeholder="Documento" name="documento">
+            </label>
+            <label for="">
+                <input type="text" id="Nombres" placeholder="Nombres" name="nombre">
+            </label>
+            <label for="">
+                <input type="text" id="Apellidos" placeholder="Apellidos" name="apellido">
+            </label>
+            <label for="">
+                <input type="email" id="CorreoElectronico" placeholder="Correo Electrónico" name="Correo">
+            </label>
+            <label for="">
+                <input type="password" id="Contraseña" placeholder="Contraseña" name="Contraseña">    
+            </label>
+            <label for="">
+                <input type="password" id="Contraseña" placeholder="Confirmar Contraseña" name="Confirmar">    
+            </label> 
+            <label for="tratamiento-datos">
+                <input type="checkbox" class="tratamiento-datos" name="tratamiento-datos">
+                Acepto tratamiento de datos
+            </label>
+            <button class="btn-ingresar">Registrar</button name="registro">
+        </div>
+    </form>
+    <footer>
+        <h4>Ferreteria Meissen</h4>
+        <div class="enlaces">
+            <ul>
+                <li><a href="index.html">Catalogo</a></li>
+                <li><a href="#">Pintura</a></li>
+                <li><a href="elctricas.html">Electricas</a></li>
+                <li><a href="#">Herramientas Manuales</a></li>
+                <li><a href="#">Accesorios</a></li>
+            </ul>
+        </div>
+        <h4>Redes sociales</h4>
+        <div class="sociales">
+        <div class="sociales-link">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        </div>
+    </footer>
+</body>
+</html>
