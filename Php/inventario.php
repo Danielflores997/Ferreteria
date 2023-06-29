@@ -101,7 +101,7 @@
                 <h4 id="titulo-tabla">INVENTARIO</h4>
                 <div id="tabla">
                 <table>
-  <tr>
+            <tr>
                     <th id="celda-principal">Código</th>
                     <th id="celda-principal">Producto</th>
                     <th id="celda-principal">Precio</th>
@@ -109,8 +109,7 @@
                     <th id="celda-principal">Descripción</th>
                     <th id="celda-principal">Categoría</th>
                     <th id="celda-principal">Acciones</th>
-  </tr>
-
+             </tr>
   <?php
         include "../compartido/conexion.php";
         if (isset($_POST['guardar'])) {
@@ -131,17 +130,21 @@
   while ($row = mysqli_fetch_assoc($result)) {
   ?>
     <tr>
-      <td><?php echo $row['codigoProducto']; ?></td>
-      <td><?php echo $row['nombreProductos']; ?></td>
-      <td><?php echo $row['valorProducto']; ?></td>
-      <td><?php echo $row['stockProducto']; ?></td>
-      <td><?php echo $row['descripcionProducto']; ?></td>
-      <td><?php echo $row['nombreCategoria']; ?></td>
-      <td class="acciones">
-        <button><i class="fas fa-edit"></i></button>
-        <button><i class="fas fa-trash"></i></button>
-      </td>
-    </tr>
+  <td><?php echo $row['codigoProducto']; ?></td>
+  <td><?php echo $row['nombreProductos']; ?></td>
+  <td><?php echo $row['valorProducto']; ?></td>
+  <td><?php echo $row['stockProducto']; ?></td>
+  <td><?php echo $row['descripcionProducto']; ?></td>
+  <td><?php echo $row['nombreCategoria']; ?></td>
+  <td class="acciones">
+    <button name="editar"><i class="fas fa-edit"></i></button>
+    <form action="../compartido/eliminar.php" method="POST">
+    <input type="hidden" name="id" value="<?php echo $row['idProducto']; ?>">
+      <button type="submit" name="eliminar"><i class="fas fa-trash"></i></button>
+    </form>
+  </td>
+</tr>
+
   <?php
   }
   ?>

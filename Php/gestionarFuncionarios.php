@@ -54,12 +54,12 @@
         </div>
 
         <div class="inventario">
-        <h4 id="titulo-tabla">Usuarios</h4>
+        <h4 id="usuarios-titulo-tabla">Usuarios</h4>
 <div id="buscar">
-    <button><i class="fa-solid fa-magnifying-glass"></i></button>
-    <input id="ip-buscar" type="text">
+    <button id="buscar-usuarios"><i class="fa-solid fa-magnifying-glass"></i></button>
+    <input id="ip-buscar-usuarios" type="text">
 </div>
-<div id="tabla">
+<div id="usuarios-tabla">
     <table>
         <tr>
             <th id="celda-principal">Tipo Documento</th>
@@ -102,12 +102,12 @@
 </div>
 
 <div class="inventario">
-    <h4 id="titulo-tabla">clientes</h4>
+    <h4 id="clientes-titulo-tabla">Clientes</h4>
     <div id="buscar">
-        <button><i class="fa-solid fa-magnifying-glass"></i></button>
-        <input id="ip-buscar" type="text">
+    <button id="buscar-clientes"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <input id="ip-buscar-clientes" type="text">
     </div>
-    <div id="tabla">
+    <div id="clientes-tabla">
     <table>
         <tr>
             <th id="celda-principal">Tipo Documento</th>
@@ -152,26 +152,43 @@
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Agregar el evento de clic al botón de búsqueda
-            $("#buscar button").click(function() {
-                // Obtener el valor del campo de búsqueda
-                var searchTerm = $("#ip-buscar").val();
+<script>
+    $(document).ready(function() {
+        // Agregar el evento de clic al botón de búsqueda de usuarios
+        $("#buscar-usuarios").click(function() {
+            // Obtener el valor del campo de búsqueda de usuarios
+            var searchTerm = $("#ip-buscar-usuarios").val();
 
-                // Realizar la petición AJAX al servidor
-                $.ajax({
-                    url: "../compartido/buscar.php", // Archivo PHP que manejará la búsqueda
-                    method: "POST",
-                    data: { searchTerm: searchTerm }, // Enviar el término de búsqueda al servidor
-                    success: function(response) {
-                        // Actualizar la tabla con los resultados de la búsqueda
-                        $("#tabla table").html(response);
-                    }
-                });
+            // Realizar la petición AJAX al servidor para buscar usuarios
+            $.ajax({
+                url: "../compartido/buscarUsuario.php", // Archivo PHP que manejará la búsqueda de usuarios
+                method: "POST",
+                data: { searchTerm: searchTerm }, // Enviar el término de búsqueda al servidor
+                success: function(response) {
+                    // Actualizar la tabla de usuarios con los resultados de la búsqueda
+                    $("#usuarios-tabla table").html(response);
+                }
             });
         });
-    </script>
+
+        // Agregar el evento de clic al botón de búsqueda de clientes
+        $("#buscar-clientes").click(function() {
+            // Obtener el valor del campo de búsqueda de clientes
+            var searchTerm = $("#ip-buscar-clientes").val();
+
+            // Realizar la petición AJAX al servidor para buscar clientes
+            $.ajax({
+                url: "../compartido/buscarCliente.php", // Archivo PHP que manejará la búsqueda de clientes
+                method: "POST",
+                data: { searchTerm: searchTerm }, // Enviar el término de búsqueda al servidor
+                success: function(response) {
+                    // Actualizar la tabla de clientes con los resultados de la búsqueda
+                    $("#clientes-tabla table").html(response);
+                }
+            });
+        });
+    });
+</script>
     </div>
         </div>
         <footer>

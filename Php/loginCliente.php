@@ -45,7 +45,7 @@
     <form class="login" action="../compartido/validar.php" method="POST">
     <h2>Iniciar Sesión</h2>
     <div class="contenedor-form">
-        <label for=""><i class="fa-solid fa-user"></i>
+        <label for="CorreoElectronico"><i class="fa-solid fa-user"></i>
             <input type="email" id="CorreoElectronico" placeholder="Correo Electrónico" name="Correo">
         </label>
         <label for=""><i class="fa-solid fa-key"></i>
@@ -54,13 +54,6 @@
         <label for=""><a href="confirmarContraseña.php" class="olvidaste">¿Olvidaste tu Contraseña?</a></label>
         <button class="btn-ingresar" type="submit">Ingresar</button>
     </div>
-
-    <?php
-if (isset($_GET['error'])) {
-    $error = $_GET['error'];
-    echo "Error: " . $error;
-}
-?>
 </form>
 
     <footer>
