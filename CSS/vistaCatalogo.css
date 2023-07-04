@@ -8,7 +8,7 @@ body {
     font-family: 'Kanit', sans-serif;
     background-color: whitesmoke;
 }
-/* Estilos para el encabezado */
+
 header {
     background-color: #ed1c23;
     display: flex;
@@ -30,7 +30,7 @@ h1 {
 }
 
 nav.navbar {
-    background-color: #a70207;
+    background-color:#a70207;
     height: 60px;
     padding-top: 10px;
     border-style: double;
@@ -39,8 +39,8 @@ nav.navbar {
     border-left: none;
     border-right: none;
 }
-
 a.Catalogo,
+a.Nosotros,
 a.Pintura,
 a.Electricas,
 a.Herramientas_Manuales,
@@ -57,10 +57,9 @@ a.Accesorios {
 a:hover {
     color: yellow;
 }
-
 .lista {
     width: 100%;
-    text-align:center;
+    text-align: right;
     padding-right: 20px;
 }
 
@@ -89,12 +88,49 @@ a.btn-login {
 button.btn-login:hover {
     background-color: yellow;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Kanit&family=Open+Sans:wght@300;400;500;600&family=Poppins:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap');
+/* Estilos para el footer */
+footer {
+    background-color:#333;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+  }
+  
+  footer h4 {
+    margin-bottom: 10px;
+  }
+  
+  .enlaces ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .enlaces ul li {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  .enlaces ul li a {
+    text-decoration: none;
+    color:#fff;
+  }
+  
+  .sociales-link a {
+    color:#fff;
+    margin-right: 10px;
+  }
+  
+  .sociales-link p {
+    margin-top: 10px;
+    color:#fff;
+  }
 
 /*estolos para slider*/
 .slider {
     width: 100%;
+    height: 400px;
     overflow: hidden;
 }
 
@@ -111,7 +147,7 @@ button.btn-login:hover {
 
 .slider img {
     width: 100%;
-    height: 300px;
+    height: 400px;
     padding-top: 5px;
 }
 
@@ -148,28 +184,85 @@ button.btn-login:hover {
         margin-left: -300%;
     }
 }
+/* Estilos menu lateral*/
+h3{
+    color: #fff;
+}
+select option #selec-admin{
+    background-color:transparent;
+    color:#333;
+}
+#selec-admin{
+    border: none;
+    outline: none;
+    color: #fff;
+    background-color: #ed1c23;
+    width:95%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-left: 5px;
+    margin-right: 5px;
+    min-width: 85px;
+    cursor: pointer;
+}
+#select-categoria{
+    color: #333;
+}
+select option #select-categoria{
+    background-color:whitesmoke;
+    color: #fff;
+}
+
+#foto{
+    background-color:rgb(161, 166, 172);
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    max-width: 130px;
+    min-width: 80px;
+    min-height: 80px;
+    border-style:groove;
+    border-color:solid whitesmoke;
+    border-radius: 50%;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+#menu-lateral{
+    background-color:#ed1c23;
+    width: 20%;
+    max-width:300px;
+    min-width: 160px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 200px;
+    height: 100%;
+    position: static;
+}
 /*estilos catalogo de productos*/
-h2 {
+#t-catalogo{
     color: red;
-    font-size: 45px;
+    font-size: 35px;
     font-family: fantasy;
     text-align: center;
+    z-index: 1;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Kanit&family=Open+Sans:wght@300;400;500;600&family=Poppins:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap');
-
-.contenedor {
-    font-family: 'Open Sans';
-    max-width: 100%;
-    padding: 10px;
-    margin: auto;
+#contenedor{
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    box-sizing: border-box;
 }
-
-.contenedor .contenedor-items {
+.organizar{
+    position: relative;
+    margin-top: 30px;
+    width: 100%;
+}
+.contenedor-items {
     margin-top: 30px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -177,9 +270,9 @@ h2 {
     grid-row-gap: 30px;
     width: 100%;
     transition: 0.3s;
+    z-index: 2;
 }
-
-.contenedor .contenedor-items .item {
+.contenedor-items .item {
     max-width: 200px;
     padding: 10px;
     margin: auto;
@@ -188,30 +281,25 @@ h2 {
     padding: 20px;
     transition: 0.3s;
 }
-
 .contenedor-items .item:hover {
     box-shadow: 0 0 25px black;
     transform: scale(1.05);
 }
-
 .contenedor-items .item .img-iten {
     width: 100%;
 }
-
 .contenedor-items .item .titulo-item {
     display: block;
     font-weight: bold;
     text-align: center;
     text-transform: uppercase;
 }
-
 .contenedor-items .item .precio-item {
     display: block;
     text-align: center;
     font-weight: bold;
     font-size: 22px;
 }
-
 .contenedor-items .item .boton-item {
     display: block;
     margin: 10px auto;
@@ -222,100 +310,7 @@ h2 {
     border-radius: 5px;
     cursor: pointer;
 }
-
 .img-catalogo {
     width: 150px;
     height: 150px;
-}
-/* Estilos para el footer */
-footer {
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-    width: 100%;
-    height: 200px;
-    margin-top: 20px;
-}
-h4{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-.enlaces{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    font-size:small;
-}
-.enlaces ul {
-    list-style: none;
-    display: flex;
-}
-
-.enlaces ul li {
-    margin-right: 10px;
-    padding-left: 20px;
-}
-
-.enlaces ul li a {
-    color: #fff;
-    text-decoration: none;
-}
-
-.enlaces ul li a:hover{
-    color: yellow;
-}
-.sociales{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.sociales-link a {
-    color: #fff;
-    text-decoration: none;
-    margin-right: 10px;
-    padding-left: 20px;
-}
-
-.sociales-link a:hover {
-    color:yellow;
-}
-
-.carrito .header-carrito {
-    background-color: darkred;
-    color: black;
-    text-align: center;
-    padding: 30px 0;
-    height: 50px;
-}
-.carrito{
-    border: 1px solid darkred;
-    width: 35%;
-    margin-top: 30px;
-    border-radius: 10px;
-    overflow: hidden;
-    position: sticky;
-    top: 0;
-    transition: 0.3s;
-    opacity: 1;
-    margin-right: 0;
-}
-.compre{
-    font-size: 50px;
-    margin-top: 150px;
-    align-content: center;
-    position: absolute;
-    right: -2%;
-    top: -100px;
-}
-
-.compre img{
-    height: 70px;
-    margin-right: 150px;
-    border-radius: 50%;
-    justify-content: center;
-    align-items: center;
-    
 }

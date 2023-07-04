@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $filas = mysqli_num_rows($resultado);
 
     if ($filas) {
-        header('Location: ../Php/inventario.php');
+        header('Location: ../Php/vistaCatalogo.php');
     } else {
         header('Location: ../Php/loginCliente.php');
     }

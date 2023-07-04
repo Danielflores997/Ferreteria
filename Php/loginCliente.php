@@ -26,7 +26,7 @@
             <div class="lista">
                 <a href="index.php" class="CatalogoTodo">Catalogo</a>
                 <a href="#" class="Pintura">Pintura</a>
-                <a href="inventario.php" class="Electricas">Electricas</a>
+                <a href="electricas.php" class="Electricas">Electricas</a>
                 <a href="#" class="Herramientas_Manuales">Herramientas Manuales</a>
                 <a href="#" class="Accesorios">Accesorios</a>
                 <button class="btn-login">

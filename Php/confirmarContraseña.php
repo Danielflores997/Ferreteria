@@ -19,7 +19,7 @@
                 <h1>FERRETERIA MEISSEN</h1>
             </div>    
             <div class="logo">
-                <img src="/imagenes/ferreteria.jpeg" alt="logo ferreteria">
+                <img src="../imagenes/ferreteria.jpeg" alt="logo ferreteria">
             </div>
         </header>
         <nav class="navbar">

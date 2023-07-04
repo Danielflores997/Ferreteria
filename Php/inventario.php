@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="../CSS/inventario.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/Inventario.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>Inventario</title>
@@ -20,16 +20,8 @@
         </header>
         <nav class="navbar">
             <div class="lista">
-            <a href="index.php" class="CatalogoTodo">Catalogo</a>
-            <a href="#" class="Pintura">Pintura</a>
-            <a href="elctricas.html" class="Electricas">Electricas</a>
-            <a href="#" class="Herramientas_Manuales">Herramientas Manuales</a>
-            <a href="#" class="Accesorios">Accesorios</a>
             <button class="btn-login">
-            <a class="btn-login"href="../Html/loginCliente.html">Acceder</a>
-            </button>
-            <button class="btn-login">
-            <a class="btn-login"href="../Html/RegistroCliente.html">Regístrate</a>
+            <a class="btn-login"href="index.php">Cerrar Sesión</a>
             </button>
             </div>
         </nav>
@@ -45,7 +37,7 @@
             </div>
                 <select id="selec-admin" onchange="location.href=this.value;">
                 <option selected>Opciones</option>
-                <option value="index.php">Inicio</option>
+                <option value="vistaCatalogo.php">Inicio</option>
                 <option value="inventario.php">Gestión Catalogo e Inventario</option>
                 <option value="gestionarFuncionarios.php">Gestionar Usuarios</option>
                 <option value="ventas.php">Ventas</option>
@@ -78,18 +70,20 @@
                         <input type="text" id="descripcion" placeholder="descripcion"  name="descripcion">
                     </div>
                     <div class="input-derecha">
-                        <label for="categoria">Categoria</label>
-                        <select name="categoria" id="select-categoria">
-                            <option selected="selected" value="Herramientas">Herramientas</option>
-                            <option value="Pinturas">Pinturas</option>
-                            <option value="Cementos">Cementos</option>
-                            <option value="Herramientas Electricas">Herramientas Electricas</option>
-                            <option value="Carpinteria">Carpinteria</option>
-                            <option value="Tornilleria">Tornilleria</option>
-                            <option value="Plomeria">Plomeria</option>
-                        </select>
-                    </div>      
+                <label for="categoria">Categoria</label>
+                <select name="categoria" id="select-categoria">
+                        <option selected="selected" value="1">Herramientas</option>
+                        <option value="2">Pinturas</option>
+                        <option value="3">Cementos</option>
+                        <option value="4">Herramientas Electricas</option>
+                        <option value="5">Carpinteria</option>
+                        <option value="6">Tornilleria</option>
+                        <option value="7">Plomeria</option>
+                        <option value="8">Jardineria</option>
+                        <option value="9">Proteccion</option>
+                    </select>
                 </div>
+            </div>
                 <div id="conten-botones">
                     <button id="btn-venta"><i class="far fa-save"></i><i class="fas fa-times-circle"></i> Cancelar</button>
                     <button id="btn-venta" type="submit" name="guardar">

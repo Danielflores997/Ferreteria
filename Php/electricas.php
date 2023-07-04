@@ -22,16 +22,16 @@
     </header>
     <nav class="navbar">
         <div class="lista">
-        <a href="index.html" class="CatalogoTodo">Catalogo</a>
+        <a href="index.php" class="CatalogoTodo">Catalogo</a>
         <a href="#" class="Pintura">Pintura</a>
-        <a href="elctricas.html" class="Electricas">Electricas</a>
+        <a href="electricas.php" class="Electricas">Electricas</a>
         <a href="#" class="Herramientas_Manuales">Herramientas Manuales</a>
         <a href="#" class="Accesorios">Accesorios</a>
         <button class="btn-login">
-        <a class="btn-login"href="loginCliente.html">Acceder</a>
+        <a class="btn-login"href="loginCliente.php">Acceder</a>
         </button>
         <button class="btn-login">
-        <a class="btn-login"href="registroCliente.html">Regístrate</a>
+        <a class="btn-login"href="registroCliente.php">Regístrate</a>
         </button>
         </div>
     </div>
@@ -117,7 +117,7 @@
 
         <script>
             function agregarAlCarrito() {
-            window.location.href = "carrito.html";
+            window.location.href = "carrito.php";
             }
             </script>
 </body>
@@ -125,9 +125,9 @@
     <h4>Ferreteria Meissen</h4>
     <div class="enlaces">
         <ul>
-            <li><a href="index.html">Catalogo</a></li>
+            <li><a href="index.php">Catalogo</a></li>
             <li><a href="#">Pintura</a></li>
-            <li><a href="elctricas.html">Electricas</a></li>
+            <li><a href="electricas.php">Electricas</a></li>
             <li><a href="#">Herramientas Manuales</a></li>
             <li><a href="#">Accesorios</a></li>
         </ul>

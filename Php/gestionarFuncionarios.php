@@ -20,17 +20,9 @@
         </header>
         <nav class="navbar">
             <div class="lista">
-                <a href="index.php" class="CatalogoTodo">Catalogo</a>
-                <a href="#" class="Pintura">Pintura</a>
-                <a href="inventario.php" class="Electricas">Electricas</a>
-                <a href="#" class="Herramientas_Manuales">Herramientas Manuales</a>
-                <a href="#" class="Accesorios">Accesorios</a>
-                <button class="btn-login">
-                    <a class="btn-login" href="loginCliente.php">Acceder</a>
-                </button>
-                <button class="btn-login">
-                    <a class="btn-login" href="registroCliente.php">Regístrate</a>
-                </button>
+            <button class="btn-login">
+            <a class="btn-login"href="../Php/index.php">Cerrar Sesión</a>
+            </button>
             </div>
         </nav>
         </div>
@@ -45,7 +37,7 @@
             </div>
             <select id="selec-admin" onchange="location.href=this.value;">
             <option selected>Opciones</option>
-            <option value="index.php">Inicio</option>
+            <option value="vistaCatalogo.php">Inicio</option>
             <option value="inventario.php">Gestión Catalogo e Inventario</option>
             <option value="gestionarFuncionarios.php">Gestionar Usuarios</option>
             <option value="ventas.php">Ventas</option>
