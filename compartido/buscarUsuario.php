@@ -4,8 +4,22 @@ include "conexion.php";
 if (isset($_POST['searchTerm'])) {
     $searchTerm = $_POST['searchTerm'];
 
+    // Verificar si se ingresó el estado activo en el término de búsqueda
+    $estadoActivo = false;
+    if ($searchTerm == 'Activo') {
+        $estadoActivo = true;
+    }
+
     // Realizar la consulta a la base de datos con la condición de búsqueda
     $query = "SELECT * FROM usuario WHERE documentopUsuario LIKE '%$searchTerm%' OR nombresUsuario LIKE '%$searchTerm%'";
+    
+    // Agregar condición para filtrar usuarios inactivos solo si se busca estado activo
+    if ($estadoActivo) {
+        $query .= " OR (estadoUsuario = 'Activo' OR estadoUsuario IS NULL)";
+    } else {
+        $query .= " OR estadoUsuario LIKE '%$searchTerm%'";
+    }
+    
     $result = mysqli_query($conn, $query);
 
     if (!$result) {
@@ -15,6 +29,7 @@ if (isset($_POST['searchTerm'])) {
         $table = '';
 
         while ($row = mysqli_fetch_assoc($result)) {
+            $idUsuario = $row['idUsuario'];
             $table .= '<tr>
                 <td>' . $row['tipoDocumentoUsuario'] . '</td>
                 <td>' . $row['documentopUsuario'] . '</td>
@@ -23,8 +38,14 @@ if (isset($_POST['searchTerm'])) {
                 <td>' . $row['correo'] . '</td>
                 <td>' . $row['estadoUsuario'] . '</td>
                 <td class="acciones">
-                    <button><i class="fas fa-edit"></i></button>
-                    <button><i class="fas fa-trash"></i></button>
+                <form action="../compartido/editarUsuario.php" method="POST">
+                <input type="hidden" name="id" value="' . $idUsuario . '">
+                <button type="submit" name="editar"><i class="fas fa-edit"></i></button>
+            </form>
+            <form action="../compartido/eliminarUsuario.php" method="POST" onsubmit="return confirmarEliminacion();">
+                <input type="hidden" name="id" value="' . $idUsuario . '">
+                <button type="submit" name="eliminar"><i class="fas fa-trash"></i></button>
+            </form>
                 </td>
             </tr>';
         }
@@ -32,3 +53,4 @@ if (isset($_POST['searchTerm'])) {
     }
 }
 ?>
+

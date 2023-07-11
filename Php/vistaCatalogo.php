@@ -9,24 +9,25 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>Visualizar Catalogo</title>
-    <div class="encabezado">
-        <header>
-            <div class = titulo>
+    <?php include "../compartido/sesion.php"; ?>
+<div class="encabezado">
+    <header>
+        <div class="titulo">
             <h1>FERRETERIA MEISSEN</h1>
-            </div>    
-            <div class="logo" >
+        </div>    
+        <div class="logo">
             <img src="../imagenes/ferreteria.jpeg" alt="logo ferreteria">
-            </div>
-        </header>
-        <nav class="navbar">
-            <div class="lista">
-            <button class="btn-login">
-            <a class="btn-login"href="../Php/index.php">Cerrar Sesión</a>
-            </button>
-            </div>
-        </nav>
         </div>
-        <div id="contenedor">
+    </header>
+    <nav class="navbar">
+        <div class="lista">
+            <button class="btn-login">
+                <a class="btn-login" href="../Php/index.php?logout">Cerrar Sesión</a>
+            </button>
+        </div>
+    </nav>
+</div>
+    <div id="contenedor">
             <div id="menu-lateral">
                 <h3>Administrador</h3>
                 <div id="foto">

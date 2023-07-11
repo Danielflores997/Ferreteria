@@ -59,6 +59,7 @@
             <th id="celda-principal">Nombre</th>
             <th id="celda-principal">Apellido</th>
             <th id="celda-principal">Correo</th>
+            <th id="celda-principal">Estado</th>
             <th id="celda-principal">Rol</th>
             <th id="celda-principal">Acciones</th>
         </tr>
@@ -81,10 +82,19 @@
                 <td><?php echo $row['nombresUsuario']; ?></td>
                 <td><?php echo $row['apellidosUsuario']; ?></td>
                 <td><?php echo $row['correo']; ?></td>
+                <td><?php echo $row['estadoUsuario']; ?></td>
                 <td><?php echo $row['rol_idRol']; ?></td>
                 <td class="acciones">
-                    <button><i class="fas fa-edit"></i></button>
-                    <button><i class="fas fa-trash"></i></button>
+                <form action="../compartido/editarUsuario.php" method="POST">
+                    <input type="hidden" name="tabla" value="usuario">
+                    <input type="hidden" name="id" value="<?php echo $row['idUsuario']; ?>">
+                    <button type="submit" name="editar"><i class="fas fa-edit"></i></button>
+                </form>
+                <form action="../compartido/eliminarUsuario.php" method="POST" onsubmit="return confirmarEliminacionUsuario();">
+                    <input type="hidden" name="tabla" value="usuario">
+                    <input type="hidden" name="id" value="<?php echo $row['idUsuario']; ?>">
+                    <button type="submit" name="eliminar"><i class="fas fa-trash"></i></button>
+                </form>
                 </td>
             </tr>
         <?php
@@ -108,7 +118,7 @@
             <th id="celda-principal">Apellido</th>
             <th id="celda-principal">Telefono</th>
             <th id="celda-principal">Direccion</th>
-            <th id="celda-principal">Correo</th>
+            <th id="celda-principal">Estado</th>
             <th id="celda-principal">Acciones</th>
         </tr>
         <?php
@@ -133,8 +143,16 @@
                 <td><?php echo $row['direccionCliente']; ?></td>
                 <td><?php echo $row['estadoCliente']; ?></td>
                 <td class="acciones">
-                    <button><i class="fas fa-edit"></i></button>
-                    <button><i class="fas fa-trash"></i></button>
+            <form action="../compartido/editarCliente.php" method="POST">
+                <input type="hidden" name="tabla" value="cliente">
+                <input type="hidden" name="id" value="<?php echo $row['idCliente']; ?>">
+                <button type="submit" name="editar"><i class="fas fa-edit"></i></button>
+            </form>
+            <form action="../compartido/eliminarCliente.php" method="POST" onsubmit="return confirmarEliminacionCliente();">
+                <input type="hidden" name="tabla" value="cliente">
+                <input type="hidden" name="id" value="<?php echo $row['idCliente']; ?>">
+                <button type="submit" name="eliminar"><i class="fas fa-trash"></i></button>
+            </form>
                 </td>
             </tr>
         <?php
@@ -143,6 +161,15 @@
     </table>
     </div>
 </div>
+<script>
+    function confirmarEliminacionUsuario() {
+        return confirm("¿Estás seguro de que deseas eliminar este usuario?");
+    }
+
+    function confirmarEliminacionCliente() {
+        return confirm("¿Estás seguro de que deseas eliminar este cliente?");
+    }
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
     $(document).ready(function() {

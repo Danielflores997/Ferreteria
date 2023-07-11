@@ -1,5 +1,6 @@
 <?php
 include "conexion.php";
+session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $correo = $_POST['Correo'];
@@ -17,12 +18,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $filas = mysqli_num_rows($resultado);
 
     if ($filas) {
-        header('Location: ../Php/vistaCatalogo.php');
+        // Obtener los datos del usuario desde el resultado de la consulta
+        $usuario = mysqli_fetch_assoc($resultado);
+        $estadoUsuario = $usuario['estadoUsuario'];
+
+        if ($estadoUsuario == 'Activo') {
+            // El usuario está activo, permitir el acceso y redirigir según el rol
+            $rol = $usuario['rol_idRol'];
+
+            if ($rol == 1) {
+                header('Location: ../Php/vistaCatalogo.php');
+            } elseif ($rol == 2) {
+                header('Location: ../Php/vistaCatalogoVendedor.php');
+            } else {
+                header('Location: ../Php/loginCliente.php');
+            }
+
+            // Iniciar sesión y guardar el correo en la variable de sesión
+            $_SESSION['correo'] = $correo;
+        } else {
+            // El usuario está inactivo, redirigir a una página de error o mostrar un mensaje de error
+            header('Location: usuarioInactivo.php');
+        }
     } else {
         header('Location: ../Php/loginCliente.php');
     }
 }
+
+if (isset($_GET['logout'])) {
+    cerrarSesion();
+}
 ?>
+
 
 
 

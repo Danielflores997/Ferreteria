@@ -92,56 +92,111 @@
                 </div>
                 </div>
                 </form>
-                <h4 id="titulo-tabla">INVENTARIO</h4>
-                <div id="tabla">
-                <table>
-            <tr>
-                    <th id="celda-principal">Código</th>
-                    <th id="celda-principal">Producto</th>
-                    <th id="celda-principal">Precio</th>
-                    <th id="celda-principal">Cantidad</th>
-                    <th id="celda-principal">Descripción</th>
-                    <th id="celda-principal">Categoría</th>
-                    <th id="celda-principal">Acciones</th>
-             </tr>
-  <?php
-        include "../compartido/conexion.php";
+                <?php
+            include "../compartido/conexion.php";
+
         if (isset($_POST['guardar'])) {
-            include "../compartido/agregarProducto.php";
-        }
-        
-        // Realizar la consulta a la base de datos
-        $query = "SELECT * FROM productos";
-        $result = mysqli_query($conn, $query); // Cambio de $conexion a $conn
+            $idProducto = $_POST['id'];
+            $codigoProducto = $_POST['codigo'];
+            $nombreProducto = $_POST['nombre'];
+            $valorProducto = $_POST['valor'];
+            $stockProducto = $_POST['stock'];
+            $descripcionProducto = $_POST['descripcion'];
+            $nombreCategoria = $_POST['categoria'];
 
-        if (!$result) {
-            echo "Error al obtener los productos: " . mysqli_error($conn); // Cambio de $conexion a $conn
-        }
+    // Aquí puedes agregar la lógica para guardar los cambios del producto
+    $query = "UPDATE productos SET codigoProducto='$codigoProducto', nombreProductos='$nombreProducto', valorProducto=$valorProducto, stockProducto=$stockProducto, descripcionProducto='$descripcionProducto', nombreCategoria='$nombreCategoria' WHERE idProducto=$idProducto";
 
+    $result = mysqli_query($conn, $query);
+    if (!$result) {
+        echo "Error al guardar los cambios del producto: " . mysqli_error($conn);
+    }
+}
+
+if (isset($_POST['editar'])) {
+    $idProducto = $_POST['id'];
+
+    // Aquí puedes agregar la lógica para recuperar los datos del producto
+    // correspondiente al ID proporcionado y cargarlos en un formulario de edición
+    $query = "SELECT * FROM productos WHERE idProducto=$idProducto";
+    $result = mysqli_query($conn, $query);
+    $row = mysqli_fetch_assoc($result);
+
+    // Variables para almacenar los valores actuales del producto
+    $codigoProducto = $row['codigoProducto'];
+    $nombreProducto = $row['nombreProductos'];
+    $valorProducto = $row['valorProducto'];
+    $stockProducto = $row['stockProducto'];
+    $descripcionProducto = $row['descripcionProducto'];
+    $nombreCategoria = $row['nombreCategoria'];
+}
+?>
+
+<?php
+include "../compartido/conexion.php";
+
+if (isset($_POST['guardar'])) {
+    include "editar.php";
+} else {
+    // Realizar la consulta a la base de datos
+    $query = "SELECT * FROM productos";
+    $result = mysqli_query($conn, $query);
+
+    if (!$result) {
+        echo "Error al obtener los productos: " . mysqli_error($conn);
+    }
+?>
+<h4 id="titulo-tabla">INVENTARIO</h4>
+<div id="tabla">
+    <table>
+        <tr>
+            <th id="celda-principal">Código</th>
+            <th id="celda-principal">Producto</th>
+            <th id="celda-principal">Precio</th>
+            <th id="celda-principal">Cantidad</th>
+            <th id="celda-principal">Descripción</th>
+            <th id="celda-principal">Categoría</th>
+            <th id="celda-principal">Acciones</th>
+        </tr>
+
+        <?php
+        while ($row = mysqli_fetch_assoc($result)) {
         ?>
+            <tr>
+                <td><?php echo $row['codigoProducto']; ?></td>
+                <td><?php echo $row['nombreProductos']; ?></td>
+                <td><?php echo $row['valorProducto']; ?></td>
+                <td><?php echo $row['stockProducto']; ?></td>
+                <td><?php echo $row['descripcionProducto']; ?></td>
+                <td><?php echo $row['nombreCategoria']; ?></td>
+                <td class="acciones">
+                    <form action="../compartido/editar.php" method="POST">
+                        <input type="hidden" name="id" value="<?php echo $row['idProducto']; ?>">
+                        <button type="submit" name="editar"><i class="fas fa-edit"></i></button>
+                    </form>
+                    <form action="../compartido/eliminar.php" method="POST" onsubmit="return confirmarEliminacion();">
+                        <input type="hidden" name="id" value="<?php echo $row['idProducto']; ?>">
+                        <button type="submit" name="eliminar"><i class="fas fa-trash"></i></button>
+                    </form>
+                </td>
+            </tr>
+        <?php
+        }
+        ?>
+    </table>
+</div>
 
-  <?php
-  while ($row = mysqli_fetch_assoc($result)) {
-  ?>
-    <tr>
-  <td><?php echo $row['codigoProducto']; ?></td>
-  <td><?php echo $row['nombreProductos']; ?></td>
-  <td><?php echo $row['valorProducto']; ?></td>
-  <td><?php echo $row['stockProducto']; ?></td>
-  <td><?php echo $row['descripcionProducto']; ?></td>
-  <td><?php echo $row['nombreCategoria']; ?></td>
-  <td class="acciones">
-    <button name="editar"><i class="fas fa-edit"></i></button>
-    <form action="../compartido/eliminar.php" method="POST">
-    <input type="hidden" name="id" value="<?php echo $row['idProducto']; ?>">
-      <button type="submit" name="eliminar"><i class="fas fa-trash"></i></button>
-    </form>
-  </td>
-</tr>
+<script>
+    function confirmarEliminacion() {
+        return confirm("¿Estás seguro de que deseas eliminar este producto?");
+    }
+</script>
 
-  <?php
-  }
-  ?>
+<?php
+}
+?>
+    </table>
+</div>
 </table>
   </div>
     </div>
