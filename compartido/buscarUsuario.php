@@ -54,3 +54,9 @@ if (isset($_POST['searchTerm'])) {
 }
 ?>
 
+<script>
+    function confirmarEliminacion() {
+        return confirm("¿Estás seguro de que deseas eliminar este Usuario?");
+    }
+</script>
+

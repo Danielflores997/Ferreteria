@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['correo'])) {
+    header('Location: index.php'); // Redirigir si el usuario no ha iniciado sesión
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +18,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>Visualizar Catalogo</title>
-    <?php include "../compartido/sesion.php"; ?>
 <div class="encabezado">
     <header>
         <div class="titulo">
@@ -22,7 +30,7 @@
     <nav class="navbar">
         <div class="lista">
             <button class="btn-login">
-                <a class="btn-login" href="../Php/index.php?logout">Cerrar Sesión</a>
+                <a class="btn-login" href="../compartido/cerrarSesion.php">Cerrar Sesión</a>
             </button>
         </div>
     </nav>
@@ -34,7 +42,12 @@
                     <img src="../imagenes/administrador ferreteria.jpg" alt="">    
                 </div>
                 <div class="nom-usuario">
-                <h3>Nombre Usuario</h3>
+                <!-- Aquí puedes mostrar el correo del usuario -->
+                <?php
+                    if (isset($_SESSION['correo'])) {
+                    echo "<h3>Bienvenido: " . $_SESSION['correo'] . "</h3>";
+                    }
+                ?>
                 </div>
                 <select id="selec-admin" onchange="location.href=this.value;">
                     <option selected>Opciones</option>

@@ -15,6 +15,7 @@ if (isset($_POST['searchTerm'])) {
         $table = '';
 
         while ($row = mysqli_fetch_assoc($result)) {
+            $idCliente = $row['idCliente'];
             $table .= '<tr>
                 <td>' . $row['tipoDocumentoCliente'] . '</td>
                 <td>' . $row['documentoCliente'] . '</td>
@@ -24,18 +25,24 @@ if (isset($_POST['searchTerm'])) {
                 <td>' . $row['direccionCliente'] . '</td>
                 <td>' . $row['estadoCliente'] . '</td>
                 <td class="acciones">
-                    <button><i class="fas fa-edit"></i></button>
-                    <button><i class="fas fa-trash"></i></button>
+                    <form action="../compartido/editarCliente.php" method="POST">
+                        <input type="hidden" name="id" value="' . $idCliente . '">
+                        <button type="submit" name="editar"><i class="fas fa-edit"></i></button>
+                    </form>
+                    <form action="../compartido/eliminarCliente.php" method="POST" onsubmit="return confirmarEliminacion();">
+                        <input type="hidden" name="id" value="' . $idCliente . '">
+                        <button type="submit" name="eliminar"><i class="fas fa-trash"></i></button>
+                    </form>
                 </td>
             </tr>';
         }
-
         echo $table;
     }
 }
 ?>
 
-
-
-
-
+<script>
+    function confirmarEliminacion() {
+        return confirm("¿Estás seguro de que deseas eliminar este cliente?");
+    }
+</script>

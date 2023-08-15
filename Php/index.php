@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (isset($_SESSION['correo'])) {
+    header('Location: vistacatalogo.php'); // Redirigir al usuario si ya ha iniciado sesión
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -57,8 +66,6 @@
                 ?>
             </div>
         </section>
-
-<script src="../JavaScript/carrito.js"></script>
 
 <script>
   function agregarAlCarrito(titulo, imagen, precio) {
