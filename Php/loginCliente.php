@@ -13,10 +13,9 @@
 </head>
 <body>
     <!-- Inicia encabezado -->
-        <?php include "../compartido/menu.php"; ?>
+    <?php include "../compartido/menu.php"; ?>
+        <?php include "../compartido/conexion.php"; ?>
     <!-- Fin encabezado -->
-
-    <?php include "../compartido/conexion.php"; ?>
 
     <form class="login" action="../compartido/validar.php" method="POST">
     <h2>Iniciar Sesión</h2>

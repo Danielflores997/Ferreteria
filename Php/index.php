@@ -13,6 +13,8 @@
 </head>
 <body>
   <?php include "../compartido/menu.php"; ?>
+  <?php include "../compartido/conexion.php"; ?>
+  
         <div class="slider">
             <ul>
                 <li>
@@ -31,82 +33,30 @@
         </div>
     </nav>
     <h2 class="catalogo">Productos</h2>
-<section class="contenedor">
-  <div class="contenedor-items">
-    <div class="item">
-      <span class="titulo-item">Clavos 2.5"</span>
-      <img class="img-catalogo" src="../imagenes/clavos.jpg" alt="img Clavos">
-      <span class="precio-item">$3.000</span>
-      <button class="boton-item" onclick="agregarAlCarrito('Clavos 2.5&quot;', '../imagenes/clavos.jpg', 3000)">Agregar al Carrito</button>
-    </div>
-    <div class="item">
-      <span class="titulo-item">Bombillo 100w</span>
-      <img class="img-catalogo" src="../imagenes/Bombillo.jpg" alt="img Bombillo">
-      <span class="precio-item">$7.000</span>
-      <button class="boton-item" onclick="agregarAlCarrito('Bombillo 100w', '../imagenes/Bombillo.jpg', 7000)">Agregar al Carrito</button>
-    </div>
-    <div class="item">
-      <span class="titulo-item">Martillo</span>
-      <img class="img-catalogo" src="../imagenes/martillo.jpg" alt="img Martillo">
-      <span class="precio-item">$12.000</span>
-      <button class="boton-item" onclick="agregarAlCarrito('Martillo', '../imagenes/martillo.jpg', 12000)">Agregar al Carrito</button>
-    </div>
-    <div class="item">
-      <span class="titulo-item">Tubos PVC</span>
-      <img class="img-catalogo" src="../imagenes/tubos.jpg" alt="img Tubos pvc">
-      <span class="precio-item">$30.000</span>
-      <button class="boton-item" onclick="agregarAlCarrito('Tubos PVC', '../imagenes/tubos.jpg', 30000)">Agregar al Carrito</button>
-    </div>
-    <div class="item">
-      <span class="titulo-item">Luz led</span>
-      <img class="img-catalogo" src="../imagenes/Luz led.jpg" alt="img Luz led">
-      <span class="precio-item">$25.000</span>
-      <button class="boton-item" onclick="agregarAlCarrito('Luz led', '../imagenes/Luz led.jpg', 25000)">Agregar al Carrito</button>
-    </div>
-    <div class="item">
-      <span class="titulo-item">Escalera de Aluminio</span>
-      <img class="img-catalogo" src="../imagenes/Escalera.jpg" alt="img Escalera">
-      <span class="precio-item">$120.000</span>
-      <button class="boton-item" onclick="agregarAlCarrito('Escalera de Aluminio', '../imagenes/Escalera.jpg', 120000)">Agregar al Carrito</button>
-    </div>
-    <div class="item">
-      <span class="titulo-item">Drywall 240cm x 120cm</span>
-      <img class="img-catalogo" src="../imagenes/Drywall.jpg" alt="img Drywall">
-      <span class="precio-item">$70.000</span>
-      <button class="boton-item" onclick="agregarAlCarrito('Drywall 240cm x 120cm', '../imagenes/Drywall.jpg', 70000)">Agregar al Carrito</button>
-    </div>
-    <div class="item">
-      <span class="titulo-item">Corta Frio</span>
-      <img class="img-catalogo" src="../imagenes/corta frio.jpg" alt="img corta frio">
-      <span class="precio-item">$10.000</span>
-      <button class="boton-item" onclick="agregarAlCarrito('Corta Frio', '../imagenes/corta frio.jpg', 10000)">Agregar al Carrito</button>
-    </div>
-    <div class="item">
-      <span class="titulo-item">Cemento x 50 Kl</span>
-      <img class="img-catalogo" src="../imagenes/cemento.jpg" alt="img cemento">
-      <span class="precio-item">$60.000</span>
-      <button class="boton-item" onclick="agregarAlCarrito('Cemento x 50 Kl', '../imagenes/cemento.jpg', 60000)">Agregar al Carrito</button>
-    </div>
-    <div class="item">
-      <span class="titulo-item">Hombre solo</span>
-      <img class="img-catalogo" src="../imagenes/Himbre solo.jpg" alt="img Hombre solo">
-      <span class="precio-item">$12.000</span>
-      <button class="boton-item" onclick="agregarAlCarrito('Hombre solo', '../imagenes/Himbre solo.jpg', 12000)">Agregar al Carrito</button>
-    </div>
-    <div class="item">
-      <span class="titulo-item">Segueta con Marco</span>
-      <img class="img-catalogo" src="../imagenes/cegueta.jpg" alt="img Segueta">
-      <span class="precio-item">$35.000</span>
-      <button class="boton-item" onclick="agregarAlCarrito('Segueta con Marco', '../imagenes/cegueta.jpg', 35000)">Agregar al Carrito</button>
-    </div>
-    <div class="item">
-      <span class="titulo-item">Bombillo Ahorrador</span>
-      <img class="img-catalogo" src="../imagenes/Bombillo ahorrador.jpg" alt="img Bombillo">
-      <span class="precio-item">$10.000</span>
-      <button class="boton-item" onclick="agregarAlCarrito('Bombillo Ahorrador', '../imagenes/Bombillo ahorrador.jpg', 10000)">Agregar al Carrito</button>
-    </div>
-  </div>
-</section>
+    <section class="contenedor">
+            <!--contenedor de elementos-->
+            <div class="contenedor-items">
+                <?php
+                $sql = "SELECT * FROM productos";
+                $result = mysqli_query($conn, $sql);
+
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        ?>
+                        <div class="item">
+                            <span class="titulo-item"><?php echo $row["nombreProductos"];?> </span>
+                            <img class="img-catalogo" src="<?php echo $row["imagenes"]; ?>">
+                            <span class="precio-item">$ <?php echo number_format($row["valorProducto"], 0, ',', '.');?></span>
+                            <button class="boton-item" onclick="agregarAlCarrito()">Agregar al Carrito</button>
+                        </div> 
+                        <?php                            
+                    }
+                } else {
+                    echo "No se encontraron resultados.";
+                }
+                ?>
+            </div>
+        </section>
 
 <script src="../JavaScript/carrito.js"></script>
 
