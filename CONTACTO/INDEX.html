@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Formulario De Contacto</title>
+    <style>
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"], select {
+            width: 300px;
+            padding: 5px;
+        }
+        input[type="submit"] {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Formulario de Contacto</h1>
+        <form method="post" action="enviar_formulario.php">
+            <label for="Nombre">Nombre</label>
+            <input type="text" name="nombre" required>
+
+            <label for="Direccion">Direccion</label>
+            <input type="text" name="direccion" required>
+
+            <label for="Telefono">Telefono de Contacto</label>
+            <input type="text" name="telefono" required>
+
+            <label for="Correo">Correo</label>
+            <input type="text" name="correo" required>
+
+            <label for="Tipo de Usuario">Tipo de Usuario:</label>
+            <select name="tipo_usuario">
+                <option value="Cliente">Cliente</option>
+                <option value="Proveedor">Proveedor</option>
+                <option value="Aliado">Aliado</option>
+            </select>
+
+            <label for="motivo">Asunto de Contacto</label>
+            <textarea name="motivo" required></textarea>
+
+            <input type="submit" value="Enviar">
+        </form>
+    </body>
+</html>
