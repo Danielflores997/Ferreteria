@@ -16,12 +16,12 @@
     include '../compartido/conexion.php'; 
     ?>
     <div class="encabezado">   
-        <h2 class="catalogo">Pintura</h2>
+        <h2 class="catalogo">Plomeria</h2>
         <section class="contenedor">
             <!--contenedor de elementos-->
             <div class="contenedor-items">
                 <?php
-                $sql = "SELECT * FROM productos WHERE nombreCategoria = 2";
+                $sql = "SELECT * FROM productos WHERE idCategoria = 7";
                 $result = mysqli_query($conn, $sql);
 
                 if (mysqli_num_rows($result) > 0) {

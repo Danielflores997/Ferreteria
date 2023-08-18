@@ -94,9 +94,13 @@ if (!isset($_SESSION['correo'])) {
                         <option value="6">Tornilleria</option>
                         <option value="7">Plomeria</option>
                         <option value="8">Jardineria</option>
-                        <option value="9">Proteccion</option>
+                        <option value="9">Accesorios</option>
                     </select>
                 </div>
+                    <div class="input-derecha">
+                        <label for="imagen">Imagen</label>
+                        <input type="file" id="imagen" name="imagen">
+                    </div>
             </div>
                 <div id="conten-botones">
                     <button id="btn-venta"><i class="far fa-save"></i><i class="fas fa-times-circle"></i> Cancelar</button>
@@ -117,6 +121,7 @@ if (!isset($_SESSION['correo'])) {
             $stockProducto = $_POST['stock'];
             $descripcionProducto = $_POST['descripcion'];
             $nombreCategoria = $_POST['categoria'];
+            
 
     // Aquí puedes agregar la lógica para guardar los cambios del producto
     $query = "UPDATE productos SET codigoProducto='$codigoProducto', nombreProductos='$nombreProducto', valorProducto=$valorProducto, stockProducto=$stockProducto, descripcionProducto='$descripcionProducto', nombreCategoria='$nombreCategoria' WHERE idProducto=$idProducto";

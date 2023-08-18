@@ -54,7 +54,7 @@ if (isset($_SESSION['correo'])) {
                         ?>
                         <div class="item">
                             <span class="titulo-item"><?php echo $row["nombreProductos"];?> </span>
-                            <img class="img-catalogo" src="<?php echo $row["imagenes"]; ?>">
+                            <img class="img-catalogo" src="<?php echo $row["imagen"]; ?>">
                             <span class="precio-item">$ <?php echo number_format($row["valorProducto"], 0, ',', '.');?></span>
                             <button class="boton-item" onclick="agregarAlCarrito()">Agregar al Carrito</button>
                         </div> 

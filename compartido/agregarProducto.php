@@ -12,15 +12,23 @@ if (isset($_POST['guardar'])) {
         $descripcion = $_POST['descripcion'];
         $categoria = $_POST['categoria'];
 
+        // Procesar la carga de la imagen
+        if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
+            $imagen_temp = $_FILES['imagen']['tmp_name'];
+            $imagen_contenido = file_get_contents($imagen_temp);
+        } else {
+            $imagen_contenido = null; // Si no se cargó una imagen
+        }
+
         // Realizar la inserción en la base de datos
-        $sql = "INSERT INTO productos (codigoProducto, nombreProductos, valorProducto, stockProducto, descripcionProducto, nombreCategoria) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO productos (codigoProducto, nombreProductos, valorProducto, stockProducto, descripcionProducto, nombreCategoria, imagenes) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "ssddss", $codigo, $producto, $precio, $cantidad, $descripcion, $categoria);
-        
-        if (mysqli_stmt_execute($stmt)) { // Cambio de mysqli_query a mysqli_stmt_execute
+        mysqli_stmt_bind_param($stmt, "ssddssb", $codigo, $producto, $precio, $cantidad, $descripcion, $categoria, $imagen_contenido);
+
+        if (mysqli_stmt_execute($stmt)) {
             echo 'Nuevo producto agregado correctamente <a href="../Php/inventario.php">Actualizar inventario</a>';
         } else {
-            echo 'Error al agregar el producto: ' . mysqli_error($conn); // Cambio de $conexion a $conn
+            echo 'Error al agregar el producto: ' . mysqli_error($conn);
         }
 
         mysqli_stmt_close($stmt); // Cerrar la declaración preparada
