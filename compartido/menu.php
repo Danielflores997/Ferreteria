@@ -19,6 +19,7 @@
         <a href="carpinteria.php" class="Accesorios">Carpinteria</a>
         <a href="plomeria.php" class="Accesorios">Plomeria</a>
         <a href="jardineria.php" class="Accesorios">Jardineria</a>
+        <a href="Carrito.php" class="Accesorios">carrito</a>
         <button class="btn-login">
             <a class="btn-login"href="loginCliente.php">Acceder</a>
         </button>

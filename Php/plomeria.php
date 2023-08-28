@@ -21,7 +21,7 @@
             <!--contenedor de elementos-->
             <div class="contenedor-items">
                 <?php
-                $sql = "SELECT * FROM productos WHERE idCategoria = 7";
+                $sql = "SELECT * FROM productos WHERE nombreCategoria = 7";
                 $result = mysqli_query($conn, $sql);
 
                 if (mysqli_num_rows($result) > 0) {

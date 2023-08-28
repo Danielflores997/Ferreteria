@@ -43,93 +43,58 @@ if (isset($_SESSION['correo'])) {
     </nav>
     <h2 class="catalogo">Productos</h2>
     <section class="contenedor">
-            <!--contenedor de elementos-->
-            <div class="contenedor-items">
-                <?php
-                $sql = "SELECT * FROM productos";
-                $result = mysqli_query($conn, $sql);
+        <div class="contenedor-items">
+            <?php
+            $sql = "SELECT * FROM productos";
+            $result = mysqli_query($conn, $sql);
 
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        ?>
-                        <div class="item">
-                            <span class="titulo-item"><?php echo $row["nombreProductos"];?> </span>
-                            <img class="img-catalogo" src="<?php echo $row["imagen"]; ?>">
-                            <span class="precio-item">$ <?php echo number_format($row["valorProducto"], 0, ',', '.');?></span>
-                            <button class="boton-item" onclick="agregarAlCarrito()">Agregar al Carrito</button>
-                        </div> 
-                        <?php                            
-                    }
-                } else {
-                    echo "No se encontraron resultados.";
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    ?>
+                    <div class="item">
+                        <span class="titulo-item"><?php echo $row["nombreProductos"]; ?> </span>
+                        <img class="img-catalogo" src="<?php echo $row["imagen"]; ?>">
+                        <span class="precio-item">$ <?php echo number_format($row["valorProducto"], 0, ',', '.'); ?></span>
+                        <button class="boton-item"
+                                data-titulo="<?php echo $row["nombreProductos"]; ?>"
+                                data-imagen="<?php echo $row["imagen"]; ?>"
+                                data-precio="<?php echo $row["valorProducto"]; ?>">
+                            Agregar al Carrito
+                        </button>
+                    </div> 
+                    <?php                            
                 }
-                ?>
-            </div>
-        </section>
-
-<script>
-  function agregarAlCarrito(titulo, imagen, precio) {
-    var producto = {
-      titulo: titulo,
-      imagen: imagen,
-      precio: precio
-    };
-
-    var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
-    carritoProductos.push(producto);
-    localStorage.setItem('carritoProductos', JSON.stringify(carritoProductos));
-
-    mostrarCarrito();
-  }
-
-  function mostrarCarrito() {
-    var carritoItems = document.getElementById('carrito-items');
-    carritoItems.innerHTML = '';
-
-    var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
-
-    carritoProductos.forEach(function (producto) {
-      var nuevoItem = document.createElement('div');
-      nuevoItem.classList.add('carrito-item');
-
-      var contenido = `
-        <img src="${producto.imagen}" alt="" width="80px">
-        <div class="carrito-item-detalles">
-          <span class="carrito-item-titulo">${producto.titulo}</span>
-          <div class="selector-cantidad">
-            <i class="fa-solid fa-minus restar-cantidad"></i>
-            <input type="text" value="1" class="carrito-item-cantidad" disabled>
-            <i class="fa-solid fa-plus sumar-cantidad"></i>
-          </div>
-          <span class="carrito-item-precio">$${producto.precio}</span>
+            } else {
+                echo "No se encontraron resultados.";
+            }
+            ?>
         </div>
-        <span class="btn-eliminar">
-          <i class="fa-solid fa-trash"></i>
-        </span>
-      `;
+    </section>
 
-      nuevoItem.innerHTML = contenido;
-      carritoItems.appendChild(nuevoItem);
-    });
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".boton-item").on("click", function() {
+                const titulo = $(this).data("titulo");
+                const imagen = $(this).data("imagen");
+                const precio = parseFloat($(this).data("precio"));
 
-    actualizarTotal();
-  }
+                agregarAlCarrito(titulo, imagen, precio);
+            });
 
-  function actualizarTotal() {
-    var total = 0;
-    var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
+            function agregarAlCarrito(titulo, imagen, precio) {
+                var producto = {
+                    titulo: titulo,
+                    imagen: imagen,
+                    precio: precio
+                };
 
-    carritoProductos.forEach(function (producto) {
-      total += producto.precio;
-    });
-
-    var carritoPrecioTotal = document.querySelector('.carrito-precio-total');
-    carritoPrecioTotal.innerText = '$' + total.toFixed(2);
-  }
-
-  mostrarCarrito();
-</script>
-
+                var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
+                carritoProductos.push(producto);
+                localStorage.setItem('carritoProductos', JSON.stringify(carritoProductos));
+            }
+        });
+    </script>
 </body>
   <?php include "../compartido/footer.php"; ?>
 </html>

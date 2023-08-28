@@ -1,97 +1,126 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
+  <link rel="stylesheet" type="text/css" href="../CSS/carrito.css">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="../CSS/carrito.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <title>Ferreteria Meissen</title>
+    <title>Carrito de Compras</title>
 </head>
+
 <body>
-    <?php include "../compartido/menu.php"; ?> 
-<!--carrito de compras-->
-<div class="carrito">
-  <div class="heder-carrito">
-    <h2 class="titulo-carrito">Tu Carrito</h2>
-  </div>
-  <div class="carrito-items" id="carrito-items">
-    <!-- Aquí se agregarán los productos dinámicamente -->
-  </div>
-  <div class="carrito-total">
-    <div class="fila">
-      <strong>Tu Total</strong>
-      <span class="carrito-precio-total">$0.00</span>
-    </div>
-    <button class="btn-pagar">Pagar <i class="fa-solid fa-bag-shopping"></i></button>
-  </div>
-</div>
+    <h2 class="catalogo">Carrito de Compras</h2>
+    <section class="contenedor">
+        <div class="contenedor-items">
+            <div class="item">
+                <h3>Productos en el Carrito:</h3>
+                <ul class="lista-carrito" id="carrito-lista">
+                    <!-- Aquí se mostrarán los productos del carrito -->
+                </ul>
+                <h3 class="total carrito-precio-total">Total: $0</h3>
+                <button class="btn-vaciar-carrito">Vaciar Carrito</button>
+            </div>
+        </div>
+    </section>
 
-<script src="../JavaScript/carrito.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            function mostrarCarrito() {
+                var carritoItems = document.getElementById('carrito-lista');
+                carritoItems.innerHTML = '';
 
-<script>
-  function mostrarCarrito() {
-    var carritoItems = document.getElementById('carrito-items');
-    carritoItems.innerHTML = '';
+                var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
 
-    var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
+                carritoProductos.forEach(function (producto) {
+                    var nuevoItem = document.createElement('li');
+                    nuevoItem.classList.add('carrito-item');
+                    nuevoItem.innerHTML = `
+                        <img src="${producto.imagen}" alt="" width="80px">
+                        <div class="carrito-item-detalles">
+                            <span class="carrito-item-titulo">${producto.titulo}</span>
+                            <div class="selector-cantidad">
+                                <button class="restar-cantidad">-</button>
+                                <span class="carrito-item-cantidad">${producto.cantidad}</span>
+                                <button class="sumar-cantidad">+</button>
+                            </div>
+                            <span class="carrito-item-precio">$${producto.precio}</span>
+                        </div>
+                        <button class="btn-eliminar">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    `;
 
-    carritoProductos.forEach(function (producto) {
-      var nuevoItem = document.createElement('div');
-      nuevoItem.classList.add('carrito-item');
+                    nuevoItem.querySelector('.restar-cantidad').addEventListener('click', function () {
+                        restarCantidad(producto);
+                    });
 
-      var contenido = `
-  <img src="${producto.imagen}" alt="" width="80px">
-  <div class="carrito-item-detalles">
-    <span class="carrito-item-titulo">${producto.titulo}</span>
-    <div class="selector-cantidad">
-      <button class="btn-restar"><i class="fa-solid fa-minus"></i></button>
-      <input type="text" value="1" class="carrito-item-cantidad" disabled>
-      <button class="btn-sumar"><i class="fa-solid fa-plus"></i></button>
-    </div>
-    <span class="carrito-item-precio">$${producto.precio}</span>
-  </div>
-  <button class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
-`;
+                    nuevoItem.querySelector('.sumar-cantidad').addEventListener('click', function () {
+                        sumarCantidad(producto);
+                    });
 
-var nuevoItem = document.createElement('div');
-nuevoItem.classList.add('carrito-item');
-nuevoItem.innerHTML = contenido;
-carritoItems.appendChild(nuevoItem);
+                    nuevoItem.querySelector('.btn-eliminar').addEventListener('click', function () {
+                        eliminarProducto(producto);
+                    });
 
-var restarBtn = nuevoItem.querySelector('.btn-restar');
-restarBtn.addEventListener('click', function() {
-  restarCantidad();
-});
+                    carritoItems.appendChild(nuevoItem);
+                });
 
-var sumarBtn = nuevoItem.querySelector('.btn-sumar');
-sumarBtn.addEventListener('click', function() {
-  sumarCantidad();
-});
+                actualizarTotal();
+            }
 
-      nuevoItem.innerHTML = contenido;
-      carritoItems.appendChild(nuevoItem);
-    });
+            function actualizarTotal() {
+                var total = 0;
+                var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
 
-    actualizarTotal();
-  }
+                carritoProductos.forEach(function (producto) {
+                    total += producto.precio * producto.cantidad;
+                });
 
-  function actualizarTotal() {
-    var total = 0;
-    var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
+                var carritoPrecioTotal = document.querySelector('.carrito-precio-total');
+                carritoPrecioTotal.innerText = '$' + total.toFixed(2);
+            }
 
-    carritoProductos.forEach(function (producto) {
-      total += producto.precio;
-    });
+            function restarCantidad(producto) {
+                var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
+                var index = carritoProductos.findIndex(item => item.titulo === producto.titulo);
 
-    var carritoPrecioTotal = document.querySelector('.carrito-precio-total');
-    carritoPrecioTotal.innerText = '$' + total.toFixed(2);
-  }
+                if (index !== -1 && carritoProductos[index].cantidad > 1) {
+                    carritoProductos[index].cantidad--;
+                    localStorage.setItem('carritoProductos', JSON.stringify(carritoProductos));
+                    mostrarCarrito();
+                }
+            }
 
-  mostrarCarrito();
-</script>
-    <?php include "../compartido/footer.php"; ?>
+            function sumarCantidad(producto) {
+                var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
+                var index = carritoProductos.findIndex(item => item.titulo === producto.titulo);
+
+                if (index !== -1) {
+                    carritoProductos[index].cantidad++;
+                    localStorage.setItem('carritoProductos', JSON.stringify(carritoProductos));
+                    mostrarCarrito();
+                }
+            }
+
+            function eliminarProducto(producto) {
+                var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
+                var index = carritoProductos.findIndex(item => item.titulo === producto.titulo);
+
+                if (index !== -1) {
+                    carritoProductos.splice(index, 1);
+                    localStorage.setItem('carritoProductos', JSON.stringify(carritoProductos));
+                    mostrarCarrito();
+                }
+            }
+
+            $(".btn-vaciar-carrito").on("click", function() {
+                localStorage.removeItem('carritoProductos');
+                mostrarCarrito();
+            });
+
+            mostrarCarrito();
+        });
+    </script>
 </body>
+
 </html>
+
+
