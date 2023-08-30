@@ -4,8 +4,8 @@
 <head>
     <title>Carrito de Compras</title>
 </head>
-
 <body>
+        <?php include "../compartido/menu.php"; ?>
     <h2 class="catalogo">Carrito de Compras</h2>
     <section class="contenedor">
         <div class="contenedor-items">
@@ -75,7 +75,7 @@
                 });
 
                 var carritoPrecioTotal = document.querySelector('.carrito-precio-total');
-                carritoPrecioTotal.innerText = '$' + total.toFixed(2);
+                carritoPrecioTotal.innerText = '$' + total.toFixed(0);
             }
 
             function restarCantidad(producto) {
@@ -120,7 +120,7 @@
         });
     </script>
 </body>
-
+    <?php include "../compartido/footer.php"; ?>
 </html>
 
 

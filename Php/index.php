@@ -14,15 +14,17 @@ if (isset($_SESSION['correo'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="../CSS/index.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/Index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <title>Ferreteria Meissen</title>
 </head>
 <body>
-  <?php include "../compartido/menu.php"; ?>
-  <?php include "../compartido/conexion.php"; ?>
+  <?php 
+    include "../compartido/menu.php";
+    include "../compartido/conexion.php"; 
+    ?>
   
         <div class="slider">
             <ul>
@@ -68,33 +70,14 @@ if (isset($_SESSION['correo'])) {
                 echo "No se encontraron resultados.";
             }
             ?>
+        <div class="icono-carrito">
+            <a href="../Php/carrito.php"><i class="fa-solid fa-cart-shopping"></i></a>
         </div>
-    </section>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $(".boton-item").on("click", function() {
-                const titulo = $(this).data("titulo");
-                const imagen = $(this).data("imagen");
-                const precio = parseFloat($(this).data("precio"));
-
-                agregarAlCarrito(titulo, imagen, precio);
-            });
-
-            function agregarAlCarrito(titulo, imagen, precio) {
-                var producto = {
-                    titulo: titulo,
-                    imagen: imagen,
-                    precio: precio
-                };
-
-                var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
-                carritoProductos.push(producto);
-                localStorage.setItem('carritoProductos', JSON.stringify(carritoProductos));
-            }
-        });
-    </script>
+    </div>
+</section>
 </body>
-  <?php include "../compartido/footer.php"; ?>
+  <?php
+    include '../compartido/carrito.php';
+    include "../compartido/footer.php"; 
+  ?>
 </html>

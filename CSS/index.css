@@ -317,5 +317,31 @@ h4{
     border-radius: 50%;
     justify-content: center;
     align-items: center;
-    
+}
+
+/* Estilos para el icono del carrito */
+.icono-carrito {
+    position: fixed;
+    bottom: 50px;
+    right: 100px;
+    font-size: 54px;
+    z-index: 1000;
+    animation: floatAndScale 3s ease-in-out infinite alternate;
+}
+
+.icono-carrito a {
+    color: #FFA500;
+    text-decoration: none;
+}
+
+@keyframes floatAndScale {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-10px) scale(1.1);
+    }
+    100% {
+        transform: translateY(0) scale(1);
+    }
 }

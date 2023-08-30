@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="../CSS/electricas.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/Index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>Pinturas</title>
@@ -31,7 +31,12 @@
                             <span class="titulo-item"><?php echo $row["nombreProductos"];?> </span>
                             <img class="img-catalogo" src="<?php echo $row["imagen"]; ?>">
                             <span class="precio-item">$ <?php echo number_format($row["valorProducto"], 0, ',', '.');?></span>
-                            <button class="boton-item" onclick="agregarAlCarrito()">Agregar al Carrito</button>
+                            <button class="boton-item"
+                                data-titulo="<?php echo $row["nombreProductos"]; ?>"
+                                data-imagen="<?php echo $row["imagen"]; ?>"
+                                data-precio="<?php echo $row["valorProducto"]; ?>">
+                            Agregar al Carrito
+                        </button>
                         </div> 
                         <?php                            
                     }
@@ -39,14 +44,13 @@
                     echo "No se encontraron resultados.";
                 }
                 ?>
+        <div class="icono-carrito">
+            <a href="../Php/carrito.php"><i class="fa-solid fa-cart-shopping"></i></a>
+        </div>
             </div>
         </section>
-        <script>
-        function agregarAlCarrito() {
-            window.location.href = "carrito.php";
-        }
-        </script>
         <?php
+        include '../compartido/carrito.php';
         include '../compartido/footer.php';
         ?>
     </div>
