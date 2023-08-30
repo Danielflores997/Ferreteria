@@ -13,9 +13,10 @@
 <body>
     <?php
     include '../compartido/menu.php';
-    include '../compartido/conexion.php'; 
+    include '../compartido/conexion.php';
+    include '../compartido/peticiones.php';
     ?>
-        <form method="post" action="enviar_formulario.php">
+        <form method="post" action="../compartido/peticiones.php">
         <h2>Contactanos</h2>
             <input type="text" placeholder="Nombre" name="nombre" required>
 

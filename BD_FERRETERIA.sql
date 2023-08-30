@@ -187,6 +187,27 @@ insert  into `pedido`(`idPedido`,`fechaPedido`,`cliente_idCliente`) values (1,'2
 
 UNLOCK TABLES;
 
+/*Table structure for table `peticiones` */
+
+DROP TABLE IF EXISTS `peticiones`;
+
+CREATE TABLE `peticiones` (
+  `Nombre` varchar(20) DEFAULT NULL,
+  `Apellido` varchar(20) DEFAULT NULL,
+  `Direccion` varchar(50) DEFAULT NULL,
+  `Telefono` int(20) DEFAULT NULL,
+  `Correo` varchar(50) DEFAULT NULL,
+  `Motivo` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/*Data for the table `peticiones` */
+
+LOCK TABLES `peticiones` WRITE;
+
+insert  into `peticiones`(`Nombre`,`Apellido`,`Direccion`,`Telefono`,`Correo`,`Motivo`) values ('Daniel Mauricio','Flores Rueda','522 Mcdounough st',2147483647,'daniflores@gmail.com','este grupo es una mierda que no ayuda nada, ni para revisar una mierda');
+
+UNLOCK TABLES;
+
 /*Table structure for table `productos` */
 
 DROP TABLE IF EXISTS `productos`;
