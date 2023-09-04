@@ -1,0 +1,70 @@
+/* Estilo general para la página */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+    color: #333;
+}
+
+/* Estilo para los párrafos de información del usuario */
+p {
+    margin: 10px 0;
+    font-size: 18px;
+    color: #555;
+}
+
+/* Estilo para el botón de mostrar/ocultar la clave */
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo para el botón de mostrar/ocultar la clave en la versión móvil */
+@media (max-width: 600px) {
+    button {
+        font-size: 14px;
+    }
+}
+
+/* Estilo para la contraseña oculta */
+#clave[type="password"] {
+    font-family: "Courier New", Courier, monospace;
+    letter-spacing: 3px;
+}
+
+/* Estilo para la contraseña visible */
+#clave[type="text"] {
+    font-family: "Courier New", Courier, monospace;
+    letter-spacing: 3px;
+    color: #ff0000; /* Color rojo para resaltar la contraseña visible */
+}
+
+/* Estilo para el estado del usuario */
+#estado {
+    font-weight: bold;
+    color: #28a745; /* Color verde para indicar un estado activo */
+}

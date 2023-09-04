@@ -76,6 +76,16 @@
     background-color: #c0392b;
 }
 
+.btn-comprar-carrito {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
 /* Estilos para el catálogo de productos (si lo necesitas) */
 .contenedor-items {
     display: flex;

@@ -23,7 +23,6 @@
         <a href="#"><i class="fab fa-twitter"></i></a>
         <a href="#"><i class="fab fa-whatsapp"></i></a>
         <p>Derechos de autor &copy; 2023 Ferretería Meissen. Todos los derechos reservados.</p>
-
     </div>
     </div>
 </footer>

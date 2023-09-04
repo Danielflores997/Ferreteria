@@ -26,10 +26,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // El usuario está activo, permitir el acceso y redirigir según el rol
             $rol = $usuario['rol_idRol'];
 
+            // Establecer la variable de sesión 'rol'
+            $_SESSION['rol'] = $rol;
+
             if ($rol == 1) {
-                header('Location: ../Php/vistaCatalogo.php');
+                header('Location: ../Php/vistaAdmin.php');
             } elseif ($rol == 2) {
-                header('Location: ../Php/vistaCatalogoVendedor.php');
+                header('Location: ../Php/vistaAdmin.php');
             } else {
                 header('Location: ../Php/loginCliente.php');
             }

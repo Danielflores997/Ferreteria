@@ -28,6 +28,9 @@ if (isset($_POST['registro'])) {
         exit();
     }
 
+    // Aplicar el hash a la contraseña
+    $contrasenaHash = password_hash($contrasena, PASSWORD_DEFAULT);
+
     $sql = "INSERT INTO usuario (tipoDocumentoUsuario, documentopUsuario, nombresUsuario, apellidosUsuario, correo, claveUsuario)
             VALUES ('$tipoDocumento', '$documento', '$nombre', '$apellido', '$correo', '$contrasena')";
 

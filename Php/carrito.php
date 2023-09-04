@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <link rel="stylesheet" type="text/css" href="../CSS/carrito.css">
+  <link rel="stylesheet" type="text/css" href="../CSS/Carrito.css">
 <head>
     <title>Carrito de Compras</title>
 </head>
@@ -16,6 +16,7 @@
                 </ul>
                 <h3 class="total carrito-precio-total">Total: $0</h3>
                 <button class="btn-vaciar-carrito">Vaciar Carrito</button>
+                <button class="btn-comprar-carrito">Comprar</button>
             </div>
         </div>
     </section>
@@ -120,7 +121,7 @@
         });
     </script>
 </body>
-    <?php include "../compartido/footer.php"; ?>
+    <?php include '../compartido/footer.php'; ?>
 </html>
 
 
