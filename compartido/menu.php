@@ -14,7 +14,7 @@
         <a href="index.php" class="Catalogo">Catalogo</a>
         <a href="pinturas.php" class="Pintura">Pintura</a>
         <a href="electricas.php" class="Electricas">Electricas</a>
-        <a href="herramientasManuales.php" class="Herramientas_Manuales">Herramientas</a>
+        <a href="herramientas.php" class="Herramientas_Manuales">Herramientas</a>
         <a href="accesorios.php" class="Accesorios">Accesorios</a>
         <a href="carpinteria.php" class="Accesorios">Carpinteria</a>
         <a href="plomeria.php" class="Accesorios">Plomeria</a>

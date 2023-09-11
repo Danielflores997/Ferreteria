@@ -103,20 +103,21 @@ button.btn-login:hover {
 }
 #formulario-venta {
     width: 100%;
-    gap: 10px;
     padding-bottom: 15px;
-    padding-left: 20px;
-    padding-right: 20px;
-    background-color:aliceblue;
+    background-color: aliceblue;
     border-collapse: collapse;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 15px;
-    max-height: 80%;
     color: rgb(6, 72, 6);
     display: flex;
-    justify-content: center;
-    
+    justify-content: center; 
+    align-items: center;
 }
+
+#contenidoUno {
+    margin: 10px;
+}
+
 
 .input-izquierda,
 .input-derecha {
@@ -309,61 +310,4 @@ footer {
     margin-top: 10px;
     color:#fff;
   }
-
-/*estolos para slider*/
-.slider {
-    width: 100%;
-    height: 400px;
-    overflow: hidden;
-}
-
-.slider ul {
-    display: flex;
-    animation: cambio 20s infinite alternate linear;
-    width: 400%;
-}
-
-.slider li {
-    width: 100%;
-    list-style: none;
-}
-
-.slider img {
-    width: 100%;
-    height: 400px;
-    padding-top: 5px;
-}
-
-@keyframes cambio {
-    0% {
-        margin-left: 0;
-    }
-
-    20% {
-        margin-left: 0;
-    }
-
-    25% {
-        margin-left: -100%;
-    }
-
-    45% {
-        margin-left: -100%;
-    }
-
-    50% {
-        margin-left: -200%;
-    }
-
-    70% {
-        margin-left: -200%;
-    }
-
-    75% {
-        margin-left: -300%;
-    }
-
-    100% {
-        margin-left: -300%;
-    }
-}
+  

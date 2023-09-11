@@ -2,7 +2,7 @@
 include "conexion.php"; // Incluir el archivo de conexión
 
 if (isset($_POST['guardar'])) {
-    if (empty($_POST["codigo"]) || empty($_POST["producto"]) || empty($_POST["precio"]) || empty($_POST["cantidad"]) || empty($_POST["descripcion"]) || empty($_POST["categoria"])) {
+    if (empty($_POST["codigo"]) || empty($_POST["producto"]) || empty($_POST["precio"]) || empty($_POST["cantidad"]) || empty($_POST["descripcion"]) || empty($_POST["categoria"]) || empty($_POST["imagen"])) {
         echo 'Uno de los campos está vacío';
     } else {
         $codigo = $_POST['codigo'];
@@ -11,19 +11,12 @@ if (isset($_POST['guardar'])) {
         $cantidad = $_POST['cantidad'];
         $descripcion = $_POST['descripcion'];
         $categoria = $_POST['categoria'];
-
-        // Procesar la carga de la imagen
-        if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
-            $imagen_temp = $_FILES['imagen']['tmp_name'];
-            $imagen_contenido = file_get_contents($imagen_temp);
-        } else {
-            $imagen_contenido = null; // Si no se cargó una imagen
-        }
+        $imagen_url = $_POST['imagen'];
 
         // Realizar la inserción en la base de datos
-        $sql = "INSERT INTO productos (codigoProducto, nombreProductos, valorProducto, stockProducto, descripcionProducto, nombreCategoria, imagenes) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO productos (codigoProducto, nombreProductos, valorProducto, stockProducto, descripcionProducto, nombreCategoria, imagen) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "ssddssb", $codigo, $producto, $precio, $cantidad, $descripcion, $categoria, $imagen_contenido);
+        mysqli_stmt_bind_param($stmt, "ssddsss", $codigo, $producto, $precio, $cantidad, $descripcion, $categoria, $imagen_url);
 
         if (mysqli_stmt_execute($stmt)) {
             echo 'Nuevo producto agregado correctamente <a href="../Php/inventario.php">Actualizar inventario</a>';

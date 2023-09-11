@@ -51,7 +51,7 @@ if (!isset($_SESSION['correo'])) {
             </div>
             <select id="selec-admin" onchange="location.href=this.value;">
             <option selected>Opciones</option>
-            <option value="vistaCatalogo.php">Inicio</option>
+            <option value="vistaAdmin.php">Inicio</option>
             <option value="inventario.php">Gestión Catalogo e Inventario</option>
             <option value="gestionarFuncionarios.php">Gestionar Usuarios</option>
             <option value="ventas.php">Ventas</option>

@@ -1,3 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/editarUsuario.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Editar</title>
+</head>
+<body>
+<div class="encabezado">
+        <header>
+            <div class="titulo">
+                <h1>FERRETERIA MEISSEN</h1>
+            </div>
+            <div class="logo">
+                <img src="../imagenes/ferreteria.jpeg" alt="logo ferreteria">
+            </div>
+        </header>
+        <nav class="navbar">
+            <div class="lista">
+                <button class="btn-login">
+                    <a class="btn-login" href="../compartido/cerrarSesion.php">Cerrar Sesión</a>
+                </button>
+            </div>
+        </nav>
+    </div>
 <?php
 if (isset($_POST['guardar'])) {
     include "conexion.php";
@@ -59,7 +89,7 @@ if (isset($_POST['editar'])) {
 }
 ?>
 
-<h4>Editar Cliente</h4>
+<h4 id="titulo-tabla">Editar Cliente</h4>
 <form action="../compartido/editarCliente.php" method="POST">
     <input type="hidden" name="id" value="<?php echo $idCliente; ?>">
     <label for="tipoDocumento">Tipo Documento:</label>
@@ -81,3 +111,7 @@ if (isset($_POST['editar'])) {
     </select><br>
     <button type="submit" name="guardar">Guardar Cambios</button>
 </form>
+<?php include "../compartido/footer.php"; ?>
+</body>
+</html>
+

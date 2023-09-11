@@ -37,7 +37,7 @@
             </div>
             <select id="selec-admin" onchange="location.href=this.value;">
                 <option selected>Opciones</option>
-                <option value="vistaCatalogo.php">Inicio</option>
+                <option value="vistaAdmin.php">Inicio</option>
                 <option value="inventario.php">Gestión Catálogo e Inventario</option>
                 <option value="gestionarFuncionarios.php">Gestionar Usuarios</option>
                 <option value="ventas.php">Ventas</option>
@@ -47,7 +47,7 @@
             <h4 id="titulo-tabla">Documento de Venta</h4>
             <div id="conten-venta">
                 <form id="formulario-venta" action="">
-                
+                <div id="contenidoUno">
                 <div class="input-izquierda">
                     <label for="factura">Factura Nº</label>
                     <input type="text" id="factura" placeholder="Factura">
@@ -64,6 +64,8 @@
                     <label for="categoria">Categoria</label>
                     <input type="" id="categoria" placeholder="Categoria">
                 </div>
+                </div>
+                <div id="contenidoUno">
                 <div class="input-izquierda">
                     <label for="producto">Producto</label>
                     <input type="text" id="producto" placeholder="Producto">
@@ -75,6 +77,7 @@
                 <div class="input-derecha">
                     <label for="cantidad">Cantidad</label>
                     <input type="text" id="cantidad" placeholder="Cantidad">
+                </div>
                 </div>
                 
                 </form>
@@ -189,24 +192,6 @@
             </div>
         </div>
         </div>
-        
-    
-<div class="slider">
-    <ul>
-        <li>
-            <img src="../imagenes/ferreteria-norte-banner.jpg" alt="Herramientas1">
-        </li>
-        <li>
-            <img src="../imagenes/herramientas-png.png" alt="Herramientas2">
-        </li>
-        <li>
-            <img src="../imagenes/slide1-1ferreteria.png" alt="Herramientas3">
-        </li>
-        <li>
-            <img src="../imagenes/ferreteria-ferromar-.jpg" alt="Herramientas4">
-        </li>
-    </ul>
-</div>
     <?php include "../compartido/footer.php"; ?>
 </body>
 </html>

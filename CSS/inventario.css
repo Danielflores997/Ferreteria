@@ -102,17 +102,30 @@ button.btn-login:hover {
 }
 #formulario-venta {
     width: 100%;
-    gap: 10px;
     padding-bottom: 15px;
-    background-color:aliceblue;
+    background-color: aliceblue;
     border-collapse: collapse;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 15px;
-    max-height: 80%;
     color: rgb(6, 72, 6);
     display: flex;
     justify-content: center;
-    
+    display:grid;
+}
+
+#contenidoUno {
+    margin: 10px;
+}
+#contenidoDos{
+    width: 100%;
+    padding-bottom: 15px;
+    background-color: aliceblue;
+    border-collapse: collapse;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 15px;
+    color: rgb(6, 72, 6);
+    display: flex;
+    justify-content: center;
 }
 
 .input-izquierda,
@@ -195,10 +208,11 @@ button:hover{
     align-self: auto;
     background-color:aliceblue;
     width: 100%;
-    height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0px;
+    padding: 0%;
 }
 #btn-venta {
     background-color:rgb(71, 71, 172);
@@ -207,17 +221,18 @@ button:hover{
     color:whitesmoke;
     border-radius: 5px;
     border: solid #333 1px;
-    transition: transform 0.3s; /* Agregamos una transición para el cambio de tamaño */
+    transition: transform 0.3s; 
 }
 
 #btn-venta:hover {
     background-color:rgb(57, 57, 191);
     height: 50px;
-    transform: scale(1.1); /* Aumentamos el tamaño al pasar el puntero por encima */
+    transform: scale(1.1); 
 }
 /* Estilos menu lateral*/
 h3{
-    color: #fff;
+    color:#fff;
+    font-size:15px;
 }
 select option #selec-admin{
     background-color:transparent;
@@ -238,7 +253,10 @@ select option #selec-admin{
     cursor: pointer;
 }
 #select-categoria{
+    display: flex;
     color: #333;
+    margin-left: auto;
+    width: 165px;
 }
 select option #select-categoria{
     background-color:whitesmoke;
@@ -275,116 +293,9 @@ select option #select-categoria{
     height: 100%;
 }
 
-
-
-/* Estilos para el footer */
-footer {
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-    width: 100%;
-    height: 160px;
-}
 h4{
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-}
-.enlaces{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    font-size:small;
-}
-.enlaces ul {
-    list-style: none;
-    display: flex;
-}
-
-.enlaces ul li {
-    margin-right: 10px;
-    padding-left: 20px;
-}
-
-.enlaces ul li a {
-    color: #fff;
-    text-decoration: none;
-}
-
-.enlaces ul li a:hover{
-    color: yellow;
-}
-.sociales{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.sociales-link a {
-    color: #fff;
-    text-decoration: none;
-    margin-right: 10px;
-    padding-left: 20px;
-}
-
-.sociales-link a:hover {
-    color:yellow;
-}
-/*estolos para slider*/
-.slider {
-    width: 100%;
-    height: 400px;
-    overflow: hidden;
-}
-
-.slider ul {
-    display: flex;
-    animation: cambio 20s infinite alternate linear;
-    width: 400%;
-}
-
-.slider li {
-    width: 100%;
-    list-style: none;
-}
-
-.slider img {
-    width: 100%;
-    height: 400px;
-    padding-top: 5px;
-}
-
-@keyframes cambio {
-    0% {
-        margin-left: 0;
-    }
-
-    20% {
-        margin-left: 0;
-    }
-
-    25% {
-        margin-left: -100%;
-    }
-
-    45% {
-        margin-left: -100%;
-    }
-
-    50% {
-        margin-left: -200%;
-    }
-
-    70% {
-        margin-left: -200%;
-    }
-
-    75% {
-        margin-left: -300%;
-    }
-
-    100% {
-        margin-left: -300%;
-    }
 }
