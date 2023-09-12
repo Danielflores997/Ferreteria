@@ -53,6 +53,7 @@ if (!isset($_SESSION['correo'])) {
             <option selected>Opciones</option>
             <option value="vistaAdmin.php">Inicio</option>
             <option value="inventario.php">Gestión Catalogo e Inventario</option>
+            <option value="catalogoAdmin.php">Vista catalogo</option>
             <option value="gestionarFuncionarios.php">Gestionar Usuarios</option>
             <option value="ventas.php">Ventas</option>
             </select>

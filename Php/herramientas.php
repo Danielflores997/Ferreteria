@@ -15,7 +15,7 @@
     include '../compartido/menu.php';
     include '../compartido/conexion.php'; 
     ?>
-    <div class="encabezado">   
+    <div class="encabezado">
         <h2 class="catalogo">Herramientas Manuales</h2>
         <section class="contenedor">
             <!--contenedor de elementos-->

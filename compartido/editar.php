@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['correo'])) {
+    header('Location: index.php'); // Redirigir si el usuario no ha iniciado sesión
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,8 +61,11 @@ if (isset($_POST['guardar'])) {
     $descripcionProducto = $_POST['descripcion'];
     $nombreCategoria = $_POST['categoria'];
 
+    // Nueva ruta de imagen ingresada por el usuario
+    $nuevaRutaImagen = $_POST['imagen'];
+
     // Aquí puedes agregar la lógica para guardar los cambios del producto
-    $query = "UPDATE productos SET codigoProducto='$codigoProducto', nombreProductos='$nombreProducto', valorProducto=$valorProducto, stockProducto=$stockProducto, descripcionProducto='$descripcionProducto', nombreCategoria='$nombreCategoria' WHERE idProducto=$idProducto";
+    $query = "UPDATE productos SET codigoProducto='$codigoProducto', nombreProductos='$nombreProducto', valorProducto=$valorProducto, stockProducto=$stockProducto, descripcionProducto='$descripcionProducto', nombreCategoria='$nombreCategoria', imagen='$nuevaRutaImagen' WHERE idProducto=$idProducto";
 
     $result = mysqli_query($conn, $query);
     if (!$result) {
@@ -117,6 +129,10 @@ if (isset($_POST['editar'])) {
             <option value="<?php echo $idCategoria; ?>" <?php if ($idCategoria == $nombreCategoria) echo "selected"; ?>><?php echo $nombreCategoria; ?></option>
         <?php } ?>
     </select><br>
+    </div>
+    <div>
+        <label for="imagen">Imagen:</label>
+        <input type="text" id="imagen" name="imagen" value="<?php echo $row['imagen']; ?>" placeholder="Nueva ruta de imagen">
     </div>
     <div>
     <button type="submit" name="guardar">Guardar Cambios</button>

@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['correo'])) {
+    header('Location: index.php'); // Redirigir si el usuario no ha iniciado sesión
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
