@@ -71,6 +71,7 @@ if (!isset($_SESSION['correo'])) {
                 <option value="catalogoAdmin.php">Vista catalogo</option>
                 <option value="gestionarFuncionarios.php">Gestionar Usuarios</option>
                 <option value="ventas.php">Ventas</option>
+                <option value="peticiones.php">peticiones</option>
             </select>
         </div>
 

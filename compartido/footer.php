@@ -8,7 +8,7 @@
                     <li><a href="../Php/index.php">Catalogo</a></li>
                     <li><a href="../Php/pinturas.php">Pintura</a></li>
                     <li><a href="../Php/electricas.php">Electricas</a></li>
-                    <li><a href="../Php/herramientasManuales.php">Herramientas</a></li>
+                    <li><a href="../Php/herramientas.php">Herramientas</a></li>
                     <li><a href="../Php/accesorios.php">Accesorios</a></li>
                     <li><a href="../Php/carpinteria.php">Carpinteria</a></li>
                     <li><a href="../Php/plomeria.php">Plomeria</a></li>

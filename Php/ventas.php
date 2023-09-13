@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['correo'])) {
+    header('Location: index.php'); // Redirigir si el usuario no ha iniciado sesión
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,6 +50,7 @@
                 <option value="inventario.php">Gestión Catálogo e Inventario</option>
                 <option value="gestionarFuncionarios.php">Gestionar Usuarios</option>
                 <option value="ventas.php">Ventas</option>
+                <option value="peticiones.php">peticiones</option>
             </select>
         </div>
         <div class="inventario">

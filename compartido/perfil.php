@@ -33,7 +33,7 @@ if (!$usuario) {
 <head>
     <meta charset="UTF-8">
     <title>Perfil del Usuario</title>
-    <link rel="stylesheet" type="text/css" href="../CSS/perfil.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/Perfil.css">
 </head>
 <body>
     <div class="container">
