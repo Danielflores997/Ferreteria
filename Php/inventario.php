@@ -115,6 +115,12 @@ if (!isset($_SESSION['correo'])) {
                     <button id="btn-venta" type="submit" name="guardar">
                         <i class="fas fa-save"></i><i class="fas fa-arrow-circle-right"></i> Guardar
                     </button>
+                    <a href="../compartido/reportes.php" id="btn-excel" name="exportar_excel">
+                        <i class="fas fa-file-excel"></i> Exportar a Excel
+                    </a>
+                    <button id="btn-pdf" type="submit" name="exportar_pdf">
+                        <i class="fas fa-file-pdf"></i> Exportar a PDF
+                    </button>
                 </div>
             </form>
             </div>

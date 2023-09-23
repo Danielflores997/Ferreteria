@@ -17,7 +17,7 @@ if (!isset($_SESSION['correo'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="../CSS/peticiones.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/Peticiones.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>Visualizar Catálogo</title>

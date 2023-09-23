@@ -1,11 +1,20 @@
 <!DOCTYPE html>
 <html>
-  <link rel="stylesheet" type="text/css" href="../CSS/Carrito.css">
+<link rel="stylesheet" type="text/css" href="../CSS/Carrito.css">
+
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/carrito.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>Carrito de Compras</title>
 </head>
+
 <body>
-        <?php include "../compartido/menu.php"; ?>
+    <?php include "../compartido/menu.php"; ?>
     <h2 class="catalogo">Carrito de Compras</h2>
     <section class="contenedor">
         <div class="contenedor-items">
@@ -30,7 +39,7 @@
 
                 var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
 
-                carritoProductos.forEach(function (producto) {
+                carritoProductos.forEach(function(producto) {
                     var nuevoItem = document.createElement('li');
                     nuevoItem.classList.add('carrito-item');
                     nuevoItem.innerHTML = `
@@ -49,15 +58,15 @@
                         </button>
                     `;
 
-                    nuevoItem.querySelector('.restar-cantidad').addEventListener('click', function () {
+                    nuevoItem.querySelector('.restar-cantidad').addEventListener('click', function() {
                         restarCantidad(producto);
                     });
 
-                    nuevoItem.querySelector('.sumar-cantidad').addEventListener('click', function () {
+                    nuevoItem.querySelector('.sumar-cantidad').addEventListener('click', function() {
                         sumarCantidad(producto);
                     });
 
-                    nuevoItem.querySelector('.btn-eliminar').addEventListener('click', function () {
+                    nuevoItem.querySelector('.btn-eliminar').addEventListener('click', function() {
                         eliminarProducto(producto);
                     });
 
@@ -67,11 +76,54 @@
                 actualizarTotal();
             }
 
+            function comprarcarrito() {
+
+                var productos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
+                // Obtener el ID de usuario desde el localStorage en JavaScript
+                var idUsuario = localStorage.getItem('idUsuario');
+
+                // Comprobar si se ha obtenido correctamente
+                if (idUsuario) {
+                    // Realizar la solicitud POST al archivo procesar_pedido.php
+                    var url = 'http://localhost/Ferreteria/compartido/factura.php'; // Ajusta la URL adecuadamente
+
+                    // Configurar los datos de la solicitud POST
+                    var data = {
+                        usuario_idUsuario: idUsuario,
+                        productos: JSON.stringify(productos) // Convertir productos a JSON
+                    };
+
+                    // Configurar las opciones de la solicitud POST
+                    var options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: new URLSearchParams(data)
+                    };
+
+                    // Realizar la solicitud POST
+                    fetch(url, options)
+                        .then(response => {
+                            response.text();
+                            localStorage.removeItem('carritoProductos');
+                            mostrarCarrito();
+                            alert("compra exitosa")
+                        })
+                        .then(data => console.log(data))
+                        .catch(error => console.error('Error:', error));
+                } else {
+                    console.error('No se pudo obtener el ID de usuario del localStorage.');
+                    alert("compra fallida")
+                }
+
+            }
+
             function actualizarTotal() {
                 var total = 0;
                 var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
 
-                carritoProductos.forEach(function (producto) {
+                carritoProductos.forEach(function(producto) {
                     total += producto.precio * producto.cantidad;
                 });
 
@@ -117,11 +169,15 @@
                 mostrarCarrito();
             });
 
+            $(".btn-comprar-carrito").on("click", function() {
+                localStorage.removeItem('carritoProductos');
+                comprarcarrito();
+            });
+
             mostrarCarrito();
         });
     </script>
 </body>
-    <?php include '../compartido/footer.php'; ?>
+<?php include '../compartido/footer.php'; ?>
+
 </html>
-
-

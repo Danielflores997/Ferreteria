@@ -9,6 +9,7 @@ if (!isset($_SESSION['correo'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,30 +20,37 @@ if (!isset($_SESSION['correo'])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>Ventas</title>
 </head>
+
 <body>
-    <header>
-        <div class = titulo>
-        <h1>FERRETERIA MEISSEN</h1>
-        </div>    
-        <div class="logo" >
-        <img src="../imagenes/ferreteria.jpeg" alt="logo ferreteria">
-        </div>
-    </header>
-    <nav class="navbar">
-        <div class="lista">
-        <button class="btn-login">
-        <a class="btn-login"href="index.php">Cerrar Sesión</a>
-        </button>
-        </div>
-    </nav>
+    <div class="encabezado">
+        <header>
+            <div class="titulo">
+                <h1>FERRETERIA MEISSEN</h1>
+            </div>
+            <div class="logo">
+                <img src="../imagenes/ferreteria.jpeg" alt="logo ferreteria">
+            </div>
+        </header>
+        <nav class="navbar">
+            <div class="lista">
+                <button class="btn-login">
+                    <a class="btn-login" href="../compartido/cerrarSesion.php">Cerrar Sesión</a>
+                </button>
+            </div>
+        </nav>
+    </div>
     <div id="contenido">
         <div id="menu-lateral">
             <h3>Administrador</h3>
             <div id="foto">
-                <img src="../imagenes/administrador ferreteria.jpg" alt="">    
+                <img src="../imagenes/administrador ferreteria.jpg" alt="">
             </div>
             <div class="nom-usuario">
-            <h3>Nombre Usuario</h3>
+                <?php
+                if (isset($_SESSION['correo'])) {
+                    echo "<h3>Bienvenido: " . $_SESSION['correo'] . "</h3>";
+                }
+                ?>
             </div>
             <select id="selec-admin" onchange="location.href=this.value;">
                 <option selected>Opciones</option>
@@ -56,152 +64,172 @@ if (!isset($_SESSION['correo'])) {
         <div class="inventario">
             <h4 id="titulo-tabla">Documento de Venta</h4>
             <div id="conten-venta">
-                <form id="formulario-venta" action="">
-                <div id="contenidoUno">
-                <div class="input-izquierda">
-                    <label for="factura">Factura Nº</label>
-                    <input type="text" id="factura" placeholder="Factura">
-                </div>
-                <div class="input-derecha">
-                    <label for="codigo">Código</label>
-                    <input type="text" id="codigo" placeholder="Código">
-                </div>
-                <div class="input-izquierda">
-                    <label for="stock">Stock</label>
-                    <input id="stock" type="text" placeholder="Stock">
-                </div>
-                <div class="input-derecha">
-                    <label for="categoria">Categoria</label>
-                    <input type="" id="categoria" placeholder="Categoria">
-                </div>
-                </div>
-                <div id="contenidoUno">
-                <div class="input-izquierda">
-                    <label for="producto">Producto</label>
-                    <input type="text" id="producto" placeholder="Producto">
-                </div>
-                <div class="input-izquierda">
-                    <label for="descuento">Precio UNI</label>
-                    <input type="text" id="Precio" placeholder="Precio UNI">
-                </div>
-                <div class="input-derecha">
-                    <label for="cantidad">Cantidad</label>
-                    <input type="text" id="cantidad" placeholder="Cantidad">
-                </div>
-                </div>
-                
+                <form id="formulario-venta" action="../compartido/agregarVenta.php" method="POST">
+                    <div id="contenidoUno">
+
+
+                        <div class="input-derecha">
+                            <label for="codigo">Código</label>
+                            <input type="text" id="id" name="id" placeholder="Código">
+                        </div>
+                        <div class="input-derecha">
+                            <label for="descripcion">Descripción</label>
+                            <input type="text" id="descripcion" placeholder="Descripción" name="descripcion">
+                        </div>
+                        <div class="input-izquierda">
+                            <label for="Categoria">Categoria</label>
+                            <select name="categoria" id="select-Categoria">
+                                <option selected="selected" value="1">Herramientas</option>
+                                <option value="2">Pinturas</option>
+                                <option value="3">Cementos</option>
+                                <option value="4">Herramientas Electricas</option>
+                                <option value="5">Carpinteria</option>
+                                <option value="6">Tornilleria</option>
+                                <option value="7">Plomeria</option>
+                                <option value="8">Jardineria</option>
+                                <option value="9">Accesorios</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="contenidoUno">
+                        <div class="input-derecha">
+                            <label for="producto">Producto</label>
+                            <input type="text" id="producto" name="producto" placeholder="Producto">
+                        </div>
+                        <div class="input-izquierda">
+                            <label for="descuento">Precio UNI</label>
+                            <input type="text" id="precio" name="precio" placeholder="Precio UNI">
+                        </div>
+                        <div class="input-derecha">
+                            <label for="cantidad">Cantidad</label>
+                            <input type="text" id="cantidad" name="cantidad" placeholder="Cantidad">
+                        </div>
+                        <div class="input-izquierda">
+                            <label for="imagen">Imagen</label>
+                            <input id="text" id="imagen" name="imagen" placeholder="Ruta Imagen">
+                        </div>
+                    </div>
+                    <div id="conten-botones">
+                        <button id="btn-venta" type="submit" name="guardar">
+                            <i class="fas fa-save"></i><i class="fas fa-arrow-circle-right"></i> Guardar
+                        </button>
+                    </div>
                 </form>
             </div>
-            <div id="conten-botones">
-                <button id="btn-venta"><i class="far fa-save"></i><i class="fas fa-times-circle"></i> Cancelar</button>
-                <button id="btn-venta"><i class="fas fa-save"></i><i class="fas fa-arrow-circle-right"></i> Guardar</button>
-                <button id="btn-venta"><i class="fa-solid fa-plus"></i> Agregar</button>
-            </div>
-            <div id="tabla">
-            <table>
-                <tr>
-                <th id="celda-principal">Código</th>
-                <th id="celda-principal">Cantidad</th>
-                <th id="celda-principal">Descripción</th>
-                <th id="celda-principal">Precio</th>
-                <th id="celda-principal">Descuento</th>
-                <th id="celda-principal">Total</th>
-                <th id="celda-principal">Acciones</th>
-                </tr>
-                <tr>
-                <td>Texto celda 1</td>
-                <td>Texto celda 2</td>
-                <td>Texto celda 3</td>
-                <td>Texto celda 4</td>
-                <td>Texto celda 5</td>
-                <td>Texto celda 7</td>
-                <td class="acciones"><BUtton><i class="fa-solid fa-pencil" title="Modificar"></i></BUtton><BUtton><i class="fa-solid fa-trash" title="Eliminar"></i></BUtton></td>
-                </tr>
-                <tr>
-                <td>Texto celda 7</td>
-                <td>Texto celda 8</td>
-                <td>Texto celda 9</td>
-                <td>Texto celda 11</td>
-                <td>Texto celda 12</td>
-                <td>Texto celda 12</td>
-                <td class="acciones"><BUtton><i class="fa-solid fa-pencil" title="Modificar"></i></BUtton><BUtton><i class="fa-solid fa-trash" title="Eliminar"></i></BUtton></td>
-                </tr>
-                <tr>
-                <td>Texto celda 7</td>
-                <td>Texto celda 7</td>
-                <td>Texto celda 9</td>
-                <td>Texto celda 10</td>
-                <td>Texto celda 11</td>
-                <td>Texto celda 12</td>
-                <td class="acciones"><BUtton><i class="fa-solid fa-pencil" title="Modificar"></i></BUtton><BUtton><i class="fa-solid fa-trash" title="Eliminar"></i></BUtton></td>
-                </tr>
-                <tr>
-                <td>Texto celda 7</td>
-                <td>Texto celda 7</td>
-                <td>Texto celda 8</td>
-                <td>Texto celda 10</td>
-                <td>Texto celda 11</td>
-                <td>Texto celda 12</td>
-                <td class="acciones"><BUtton><i class="fa-solid fa-pencil" title="Modificar"></i></BUtton><BUtton><i class="fa-solid fa-trash" title="Eliminar"></i></BUtton></td>
-                </tr>
-                <tr>
-                <td>Texto celda 7</td>
-                <td>Texto celda 8</td>
-                <td>Texto celda 8</td>
-                <td>Texto celda 9</td>
-                <td>Texto celda 11</td>
-                <td>Texto celda 12</td>
-                <td class="acciones"><BUtton><i class="fa-solid fa-pencil" title="Modificar"></i></BUtton><BUtton><i class="fa-solid fa-trash" title="Eliminar"></i></BUtton></td>
-                </tr>
-                <tr>
-                <td>Texto celda 7</td>
-                <td>Texto celda 8</td>
-                <td>Texto celda 9</td>
-                <td>Texto celda 9</td>
-                <td>Texto celda 11</td>
-                <td>Texto celda 12</td>
-                <td class="acciones"><BUtton><i class="fa-solid fa-pencil" title="Modificar"></i></BUtton><BUtton><i class="fa-solid fa-trash" title="Eliminar"></i></BUtton></td>
-                </tr>
-                <tr>
-                <td>Texto celda 7</td>
-                <td>Texto celda 8</td>
-                <td>Texto celda 9</td>
-                <td>Texto celda 9</td>
-                <td>Texto celda 11</td>
-                <td>Texto celda 12</td>
-                <td class="acciones"><BUtton><i class="fa-solid fa-pencil" title="Modificar"></i></BUtton><BUtton><i class="fa-solid fa-trash" title="Eliminar"></i></BUtton></td>
-                </tr>
-                <tr>
-                <td>Texto celda 7</td>
-                <td>Texto celda 8</td>
-                <td>Texto celda 8</td>
-                <td>Texto celda 9</td>
-                <td>Texto celda 11</td>
-                <td>Texto celda 12</td>
-                <td class="acciones"><BUtton><i class="fa-solid fa-pencil" title="Modificar"></i></BUtton><BUtton><i class="fa-solid fa-trash" title="Eliminar"></i></BUtton></td>
-                </tr>
-                <tr>
-                <td>Texto celda 7</td>
-                <td>Texto celda 8</td>
-                <td>Texto celda 9</td>
-                <td>Texto celda 10</td>
-                <td>Texto celda 11</td>
-                <td>Texto celda 12</td>
-                <td class="acciones"><BUtton><i class="fa-solid fa-pencil" title="Modificar"></i></BUtton><BUtton><i class="fa-solid fa-trash"></i></BUtton></td>
-                </tr>
-                <tr>
-                    <td id="vacio"></td><td id="vacio"></td><td id="vacio"></td><td id="vacio"></td><th id="celda-principal">Subtotal</th><td>00000</td><td id="vacio"></td>
-                </tr>
-                <tr>
-                    <td id="vacio"></td><td id="vacio"></td><td id="vacio"></td><td id="vacio"></td><th id="celda-principal">Impuesto</th><td>19%</td><td id="vacio"></td>
-                </tr>
-                <tr>
-                    <td id="vacio"></td><td id="vacio"></td><td id="vacio"></td><td id="vacio"></td><th id="celda-principal">Total</th><td>000.0000</td><td id="vacio"></td>
-                </tr>
-            </table>
-            </div>
+            <?php
+            include "../compartido/conexion.php";
+
+            $queryCategorias = "SELECT * FROM categoria";
+            $resultCategorias = mysqli_query($conn, $queryCategorias);
+            if (!$resultCategorias) {
+                echo "Error al obtener las categorías: " . mysqli_error($conn);
+            }
+
+            $categorias = array();
+            while ($rowCategoria = mysqli_fetch_assoc($resultCategorias)) {
+                $categorias[$rowCategoria['idCategoria']] = $rowCategoria['nombreCategoria'];
+            }
+            if (isset($_POST['guardar'])) {
+                $idcodigo = $_POST['id'];
+                $producto = $_POST['producto'];
+                $precio_unitario = $_POST['precio'];
+                $cantidad = $_POST['cantidad'];
+                $descripcion = $_POST['descripcion'];
+                $categoria = $_POST['categoria'];
+
+                $query = "UPDATE ventas SET producto='$producto', precio_unitario='$precio_unitario', cantidad=$cantidad, descripcion=$descripcion, Categoria='$categoria' WHERE idcodigo=$idcodigo";
+
+                $result = mysqli_query($conn, $query);
+                if (!$result) {
+                    echo "Error al guardar los cambios del producto: " . mysqli_error($conn);
+                }
+            }
+
+            if (isset($_POST['editar'])) {
+                $idProducto = $_POST['id'];
+
+                $query = "SELECT * FROM ventas WHERE idcodigo=$idcodigo";
+                $result = mysqli_query($conn, $query);
+                $row = mysqli_fetch_assoc($result);
+
+                $producto = $row['producto'];
+                $precio_unitario = $row['precio'];
+                $cantidad = $row['cantidad'];
+                $descripcion = $row['descripcion'];
+                $categoria = $row['categoria'];
+            }
+            ?>
+            <?php
+            include "../compartido/conexion.php";
+
+            if (isset($_POST['guardar'])) {
+                include "editarVenta.php";
+            } else {
+                
+                $query = "SELECT * FROM Ventas";
+                $result = mysqli_query($conn, $query);
+
+                if (!$result) {
+                    echo "Error al obtener los productos: " . mysqli_error($conn);
+                }
+            ?>
+                <h4 id="titulo-tabla">Ventas</h4>
+                <div id="tabla">
+                    <table>
+                        <tr>
+                            <th id="celda-principal">id</th>
+                            <th id="celda-principal">Producto</th>
+                            <th id="celda-principal">Precio</th>
+                            <th id="celda-principal">Cantidad</th>
+                            <th id="celda-principal">Descripción</th>
+                            <th id="celda-principal">Categoría</th>
+                            <th id="celda-principal">Acciones</th>
+                        </tr>
+
+                        <?php
+                        while ($row = mysqli_fetch_assoc($result)) {
+                        ?>
+                            <tr>
+                                <td><?php echo $row['idcodigo']; ?></td>
+                                <td><?php echo $row['producto']; ?></td>
+                                <td><?php echo $row['precio_unitario']; ?></td>
+                                <td><?php echo $row['cantidad']; ?></td>
+                                <td><?php echo $row['descripcion']; ?></td>
+                                <td>
+                                    <?php foreach ($categorias as $idCategoria => $nombreCategoria) { ?>
+                                        <?php if ($idCategoria == $row['Categoria']) echo $nombreCategoria ?>
+                                    <?php } ?>
+                                </td>
+                                <td class="acciones">
+                                    <form action="../compartido/editarVenta.php" method="POST">
+                                        <input type="hidden" name="id" value="<?php echo $row['idcodigo']; ?>">
+                                        <button type="submit" name="editar"><i class="fas fa-edit"></i></button>
+                                    </form>
+                                    <form action="../compartido/eliminarVenta.php" method="POST" onsubmit="return confirmarEliminacion();">
+                                        <input type="hidden" name="id" value="<?php echo $row['idcodigo']; ?>">
+                                        <button type="submit" name="eliminar"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
+                    </table>
+                </div>
+
+                <script>
+                    function confirmarEliminacion() {
+                        return confirm("¿Estás seguro de que deseas eliminar este producto?");
+                    }
+                </script>
+
+            <?php
+            }
+            ?>
+
         </div>
-        </div>
+    </div>
     <?php include "../compartido/footer.php"; ?>
 </body>
+
 </html>

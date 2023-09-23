@@ -5,15 +5,16 @@
                 const titulo = $(this).data("titulo");
                 const imagen = $(this).data("imagen");
                 const precio = parseFloat($(this).data("precio"));
-
-                agregarAlCarrito(titulo, imagen, precio);
+                const id = parseFloat($(this).data("id")); 
+                agregarAlCarrito(titulo, imagen, precio, id);
             });
 
-            function agregarAlCarrito(titulo, imagen, precio) {
+            function agregarAlCarrito(titulo, imagen, precio, idProducto) {
                 var producto = {
                     titulo: titulo,
                     imagen: imagen,
                     precio: precio,
+                    id: idProducto,
                     cantidad: 1
                 };
 

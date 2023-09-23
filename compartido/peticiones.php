@@ -16,7 +16,7 @@
                 VALUES ('$nombre', '$apellido', '$direccion', '$telefono', '$correo', '$motivo')";
 
         if ($conn->query($sql) === TRUE) {
-            echo "Datos enviados correctamente.";
+            echo 'Datos enviados correctamente. <a href="../Php/index.php">Inicio</a>';
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }

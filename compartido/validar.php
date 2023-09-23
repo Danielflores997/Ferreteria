@@ -52,8 +52,3 @@ if (isset($_GET['logout'])) {
     cerrarSesion();
 }
 ?>
-
-
-
-
-

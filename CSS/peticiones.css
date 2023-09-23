@@ -127,9 +127,9 @@ footer h4 {
 
 /*estilo para la tabla de peticiones*/
     table {
-        width: 100%;
+        width: 80%;
         border-collapse: collapse;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         font-family: Arial, sans-serif;
         background-color: #CCCCCC;
     }
@@ -141,8 +141,8 @@ footer h4 {
     }
 
     th {
-        background-color: #FFA500;
-        color: #fff;
+        background-color: rgb(5, 138, 5);
+        color:#fff;
     }
 
     tr:hover {
@@ -151,6 +151,9 @@ footer h4 {
 
     h2 {
         text-align: center;
+        color: rgb(5, 138, 5);
+        font-size: 25px;
+        margin:30px;
     }
 
 /* Estilos para el menú lateral */
