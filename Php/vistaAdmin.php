@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['correo'])) {
-    header('Location: index.php'); // Redirigir si el usuario no ha iniciado sesión
+    header('Location: index.php');
     exit();
 }
 ?>

@@ -43,17 +43,9 @@ if (!$usuario) {
         <p><strong>Tipo de Documento:</strong> <?php echo $usuario['tipoDocumentoUsuario']; ?></p>
         <p><strong>Documento:</strong> <?php echo $usuario['documentoUsuario']; ?></p>
 
-        <!-- Mostrar la clave con un botón de ojito -->
-        <p>
-            <strong>Clave:</strong>
-            <span id="clave" type="password"><?php echo hidePassword($usuario['claveUsuario']); ?></span>
-            <button type="button" onclick="togglePassword()">Mostrar/ocultar Clave</button>
-        </p>
-
         <!-- Mostrar el estado del usuario -->
         <p><strong>Estado:</strong> <span id="estado"><?php echo $usuario['estadoUsuario']; ?></span></p>
     </div>
-
     <script>
         // Función para alternar la visibilidad de la contraseña
         function togglePassword() {
