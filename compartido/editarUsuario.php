@@ -59,11 +59,13 @@ if (isset($_POST['guardar'])) {
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
     $correo = $_POST['correo'];
+    // Obtener la nueva contraseña desde el formulario
+    $nuevaContraseña = $_POST['nuevaContraseña'];
     $estado = $_POST['estado'];
     $rol = $_POST['rol'];
 
     // Verificar si el número de identificación ya existe en la base de datos
-    $queryVerificar = "SELECT idUsuario FROM usuario WHERE documentopUsuario = ? AND idUsuario != ?";
+    $queryVerificar = "SELECT idUsuario FROM usuario WHERE documentoUsuario = ? AND idUsuario != ?";
     $stmtVerificar = mysqli_prepare($conn, $queryVerificar);
     mysqli_stmt_bind_param($stmtVerificar, "si", $identificacion, $idUsuario);
     mysqli_stmt_execute($stmtVerificar);
@@ -75,31 +77,39 @@ if (isset($_POST['guardar'])) {
         exit();
     }
 
-    // Si el número de identificación no está repetido, guardar los cambios del usuario
-    $query = "UPDATE usuario SET tipoDocumentoUsuario='$tipoDocumento', documentopUsuario='$identificacion', nombresUsuario='$nombre', apellidosUsuario='$apellido', correo='$correo', estadoUsuario='$estado', rol_idRol=$rol WHERE idUsuario=$idUsuario";
+    // Si el número de identificación no está repetido, actualizar los datos del usuario
+    $query = "UPDATE usuario SET tipoDocumentoUsuario=?, documentoUsuario=?, nombresUsuario=?, apellidosUsuario=?, correo=?, estadoUsuario=?, rol_idRol=? WHERE idUsuario=?";
+    $stmtUpdate = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmtUpdate, "sssssssi", $tipoDocumento, $identificacion, $nombre, $apellido, $correo, $estado, $rol, $idUsuario);
+    mysqli_stmt_execute($stmtUpdate);
 
-    $result = mysqli_query($conn, $query);
-    if (!$result) {
-        echo "Error al guardar los cambios del usuario: " . mysqli_error($conn);
-    } else {
-        // Redirigir al usuario a la página de gestionarFuncionarios
-        header("Location: ../Php/gestionarFuncionarios.php");
-        exit();
+    // Actualizar la contraseña solo si se proporciona una nueva contraseña
+        if (!empty($nuevaContraseña)) {
+        $queryUpdateContraseña = "UPDATE usuario SET claveUsuario=? WHERE idUsuario=?";
+        $stmtUpdateContraseña = mysqli_prepare($conn, $queryUpdateContraseña);
+        mysqli_stmt_bind_param($stmtUpdateContraseña, "si", $nuevaContraseña, $idUsuario);
+        mysqli_stmt_execute($stmtUpdateContraseña);
     }
+
+    // Redirigir al usuario a la página de gestionarFuncionarios
+    header("Location: ../Php/gestionarFuncionarios.php");
+    exit();
 }
 
 if (isset($_POST['editar'])) {
     $idUsuario = $_POST['id'];
 
-    // Aquí puedes agregar la lógica para recuperar los datos del usuario
-    // correspondiente al ID proporcionado y cargarlos en un formulario de edición
-    $query = "SELECT * FROM usuario WHERE idUsuario=$idUsuario";
-    $result = mysqli_query($conn, $query);
+    // Obtener los datos actuales del usuario
+    $query = "SELECT * FROM usuario WHERE idUsuario=?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "i", $idUsuario);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
     $row = mysqli_fetch_assoc($result);
 
     // Variables para almacenar los valores actuales del usuario
     $tipoDocumento = $row['tipoDocumentoUsuario'];
-    $identificacion = $row['documentopUsuario'];
+    $identificacion = $row['documentoUsuario'];
     $nombre = $row['nombresUsuario'];
     $apellido = $row['apellidosUsuario'];
     $correo = $row['correo'];
@@ -108,6 +118,7 @@ if (isset($_POST['editar'])) {
 }
 ?>
 
+<!-- Formulario HTML -->
 <h4 id="titulo-tabla">Editar Usuario</h4>
 <form action="../compartido/editarUsuario.php" method="POST">
     <input type="hidden" name="id" value="<?php echo $idUsuario; ?>">
@@ -121,6 +132,8 @@ if (isset($_POST['editar'])) {
     <input type="text" name="apellido" value="<?php echo $apellido; ?>"><br>
     <label for="correo">Correo:</label>
     <input type="text" name="correo" value="<?php echo $correo; ?>"><br>
+    <label for="nuevaContraseña">Nueva Contraseña:</label>
+    <input type="text" name="nuevaContraseña" value=""><br>
     <label for="rol">Rol:</label>
     <input type="text" name="rol" value="<?php echo $rol; ?>"><br>
     <label for="estado">Estado:</label>

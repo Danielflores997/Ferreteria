@@ -3,7 +3,7 @@
     <h4>Ferreteria Meissen</h4>
     <div class="enlaces">
         <ul>
-                    <li><a href="pqrs.php">Contacto</a></li>
+                    <li><a href="../Php/pqrs.php">Contacto</a></li>
                     <li><a href="nosotros.php">Nosotros</a></li>
                     <li><a href="../Php/index.php">Catalogo</a></li>
                     <li><a href="../Php/pinturas.php">Pintura</a></li>

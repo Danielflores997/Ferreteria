@@ -4,25 +4,13 @@ include "conexion.php";
 if (isset($_POST['searchTerm'])) {
     $searchTerm = $_POST['searchTerm'];
 
-    // Verificar si se ingresó el estado activo en el término de búsqueda
-    $estadoActivo = false;
-    if ($searchTerm == 'Activo' || $searchTerm == 'Inactivo') {
-        $estadoActivo = true;
-    }
-
     // Realizar la consulta a la base de datos con la condición de búsqueda
-    $query = "SELECT * FROM cliente WHERE documentoCliente LIKE '%$searchTerm%' OR nombresCliente LIKE '%$searchTerm%' OR
-    telefonoCliente LIKE '%$searchTerm%'";
-    
-    // Agregar condición para filtrar clientes activos o inactivos solo si se busca estado activo o inactivo
-    if ($estadoActivo) {
-        $query .= " OR estadoCliente LIKE '%$searchTerm%'";
-    }
+    $query = "SELECT * FROM proveedor WHERE idProveedor LIKE '%$searchTerm%' OR nombreProveedor LIKE '%$searchTerm%' OR telefonoProveedor LIKE '%$searchTerm%' OR direccionProveedor LIKE '%$searchTerm%' OR correoProveedor LIKE '%$searchTerm%'";
     
     $result = mysqli_query($conn, $query);
 
     if (!$result) {
-        echo "Error al obtener los clientes: " . mysqli_error($conn);
+        echo "Error al obtener los proveedores: " . mysqli_error($conn);
     } else {
         // Construir la tabla con los resultados de la búsqueda
         $table = '';
@@ -34,35 +22,33 @@ if (isset($_POST['searchTerm'])) {
             // Imprimir encabezado solo si no se ha impreso antes
             if (!$encabezadoImpreso) {
                 $table .= '<tr>
-                    <th id="celda-principal">Tipo Documento</th>
                     <th id="celda-principal">Identificación</th>
                     <th id="celda-principal">Nombre</th>
                     <th id="celda-principal">Apellido</th>
                     <th id="celda-principal">Teléfono</th>
                     <th id="celda-principal">Dirección</th>
-                    <th id="celda-principal">Estado</th>
+                    <th id="celda-principal">Correo</th>
                     <th id="celda-principal">Acciones</th>
                 </tr>';
                 // Marcar la bandera como true para que no se imprima de nuevo
                 $encabezadoImpreso = true;
             }
 
-            $idCliente = $row['idCliente'];
+            $idProveedor = $row['idProveedor'];
             $table .= '<tr>
-                <td>' . $row['tipoDocumentoCliente'] . '</td>
-                <td>' . $row['documentoCliente'] . '</td>
-                <td>' . $row['nombresCliente'] . '</td>
-                <td>' . $row['apellidosCliente'] . '</td>
-                <td>' . $row['telefonoCliente'] . '</td>
-                <td>' . $row['direccionCliente'] . '</td>
-                <td>' . $row['estadoCliente'] . '</td>
+                <td>' . $row['idProveedor'] . '</td>
+                <td>' . $row['nombreProveedor'] . '</td>
+                <td>' . $row['apellidoProveedor'] . '</td>
+                <td>' . $row['telefonoProveedor'] . '</td>
+                <td>' . $row['direccionProveedor'] . '</td>
+                <td>' . $row['correoProveedor'] . '</td>
                 <td class="acciones">
-                    <form action="../compartido/editarCliente.php" method="POST">
-                        <input type="hidden" name="id" value="' . $idCliente . '">
+                    <form action="../compartido/editarProveedor.php" method="POST">
+                        <input type="hidden" name="id" value="' . $idProveedor . '">
                         <button type="submit" name="editar"><i class="fas fa-edit"></i></button>
                     </form>
-                    <form action="../compartido/eliminarCliente.php" method="POST" onsubmit="return confirmarEliminacion();">
-                        <input type="hidden" name="id" value="' . $idCliente . '">
+                    <form action="../compartido/eliminarProveedor.php" method="POST" onsubmit="return confirmarEliminacion();">
+                        <input type="hidden" name="id" value="' . $idProveedor . '">
                         <button type="submit" name="eliminar"><i class="fas fa-trash"></i></button>
                     </form>
                 </td>

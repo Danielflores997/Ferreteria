@@ -53,20 +53,21 @@ if (!isset($_SESSION['correo'])) {
                 }
                 ?>
             </div>
-            <select id="selec-admin" onchange="location.href=this.value;">
-                <option selected>Opciones</option>
-                <option value="vistaAdmin.php">Inicio</option>
-                <option value="inventario.php">Gestión Catalogo e Inventario</option>
-                <option value="catalogoAdmin.php">Vista catalogo</option>
-                <option value="gestionarFuncionarios.php">Gestionar Usuarios</option>
-                <option value="ventas.php">Ventas</option>
-                <option value="peticiones.php">peticiones</option>
-            </select>
+            <?php include "../compartido/menuLateral.php"; ?>
         </div>
         <div class="inventario">
-            <h4 id="titulo-tabla">Agregar Productos</h4>
+            <h4 id="titulo-tabla">Datos Proveedor</h4>  
             <div id="conten-venta">
                 <form id="formulario-venta" action="../compartido/agregarProducto.php" method="POST">
+            <div class="datos-proveedor">
+                <input type="text" id="nombreProveedor" placeholder="Nombre Proveedor" name="nombreProveedor">
+                <input type="text" id="apellidoProveedor" placeholder="Apellido Proveedor" name="apellidoProveedor">
+                <input type="text" id="idProveedor" placeholder="ID Proveedor" name="idProveedor">
+                <input type="text" id="telefonoProveedor" placeholder="Telefono" name="telefonoProveedor">
+                <input type="text" id="direccionProveedor" placeholder="Dirección" name="direccionProveedor">
+                <input type="text" id="correoProveedor" placeholder="Correo" name="correoProveedor">
+            </div>
+                <h4 id="titulo-tabla">Agregar Productos</h4>
                     <div id="contenidoDos">
                     <div id="contenidoUno">
                         <div class="input-izquierda">
@@ -122,7 +123,7 @@ if (!isset($_SESSION['correo'])) {
                         <i class="fas fa-file-pdf"></i> Exportar a PDF
                     </button>
                 </div>
-            </form>
+                </form>
             </div>
 
             <?php

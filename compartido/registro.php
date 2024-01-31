@@ -20,7 +20,7 @@ if (isset($_POST['registro'])) {
     }
 
     // Verificar si el número de documento ya existe en la base de datos
-    $verificarDocumento = "SELECT documentopUsuario FROM usuario WHERE documentopUsuario = '$documento'";
+    $verificarDocumento = "SELECT documentoUsuario FROM usuario WHERE documentoUsuario = '$documento'";
     $resultadoDocumento = $mysqli->query($verificarDocumento);
 
     if ($resultadoDocumento->num_rows > 0) {
@@ -31,7 +31,7 @@ if (isset($_POST['registro'])) {
     // Aplicar el hash a la contraseña
     $contrasenaHash = password_hash($contrasena, PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO usuario (tipoDocumentoUsuario, documentopUsuario, nombresUsuario, apellidosUsuario, correo, claveUsuario)
+    $sql = "INSERT INTO usuario (tipoDocumentoUsuario, documentoUsuario, nombresUsuario, apellidosUsuario, correo, claveUsuario)
             VALUES ('$tipoDocumento', '$documento', '$nombre', '$apellido', '$correo', '$contrasena')";
 
     if ($mysqli->query($sql)) {

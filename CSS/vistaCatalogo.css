@@ -30,7 +30,7 @@ h1 {
 }
 
 nav.navbar {
-    background-color:#a70207;
+    background-color: #a70207;
     height: 60px;
     padding-top: 10px;
     border-style: double;
@@ -212,6 +212,10 @@ h2.catalogo {
 /* Estilos para el menú lateral */
 h3 {
     color: #fff;
+    font-size:12px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 select option #selec-admin {
@@ -219,12 +223,12 @@ select option #selec-admin {
     color: #333;
 }
 
-#selec-admin {
+#selec-admin{
     border: none;
     outline: none;
     color: #fff;
     background-color: #ed1c23;
-    width: 95%;
+    width:95%;
     display: flex;
     justify-content: center;
     text-align: center;
@@ -260,10 +264,10 @@ select option #select-categoria {
     overflow: hidden;
 }
 
-#menu-lateral {
-    background-color: #ed1c23;
+#menu-lateral{
+    background-color:#ed1c23;
     width: 20%;
-    max-width: 300px;
+    max-width:300px;
     min-width: 160px;
     display: flex;
     justify-content: center;
@@ -272,5 +276,4 @@ select option #select-categoria {
     padding-top: 10px;
     padding-bottom: 200px;
     height: 100%;
-    position: static;
 }

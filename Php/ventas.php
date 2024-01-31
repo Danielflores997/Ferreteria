@@ -52,14 +52,7 @@ if (!isset($_SESSION['correo'])) {
                 }
                 ?>
             </div>
-            <select id="selec-admin" onchange="location.href=this.value;">
-                <option selected>Opciones</option>
-                <option value="vistaAdmin.php">Inicio</option>
-                <option value="inventario.php">Gestión Catálogo e Inventario</option>
-                <option value="gestionarFuncionarios.php">Gestionar Usuarios</option>
-                <option value="ventas.php">Ventas</option>
-                <option value="peticiones.php">peticiones</option>
-            </select>
+            <?php include "../compartido/menuLateral.php"; ?>
         </div>
         <div class="inventario">
             <h4 id="titulo-tabla">Documento de Venta</h4>

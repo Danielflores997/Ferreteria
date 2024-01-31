@@ -1,30 +1,46 @@
 <?php
-include "conexion.php"; // Incluir el archivo de conexión
+include "conexion.php";
 
 if (isset($_POST['guardar'])) {
-    if (empty($_POST["codigo"]) || empty($_POST["producto"]) || empty($_POST["precio"]) || empty($_POST["cantidad"]) || empty($_POST["descripcion"]) || empty($_POST["categoria"]) || empty($_POST["imagen"])) {
-        echo 'Uno de los campos está vacío';
+
+    // Datos del proveedor
+    $nombreProveedor = $_POST['nombreProveedor'];
+    $apellidoProveedor = $_POST['apellidoProveedor'];
+    $idProveedor = $_POST['idProveedor'];
+    $telefonoProveedor = $_POST['telefonoProveedor'];
+    $direccionProveedor = $_POST['direccionProveedor'];
+    $correoProveedor = $_POST['correoProveedor'];
+
+    // Insertar datos del proveedor
+    $sqlProveedor = "INSERT INTO proveedor (nombreProveedor, apellidoProveedor, idProveedor, telefonoProveedor, direccionProveedor, correoProveedor) VALUES (?, ?, ?, ?, ?, ?)";
+    $stmtProveedor = mysqli_prepare($conn, $sqlProveedor);
+    mysqli_stmt_bind_param($stmtProveedor, "ssssss", $nombreProveedor, $apellidoProveedor, $idProveedor, $telefonoProveedor, $direccionProveedor, $correoProveedor);
+
+    if (!mysqli_stmt_execute($stmtProveedor)) {
+        $error = true;
+        echo 'Error al agregar el proveedor: ' . mysqli_error($conn);
+    }
+
+    // Datos del producto
+    $codigo = $_POST['codigo'];
+    $producto = $_POST['producto'];
+    $precio = $_POST['precio'];
+    $cantidad = $_POST['cantidad'];
+    $descripcion = $_POST['descripcion'];
+    $categoria = $_POST['categoria'];
+    $imagen_url = $_POST['imagen'];
+
+    // Realizar la inserción en la base de datos
+    $sql = "INSERT INTO productos (codigoProducto, nombreProductos, valorProducto, stockProducto, descripcionProducto, nombreCategoria, imagen) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "ssddsss", $codigo, $producto, $precio, $cantidad, $descripcion, $categoria, $imagen_url);
+
+    if (mysqli_stmt_execute($stmt)) {
+        echo 'Nuevo producto agregado correctamente <a href="../Php/inventario.php">Actualizar inventario</a>';
     } else {
-        $codigo = $_POST['codigo'];
-        $producto = $_POST['producto'];
-        $precio = $_POST['precio'];
-        $cantidad = $_POST['cantidad'];
-        $descripcion = $_POST['descripcion'];
-        $categoria = $_POST['categoria'];
-        $imagen_url = $_POST['imagen'];
-
-        // Realizar la inserción en la base de datos
-        $sql = "INSERT INTO productos (codigoProducto, nombreProductos, valorProducto, stockProducto, descripcionProducto, nombreCategoria, imagen) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "ssddsss", $codigo, $producto, $precio, $cantidad, $descripcion, $categoria, $imagen_url);
-
-        if (mysqli_stmt_execute($stmt)) {
-            echo 'Nuevo producto agregado correctamente <a href="../Php/inventario.php">Actualizar inventario</a>';
-        } else {
-            echo 'Error al agregar el producto: ' . mysqli_error($conn);
-        }
-
-        mysqli_stmt_close($stmt); // Cerrar la declaración preparada
+        $error = true;
+        echo 'Error al agregar el producto: ' . mysqli_error($conn);
+    }
 
     // Actualizar el inventario
     if (isset($_POST['actualizar'])) {
@@ -36,6 +52,7 @@ if (isset($_POST['guardar'])) {
         if (mysqli_query($conn, $sql)) {
             echo "Inventario actualizado correctamente";
         } else {
+            $error = true;
             echo "Error al actualizar el inventario: " . mysqli_error($conn);
         }
 
@@ -52,13 +69,16 @@ if (isset($_POST['guardar'])) {
             }
             echo "</table>";
         } else {
+            $error = true;
             echo "No se encontraron registros en el inventario";
         }
     }
 
+    // Cerrar las declaraciones preparadas
+    mysqli_stmt_close($stmtProveedor);
+    mysqli_stmt_close($stmt);
+
+    // Cerrar la conexión
     mysqli_close($conn);
-    }
 }
 ?>
-
-

@@ -67,23 +67,12 @@ if (!isset($_SESSION['correo'])) {
                 }
                 ?>
             </div>
-            <select id="selec-admin" onchange="location.href=this.value;">
-                <option selected>Opciones</option>
-                <option value="vistaAdmin.php">Inicio</option>
-                <option value="inventario.php">Gestión Catálogo e Inventario</option>
-                <option value="catalogoAdmin.php">Vista catalogo</option>
-                <option value="gestionarFuncionarios.php">Gestionar Usuarios</option>
-                <option value="ventas.php">Ventas</option>
-                <option value="peticiones.php">peticiones</option>
-            </select>
+            <?php include "../compartido/menuLateral.php"; ?>
         </div>
         <!-- peticiones -->
 <div>
     <h2>Peticiones</h2>
     <?php
-    // Aquí deberías agregar la conexión a la base de datos si aún no lo has hecho
-    // ...
-
     // Consulta SQL para obtener los datos de la tabla "peticiones"
     $sql = "SELECT * FROM peticiones";
     $result = $conn->query($sql);
@@ -114,9 +103,6 @@ if (!isset($_SESSION['correo'])) {
     } else {
         echo "No se encontraron peticiones en la base de datos.";
     }
-
-    // Cierra la conexión a la base de datos si es necesario
-    // ...
     ?>
 </div>
     </div>

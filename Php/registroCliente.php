@@ -29,8 +29,8 @@
         <div class="contenedor-form">
 			<select name="tipo_documento" id="tipo_documento">
 			<option value="na" select>Tipo Documento</option>
-			<option value="cc">Cédula de Ciudadanía</option>
-			<option value="ce">Cédula Extrangeria</option>
+			<option value="CC">Cédula de Ciudadanía</option>
+			<option value="CE">Cédula Extrangeria</option>
 			</select>
             <label for="">
                 <input type="text" id="Documento" placeholder="Documento" name="documento">

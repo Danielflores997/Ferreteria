@@ -38,9 +38,10 @@ if (!isset($_SESSION['correo'])) {
         </nav>
     </div>
 <?php
+
+include "conexion.php";
+
 if (isset($_POST['guardar'])) {
-    include "conexion.php";
-    
     $idCliente = $_POST['id'];
     $tipoDocumento = $_POST['tipoDocumento'];
     $identificacion = $_POST['identificacion'];
@@ -64,27 +65,35 @@ if (isset($_POST['guardar'])) {
     }
 
     // Si el número de identificación no está repetido, guardar los cambios del cliente
-    $query = "UPDATE cliente SET tipoDocumentoCliente='$tipoDocumento', documentoCliente='$identificacion', nombresCliente='$nombre', apellidosCliente='$apellido', telefonoCliente='$telefono', direccionCliente='$direccion', estadoCliente='$estado' WHERE idCliente=$idCliente";
+    $query = "UPDATE cliente SET tipoDocumentoCliente=?, documentoCliente=?, nombresCliente=?, apellidosCliente=?, telefonoCliente=?, direccionCliente=?, estadoCliente=? WHERE idCliente=?";
+    $stmtUpdate = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmtUpdate, "sssssssi", $tipoDocumento, $identificacion, $nombre, $apellido, $telefono, $direccion, $estado, $idCliente);
+    mysqli_stmt_execute($stmtUpdate);
 
-    $result = mysqli_query($conn, $query);
-    if (!$result) {
-        echo "Error al guardar los cambios del cliente: " . mysqli_error($conn);
-    } else {
-        // Redirigir al usuario a la página de gestionarFuncionarios
-        header("Location: ../Php/gestionarFuncionarios.php");
-        exit();
+    // Actualizar la contraseña solo si se proporciona una nueva contraseña
+    if (!empty($_POST['nuevaContraseña'])) {
+        $nuevaContraseña = $_POST['nuevaContraseña'];
+        $queryUpdateContraseña = "UPDATE cliente SET passwordCliente=? WHERE idCliente=?";
+        $stmtUpdateContraseña = mysqli_prepare($conn, $queryUpdateContraseña);
+        mysqli_stmt_bind_param($stmtUpdateContraseña, "si", $nuevaContraseña, $idCliente);
+        mysqli_stmt_execute($stmtUpdateContraseña);
     }
+
+    // Redirigir al usuario a la página de gestionarFuncionarios
+    header("Location: ../Php/gestionarFuncionarios.php");
+    exit();
 }
 
 if (isset($_POST['editar'])) {
-    include "conexion.php";
-
     $idCliente = $_POST['id'];
 
     // Aquí puedes agregar la lógica para recuperar los datos del cliente
     // correspondiente al ID proporcionado y cargarlos en un formulario de edición
-    $query = "SELECT * FROM cliente WHERE idCliente=$idCliente";
-    $result = mysqli_query($conn, $query);
+    $query = "SELECT * FROM cliente WHERE idCliente=?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "i", $idCliente);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
     $row = mysqli_fetch_assoc($result);
 
     // Variables para almacenar los valores actuales del cliente
@@ -98,6 +107,7 @@ if (isset($_POST['editar'])) {
 }
 ?>
 
+<!-- Formulario HTML -->
 <h4 id="titulo-tabla">Editar Cliente</h4>
 <form action="../compartido/editarCliente.php" method="POST">
     <input type="hidden" name="id" value="<?php echo $idCliente; ?>">
@@ -113,6 +123,8 @@ if (isset($_POST['editar'])) {
     <input type="text" name="telefono" value="<?php echo $telefono; ?>"><br>
     <label for="direccion">Dirección:</label>
     <input type="text" name="direccion" value="<?php echo $direccion; ?>"><br>
+    <label for="nuevaContraseña">Nueva Contraseña:</label>
+    <input type="text" name="nuevaContraseña" value=""><br>
     <label for="estado">Estado:</label>
     <select name="estado">
         <option value="Activo" <?php if ($estado == 'Activo') echo 'selected'; ?>>Activo</option>
@@ -123,4 +135,3 @@ if (isset($_POST['editar'])) {
 <?php include "../compartido/footer.php"; ?>
 </body>
 </html>
-

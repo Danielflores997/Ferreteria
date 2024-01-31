@@ -41,7 +41,7 @@ if (!$usuario) {
         <p><strong>Nombre:</strong> <?php echo $usuario['nombresUsuario'] . ' ' . $usuario['apellidosUsuario']; ?></p>
         <p><strong>Correo:</strong> <?php echo $usuario['correo']; ?></p>
         <p><strong>Tipo de Documento:</strong> <?php echo $usuario['tipoDocumentoUsuario']; ?></p>
-        <p><strong>Documento:</strong> <?php echo $usuario['documentopUsuario']; ?></p>
+        <p><strong>Documento:</strong> <?php echo $usuario['documentoUsuario']; ?></p>
 
         <!-- Mostrar la clave con un botón de ojito -->
         <p>
