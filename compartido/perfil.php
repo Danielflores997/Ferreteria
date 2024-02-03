@@ -46,17 +46,6 @@ if (!$usuario) {
         <!-- Mostrar el estado del usuario -->
         <p><strong>Estado:</strong> <span id="estado"><?php echo $usuario['estadoUsuario']; ?></span></p>
     </div>
-    <script>
-        // Función para alternar la visibilidad de la contraseña
-        function togglePassword() {
-            var passwordField = document.getElementById("clave");
-            if (passwordField.type === "password") {
-                passwordField.type = "text";
-            } else {
-                passwordField.type = "password";
-            }
-        }
-    </script>
 </body>
 </html>
 

@@ -47,26 +47,6 @@ button:hover {
     background-color: #0056b3;
 }
 
-/* Estilo para el botón de mostrar/ocultar la clave en la versión móvil */
-@media (max-width: 600px) {
-    button {
-        font-size: 14px;
-    }
-}
-
-/* Estilo para la contraseña oculta */
-#clave[type="password"] {
-    font-family: "Courier New", Courier, monospace;
-    letter-spacing: 3px;
-}
-
-/* Estilo para la contraseña visible */
-#clave[type="text"] {
-    font-family: "Courier New", Courier, monospace;
-    letter-spacing: 3px;
-    color: #ff0000; /* Color rojo para resaltar la contraseña visible */
-}
-
 /* Estilo para el estado del usuario */
 #estado {
     font-weight: bold;

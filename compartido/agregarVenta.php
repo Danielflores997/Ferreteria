@@ -2,68 +2,68 @@
 include "conexion.php"; 
 
 if (isset($_POST['guardar'])) {
-    if (empty($_POST["id"]) || empty($_POST["producto"]) || empty($_POST["precio"]) || empty($_POST["cantidad"]) || empty($_POST["descripcion"]) || empty($_POST["categoria"]) || empty($_POST["imagen"])) {
-        echo 'Uno de los campos está vacío';
-        echo $_POST["id"] + " - ";
-        echo $_POST["producto"] + " - ";
-        echo $_POST["precio"] + " - ";
-        echo $_POST["cantidad"] + " - ";
-        echo $_POST["descripcion"] + " - ";
-        echo $_POST["imagen"];
+    // Validar campos del producto
+    $camposProducto = ['id', 'producto', 'precio', 'cantidad', 'descripcion', 'categoria', 'imagen'];
+    $camposVaciosProducto = array_filter($camposProducto, function($campo) {
+        return empty($_POST[$campo]);
+    });
+
+    if (!empty($camposVaciosProducto)) {
+        echo 'Campos del producto vacíos: ' . implode(', ', $camposVaciosProducto);
     } else {
-                $idcodigo = $_POST['id'];
-                $producto = $_POST['producto'];
-                $precio_unitario = $_POST['precio'];
-                $cantidad = $_POST['cantidad'];
-                $descripcion = $_POST['descripcion'];
-                $categoria = $_POST['categoria'];
-                $imagen_url = $_POST['imagen'];
-
-        $sql = "INSERT INTO ventas (idcodigo, producto, precio_unitario, cantidad, descripcion, Categoria, imagen) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "ssddsss", $idcodigo, $producto, $precio_unitario, $cantidad, $descripcion, $categoria, $imagen_url);
-
-        if (mysqli_stmt_execute($stmt)) {
-
-            header("Location: ../Php/ventas.php?mensaje=venta agregado exitosamente");
-            exit();
-        } else {
-            header("Location: ../Php/Ventas.php?error=No se pudo registrar la venta ");
-            exit();
-        }
-
-        mysqli_stmt_close($stmt); 
-
-    if (isset($_POST['actualizar'])) {
+        // Datos del producto
+        $idcodigo = $_POST['id'];
         $producto = $_POST['producto'];
+        $precio_unitario = $_POST['precio'];
         $cantidad = $_POST['cantidad'];
+        $descripcion = $_POST['descripcion'];
+        $categoria = $_POST['categoria'];
+        $imagen_url = $_POST['imagen'];
 
-        $sql = "UPDATE ventas SET cantidad = cantidad + $cantidad WHERE producto = '$producto'";
-        if (mysqli_query($conn, $sql)) {
-            echo "venta actualizado correctamente";
-        } else {
-            echo "Error al actualizar el venta: " . mysqli_error($conn);
-        }
+        // Insertar datos del producto
+        $sqlProducto = "INSERT INTO ventas (idcodigo, producto, precio_unitario, cantidad, descripcion, Categoria, imagen) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $stmtProducto = mysqli_prepare($conn, $sqlProducto);
+        mysqli_stmt_bind_param($stmtProducto, "ssddsss", $idcodigo, $producto, $precio_unitario, $cantidad, $descripcion, $categoria, $imagen_url);
 
-        $sql = "SELECT cantidad ,producto  FROM ventas";
-        $result = mysqli_query($conn, $sql);
+        if (mysqli_stmt_execute($stmtProducto)) {
+            // Datos del cliente
+            $camposCliente = ['tipoDocumentoCliente', 'documentoCliente', 'nombresCliente', 'apellidosCliente', 'telefonoCliente', 'direccionCliente', 'passwordCliente', 'estadoCliente'];
+            $camposVaciosCliente = array_filter($camposCliente, function($campo) {
+                return !isset($_POST[$campo]) || empty($_POST[$campo]);
+            });
 
-        if (mysqli_num_rows($result) > 0) {
-            echo "<h2>venta Actualizado</h2>";
-            echo "<table>";
-            echo "<tr><th>Producto</th><th>Cantidad</th></tr>";
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo "<tr><td>" . $row['producto'] . "</td><td>" . $row['cantidad'] . "</td></tr>";
+            // Verificar que los datos requeridos no son nulos
+            if (empty($camposVaciosCliente)) {
+                // Datos del cliente
+                $tipoDocumentoCliente = $_POST['tipoDocumentoCliente'];
+                $documentoCliente = $_POST['documentoCliente'];
+                $nombresCliente = $_POST['nombresCliente'];
+                $apellidosCliente = $_POST['apellidosCliente'];
+                $telefonoCliente = $_POST['telefonoCliente'];
+                $direccionCliente = $_POST['direccionCliente'];
+                $passwordCliente = password_hash($_POST['passwordCliente'], PASSWORD_DEFAULT);
+                $estadoCliente = $_POST['estadoCliente'];
+
+                // Insertar datos del cliente
+                $sqlCliente = "INSERT INTO cliente (tipoDocumentoCliente, documentoCliente, nombresCliente, apellidosCliente, telefonoCliente, direccionCliente, passwordCliente, estadoCliente) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                $stmtCliente = mysqli_prepare($conn, $sqlCliente);
+                mysqli_stmt_bind_param($stmtCliente, "ssssssss", $tipoDocumentoCliente, $documentoCliente, $nombresCliente, $apellidosCliente, $telefonoCliente, $direccionCliente, $passwordCliente, $estadoCliente);
+
+                if (mysqli_stmt_execute($stmtCliente)) {
+                    echo "Datos guardados exitosamente.";
+                } else {
+                    echo 'Error al agregar el cliente: ' . mysqli_error($conn);
+                }
+
+                mysqli_stmt_close($stmtCliente);
+            } else {
+                echo 'Campos del cliente vacíos: ' . implode(', ', $camposVaciosCliente);
             }
-            echo "</table>";
         } else {
-            echo "No se encontraron registros en el venta";
+            echo 'Error al agregar el producto: ' . mysqli_error($conn);
         }
-    }
 
-    mysqli_close($conn);
+        mysqli_stmt_close($stmtProducto);
     }
 }
 ?>
-
-

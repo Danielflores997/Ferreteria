@@ -42,10 +42,11 @@ include "conexion.php";
 
 if (isset($_POST['guardar'])) {
     $idProveedor = $_POST['id'];
-    $nombreProveedor = isset($_POST['nombreProveedor']) ? $_POST['nombreProveedor'] : '';
-    $apellidoProveedor = isset($_POST['apellidoProveedor']) ? $_POST['apellidoProveedor'] : '';
-    $telefonoProveedor = isset($_POST['telefonoProveedor']) ? $_POST['telefonoProveedor'] : '';
-    $direccionProveedor = isset($_POST['direccionProveedor']) ? $_POST['direccionProveedor'] : '';
+    $nombreProveedor = $_POST['nombreProveedor'];
+    $apellidoProveedor = $_POST['apellidoProveedor'];
+    $telefonoProveedor = $_POST['telefonoProveedor'];
+    $direccionProveedor = $_POST['direccionProveedor'];
+    $correoProveedor = $_POST['correoProveedor'];
 
     // Verificar si el número de identificación ya existe en la base de datos
     $queryVerificar = "SELECT idProveedor FROM proveedor WHERE idProveedor = ? AND nombreProveedor != ?";
@@ -61,9 +62,9 @@ if (isset($_POST['guardar'])) {
     }
 
     // Si el número de identificación no está repetido, guardar los cambios del proveedor
-    $query = "UPDATE proveedor SET idProveedor=?, nombreProveedor=?, apellidoProveedor=?, telefonoProveedor=?, direccionProveedor=? WHERE idProveedor=?";
+    $query = "UPDATE proveedor SET nombreProveedor=?, apellidoProveedor=?, telefonoProveedor=?, direccionProveedor=?, correoProveedor=? WHERE idProveedor=?";
     $stmtUpdate = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmtUpdate, "ssssss", $idProveedor, $nombreProveedor, $apellidoProveedor, $telefonoProveedor, $direccionProveedor, $idProveedor);
+    mysqli_stmt_bind_param($stmtUpdate, "sssssi", $nombreProveedor, $apellidoProveedor, $telefonoProveedor, $direccionProveedor, $correoProveedor, $idProveedor);
     mysqli_stmt_execute($stmtUpdate);
 
     // Redirigir al usuario a la página de gestionarProveedor
@@ -97,8 +98,6 @@ if (isset($_POST['editar'])) {
 <h4 id="titulo-tabla">Editar proveedor</h4>
 <form action="../compartido/editarProveedor.php" method="POST">
     <input type="hidden" name="id" value="<?php echo $idProveedor; ?>">
-    <label for="identificacion">Identificación:</label>
-    <input type="text" name="idProveedor" value="<?php echo $idProveedor; ?>"><br>
     <label for="nombre">Nombre:</label>
     <input type="text" name="nombreProveedor" value="<?php echo $nombreProveedor; ?>"><br>
     <label for="apellido">Apellido:</label>
@@ -107,6 +106,8 @@ if (isset($_POST['editar'])) {
     <input type="text" name="telefonoProveedor" value="<?php echo $telefonoProveedor; ?>"><br>
     <label for="direccion">Dirección:</label>
     <input type="text" name="direccionProveedor" value="<?php echo $direccionProveedor; ?>"><br>
+    <label for="direccion">Correo:</label>
+    <input type="text" name="correoProveedor" value="<?php echo $correoProveedor; ?>"><br>
     <button type="submit" name="guardar">Guardar Cambios</button>
 </form>
 <?php include "../compartido/footer.php"; ?>

@@ -41,20 +41,6 @@ nav.navbar {
     border-right: none;
 }
 
-a.CatalogoTodo,
-a.Pintura,
-a.Electricas,
-a.Herramientas_Manuales,
-a.Accesorios {
-    font-size: 20px;
-    color: whitesmoke;
-    text-decoration: none;
-    padding: 5px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    border-right: solid yellow;
-}
-
 a:hover {
     color: yellow;
 }
@@ -90,17 +76,20 @@ a.btn-login {
 button.btn-login:hover {
     background-color: yellow;
 }
-/* Cuerpo*/
-#contenido{
+
+/* Cuerpo */
+#contenido {
     display: flex;
     background-color: aliceblue;
 }
-.inventario{
+
+.inventario {
     width: 100%;
-    max-height: 400px; 
-    overflow:auto;
+    max-height: 400px;
+    overflow: auto;
     align-content: center;
 }
+
 #formulario-venta {
     width: 100%;
     padding-bottom: 15px;
@@ -110,22 +99,25 @@ button.btn-login:hover {
     font-size: 15px;
     color: rgb(6, 72, 6);
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
+
 }
 
 #contenidoUno {
     margin: 10px;
+    display: flex;
+    justify-content: space-between;
 }
-
 
 .input-izquierda,
 .input-derecha {
     display: grid;
     grid-template-rows: auto auto;
     gap: 5px;
-    justify-content:flex-end;
+    justify-content: flex-end;
 }
+
 #tabla {
     width: 100%;
     height: 100%;
@@ -133,11 +125,10 @@ button.btn-login:hover {
     justify-content: center;
     overflow: auto;
     padding-bottom: 0px;
-    
 }
 
 table {
-    border:solid rgb(23, 146, 23) 0.5px;
+    border: solid rgb(23, 146, 23) 0.5px;
     border-collapse: collapse;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 14px;
@@ -154,27 +145,31 @@ table {
     border-bottom: solid #333 1px;
     color: #eae7e7;
 }
-tr{
+
+tr {
     padding-right: 2px;
     padding-bottom: 2px;
-    color:rgb(4, 66, 4);
+    color: rgb(4, 66, 4);
     padding-left: 2px;
 }
-td{
+
+td {
     max-height: 15px;
     min-width: 35px;
     padding-right: 15px;
     padding-left: 3px;
     text-align: center;
 }
-tr:nth-child(even){
-    background-color:rgb(208, 243, 208);
+
+tr:nth-child(even) {
+    background-color: rgb(208, 243, 208);
 }
+
 tr:hover td {
     background-color: rgb(158, 219, 158);
 }
 
-#titulo-tabla{
+#titulo-tabla {
     font-size: 25px;
     margin-top: 5px;
     padding: 0;
@@ -183,58 +178,65 @@ tr:hover td {
     justify-content: center;
 }
 
-button{
-    color:rgb(6, 64, 6);
+button {
+    color: rgb(6, 64, 6);
     background-color: transparent;
     border: none;
-    margin-left:5px;
-    margin-right:5px;
+    margin-left: 5px;
+    margin-right: 5px;
     cursor: pointer;
 }
-button:hover{
-    color:rgb(16, 161, 219);
+
+button:hover {
+    color: rgb(16, 161, 219);
 }
-#vacio{
-    background-color:rgb(208, 243, 208);
+
+#vacio {
+    background-color: rgb(208, 243, 208);
 }
-#conten-botones{
+
+#conten-botones {
     align-self: auto;
-    background-color:aliceblue;
+    background-color: aliceblue;
     width: 100%;
     height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 #btn-venta {
-    background-color:rgb(71, 71, 172);
+    background-color: rgb(71, 71, 172);
     height: 50px;
     padding: 5px;
-    color:whitesmoke;
+    color: whitesmoke;
     border-radius: 5px;
     border: solid #333 1px;
-    transition: transform 0.3s; /* Agregamos una transición para el cambio de tamaño */
+    transition: transform 0.3s;
 }
 
 #btn-venta:hover {
-    background-color:rgb(57, 57, 191);
+    background-color: rgb(57, 57, 191);
     height: 50px;
-    transform: scale(1.1); /* Aumentamos el tamaño al pasar el puntero por encima */
+    transform: scale(1.1);
 }
-/* Estilos menu lateral*/
-h3{
+
+/* Estilos menu lateral */
+h3 {
     color: #fff;
 }
-select option{
-    background-color:#ed1c23;
+
+select option {
+    background-color: #ed1c23;
     color: #fff;
 }
-#selec-admin{
+
+#selec-admin {
     border: none;
     outline: none;
     color: #fff;
-    background-color:transparent;
-    width:95%;
+    background-color: transparent;
+    width: 95%;
     display: flex;
     justify-content: center;
     text-align: center;
@@ -243,8 +245,9 @@ select option{
     min-width: 85px;
     cursor: pointer;
 }
-#foto{
-    background-color:rgb(161, 166, 172);
+
+#foto {
+    background-color: rgb(161, 166, 172);
     width: 150px;
     height: 150px;
     display: flex;
@@ -252,17 +255,18 @@ select option{
     max-width: 130px;
     min-width: 80px;
     min-height: 80px;
-    border-style:groove;
-    border-color:solid whitesmoke;
+    border-style: groove;
+    border-color: solid whitesmoke;
     border-radius: 50%;
     margin-top: 10px;
     margin-bottom: 15px;
     overflow: hidden;
 }
-#menu-lateral{
-    background-color:#ed1c23;
+
+#menu-lateral {
+    background-color: #ed1c23;
     width: 20%;
-    max-width:300px;
+    max-width: 300px;
     min-width: 160px;
     display: flex;
     justify-content: center;
@@ -272,42 +276,42 @@ select option{
     padding-bottom: 200px;
     height: 100%;
 }
+
 /* Estilos para el footer */
 footer {
-    background-color:#333;
+    background-color: #333;
     padding: 20px;
     text-align: center;
     font-size: 14px;
     color: #fff;
-  }
-  
-  footer h4 {
+}
+
+footer h4 {
     margin-bottom: 10px;
-  }
-  
-  .enlaces ul {
+}
+
+.enlaces ul {
     list-style: none;
     padding: 0;
     margin: 0;
-  }
-  
-  .enlaces ul li {
+}
+
+.enlaces ul li {
     display: inline-block;
     margin-right: 10px;
-  }
-  
-  .enlaces ul li a {
+}
+
+.enlaces ul li a {
     text-decoration: none;
-    color:#fff;
-  }
-  
-  .sociales-link a {
-    color:#fff;
+    color: #fff;
+}
+
+.sociales-link a {
+    color: #fff;
     margin-right: 10px;
-  }
-  
-  .sociales-link p {
+}
+
+.sociales-link p {
     margin-top: 10px;
-    color:#fff;
-  }
-  
+    color: #fff;
+}

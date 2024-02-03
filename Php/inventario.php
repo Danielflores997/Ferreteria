@@ -138,7 +138,6 @@ if (!isset($_SESSION['correo'])) {
                 $descripcionProducto = $_POST['descripcion'];
                 $nombreCategoria = $_POST['categoria'];
 
-                // Aquí puedes agregar la lógica para guardar los cambios del producto
                 $query = "UPDATE productos SET codigoProducto='$codigoProducto', nombreProductos='$nombreProducto', valorProducto=$valorProducto, stockProducto=$stockProducto, descripcionProducto='$descripcionProducto', nombreCategoria='$nombreCategoria' WHERE idProducto=$idProducto";
 
                 $result = mysqli_query($conn, $query);
