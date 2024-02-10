@@ -36,6 +36,7 @@ if (!$usuario) {
     <link rel="stylesheet" type="text/css" href="../CSS/Perfil.css">
 </head>
 <body>
+    <div class="container-perfil">
     <div class="container">
         <h2>Perfil del Usuario</h1>
         <p><strong>Nombre:</strong> <?php echo $usuario['nombresUsuario'] . ' ' . $usuario['apellidosUsuario']; ?></p>
@@ -45,6 +46,7 @@ if (!$usuario) {
 
         <!-- Mostrar el estado del usuario -->
         <p><strong>Estado:</strong> <span id="estado"><?php echo $usuario['estadoUsuario']; ?></span></p>
+    </div>
     </div>
 </body>
 </html>

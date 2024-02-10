@@ -94,6 +94,7 @@ button.btn-login:hover {
     display: flex;
     justify-content: center;
     padding-bottom: 5px;
+    max-height: 25px;
 }
 /* Cuerpo*/
 #contenido{
@@ -103,19 +104,22 @@ button.btn-login:hover {
 .inventario {
     width: 100%;
     overflow: auto;
-    display: flex;
-    flex-direction: column; /* Apila elementos verticalmente */
-    align-items: center; /* Centra horizontalmente */
-    justify-content: center; /* Centra verticalmente */
-    margin-left: 50px;
-    padding: 50px;
+    padding: 25px;
+    display: grid;
+}
+
+.clientes-tabla {
+    width: 100%;
+    overflow: auto;
+    display: grid;
 }
 
 #clientes-tabla, #usuarios-tabla {
     width: 100%; /* O ajusta el ancho máximo según sea necesario */
-    max-height: 300px; /* Establece la altura máxima para cada tabla */
+    max-height: 550px; /* Establece la altura máxima para cada tabla */
     overflow: auto; /* Agrega desplazamiento si es necesario */
     margin-bottom: 20px; /* Espacio entre las tablas */
+    display: grid;
 }
 
 
@@ -205,6 +209,11 @@ tr:hover td {
     display: flex;
     justify-content: center;
 }
+#Proveedor-tabla{
+    width: 100%;
+    display: grid;
+}
+
 
 button{
     color:rgb(6, 64, 6);
@@ -223,6 +232,7 @@ button:hover{
 /* Estilos menu lateral*/
 h3{
     color: #fff;
+    text-align: center;
 }
 select option #selec-admin{
     background-color:transparent;

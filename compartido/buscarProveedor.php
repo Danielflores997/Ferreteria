@@ -10,7 +10,8 @@ if (isset($_POST['searchTerm'])) {
     $result = mysqli_query($conn, $query);
 
     if (!$result) {
-        echo "Error al obtener los proveedores: " . mysqli_error($conn);
+        echo '<div class ="mensajes-alertas">¡Error al obtener los proveedores.
+        <div class ="mensaje-boton"><a href="../Php/gestionarProveedores.php">Aceptar</a></div>'. mysqli_error($conn);
     } else {
         // Construir la tabla con los resultados de la búsqueda
         $table = '';

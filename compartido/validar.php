@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } elseif ($rol == 2) {
                 header('Location: ../Php/vistaAdmin.php');
             } else {
-                header('Location: ../Php/loginCliente.php');
+                header('Location: ../Php/comprasCliente.php');
             }
 
             // Iniciar sesión y guardar el correo en la variable de sesión

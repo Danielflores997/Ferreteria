@@ -1,5 +1,5 @@
 <?php
-require('fpdf.php'); // Asegúrate de usar la ruta correcta al archivo FPDF
+require('../Php/fdpdf/fpdf.php'); // Asegúrate de usar la ruta correcta al archivo FPDF
 
 class PDF extends FPDF
 {

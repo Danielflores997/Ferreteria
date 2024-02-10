@@ -3,9 +3,20 @@ $mysqli = new mysqli('localhost', 'root', '', 'ferreterianuevo');
 if ($mysqli->connect_error) {
     die('Error en la conexión: ' . $mysqli->connect_error);
 }
-echo "";
 
 if (isset($_POST['registro'])) {
+    // Verificar que todos los campos estén completos
+    if (empty($_POST['tipo_documento']) || empty($_POST['documento']) || empty($_POST['nombre']) || empty($_POST['apellido']) || empty($_POST['Correo']) || empty($_POST['Contraseña']) || empty($_POST['Confirmar'])) {
+        echo "Todos los campos son obligatorios. Por favor, completa todos los campos.";
+        exit();
+    }
+
+    // Verificar que el documento solo contenga números
+    if (!is_numeric($_POST['documento'])) {
+        echo '<div class ="mensajes-alertas"> El documento solo debe contener números.</div>';
+        exit();
+    }
+
     $tipoDocumento = $_POST['tipo_documento'];
     $documento = $_POST['documento'];
     $nombre = $_POST['nombre'];
@@ -15,7 +26,7 @@ if (isset($_POST['registro'])) {
     $confirmarContrasena = $_POST['Confirmar'];
 
     if ($contrasena !== $confirmarContrasena) {
-        echo "Las contraseñas no coinciden. Por favor, inténtalo nuevamente.";
+        echo '<div class ="mensajes-alertas"> Las contraseñas no coinciden. Por favor, inténtalo nuevamente.</div>';
         exit();
     }
 
@@ -24,22 +35,24 @@ if (isset($_POST['registro'])) {
     $resultadoDocumento = $mysqli->query($verificarDocumento);
 
     if ($resultadoDocumento->num_rows > 0) {
-        echo "El número de documento ya está registrado.";
+        echo '<div class ="mensajes-alertas">El número de documento ya esta registrado 
+                <div class ="mensaje-boton"><a href="../Php/index.php">Aceptar</a>
+                </div>
+            </div>';
         exit();
     }
-
-    // Aplicar el hash a la contraseña
-    $contrasenaHash = password_hash($contrasena, PASSWORD_DEFAULT);
 
     $sql = "INSERT INTO usuario (tipoDocumentoUsuario, documentoUsuario, nombresUsuario, apellidosUsuario, correo, claveUsuario)
             VALUES ('$tipoDocumento', '$documento', '$nombre', '$apellido', '$correo', '$contrasena')";
 
     if ($mysqli->query($sql)) {
-        echo 'Registro exitoso. ¡Bienvenido/a! <a href="../Php/index.php">Ferreteria Meisen</a>';
+        echo '<div class ="mensajes-alertas">¡Bienvenido! Registro exitoso.
+        <div class ="mensaje-boton"><a href="../Php/index.php">Aceptar</a></div>' . $mysqli->error;
     } else {
-        echo "Error al registrar el usuario: " . $mysqli->error;
+        echo '<div class ="mensajes-alertas"> Error al registrar el usuario:
+        <div class ="mensaje-boton"><a href="../Php/index.php">Aceptar</a>
+        </div>' . $mysqli->error;
     }
 }
 $mysqli->close();
 ?>
-

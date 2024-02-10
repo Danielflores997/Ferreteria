@@ -22,7 +22,8 @@ if (isset($_POST['searchTerm'])) {
     $result = mysqli_query($conn, $query);
 
     if (!$result) {
-        echo "Error al obtener los clientes: " . mysqli_error($conn);
+        echo '<div class ="mensajes-alertas">¡Error al obtener los clientes.
+        <div class ="mensaje-boton"><a href="../compartido/buscarCliente.php">Aceptar</a></div>'. mysqli_error($conn);
     } else {
         // Construir la tabla con los resultados de la búsqueda
         $table = '';

@@ -111,6 +111,7 @@ button.btn-login:hover {
     display: flex;
     justify-content: center;
     display:grid;
+    
 }
 
 #contenidoUno {
@@ -164,12 +165,11 @@ input#correoProveedor {
 
 #tabla {
     width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
+    display: grid;
     overflow: auto;
+    padding: 50px;
     padding-bottom: 0px;
-    
+
 }
 
 table {
@@ -178,8 +178,13 @@ table {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 14px;
     box-shadow: 5px 5px 10px rgba(4, 115, 25, 0.5);
-    margin-bottom: 20px;
-    max-height: 80%;
+    margin-bottom: 100px;
+    max-height: 600px;
+}
+#buscar{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 5px;
 }
 
 #celda-principal {
@@ -195,13 +200,13 @@ tr{
     padding-bottom: 2px;
     color:rgb(4, 66, 4);
     padding-left: 2px;
+    max-height: 12px;
 }
 td{
-    max-height: 15px;
-    min-width: 35px;
     padding-right: 15px;
     padding-left: 3px;
     text-align: center;
+    max-height: 12px;
 }
 tr:nth-child(even){
     background-color:rgb(208, 243, 208);
@@ -259,10 +264,11 @@ button:hover{
 /* Estilos menu lateral*/
 h3{
     color:#fff;
-    font-size:12px;
+    font-size:18px;
     width: 100%;
     display: flex;
     justify-content: center;
+    text-align: center;
 }
 select option #selec-admin{
     background-color:transparent;

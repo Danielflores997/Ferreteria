@@ -45,7 +45,7 @@ if (!isset($_SESSION['correo'])) {
                 <!-- Aquí puedes mostrar el correo del usuario -->
                 <?php
                     if (isset($_SESSION['correo'])) {
-                    echo "<h3>Bienvenido: " . $_SESSION['correo'] . "</h3>";
+                    echo "<h3>Bienvenido:<br>" . $_SESSION['correo'] . "</h3>";
                     }
                 ?>
             </div>
@@ -110,7 +110,7 @@ if (!isset($_SESSION['correo'])) {
     </table>
 </div>
 
-<div class="inventario">
+<div class="clientes-tabla">
     <h4 id="clientes-titulo-tabla">Clientes</h4>
     <div id="buscar">
     <button id="buscar-clientes"><i class="fa-solid fa-magnifying-glass"></i></button>

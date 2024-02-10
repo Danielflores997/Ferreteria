@@ -50,9 +50,11 @@ if (isset($_POST['guardar'])) {
                 mysqli_stmt_bind_param($stmtCliente, "ssssssss", $tipoDocumentoCliente, $documentoCliente, $nombresCliente, $apellidosCliente, $telefonoCliente, $direccionCliente, $passwordCliente, $estadoCliente);
 
                 if (mysqli_stmt_execute($stmtCliente)) {
-                    echo "Datos guardados exitosamente.";
+                    echo '<div class ="mensajes-alertas">¡Datos Guardados Exitosamente.
+        <div class ="mensaje-boton"><a href="../compartido/agregarVenta.php">Aceptar</a></div>';
                 } else {
-                    echo 'Error al agregar el cliente: ' . mysqli_error($conn);
+                    echo '<div class ="mensajes-alertas">¡Error al Agregar Cliente.
+        <div class ="mensaje-boton"><a href="../compartido/agregarVenta.php">Aceptar</a></div>'. mysqli_error($conn);
                 }
 
                 mysqli_stmt_close($stmtCliente);
@@ -60,7 +62,8 @@ if (isset($_POST['guardar'])) {
                 echo 'Campos del cliente vacíos: ' . implode(', ', $camposVaciosCliente);
             }
         } else {
-            echo 'Error al agregar el producto: ' . mysqli_error($conn);
+        echo '<div class ="mensajes-alertas">¡Error al Agregar Producto.
+        <div class ="mensaje-boton"><a href="../compartido/agregarVenta.php">Aceptar</a></div>'. mysqli_error($conn);
         }
 
         mysqli_stmt_close($stmtProducto);

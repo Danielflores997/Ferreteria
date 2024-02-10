@@ -58,81 +58,78 @@ if (!isset($_SESSION['correo'])) {
             <h4 id="titulo-tabla">Documento Venta</h4>  
             <div id="conten-venta">
                 <form id="formulario-venta" action="../compartido/agregarVenta.php" method="POST">
-            <div class="datos-proveedor">
-            <label for="documentoCliente">Tipo de Documento</label>
-                <select name="tipoDocumentoCliente" id="select-TipoDocumentoCliente">
-                    <option value="CC">CC</option>
-                    <option value="TI">TI</option>
-                    <option value="CE">CE</option>
-                </select>
+                    <div class="datos-proveedor">
+                        <label for="documentoCliente">Tipo de Documento</label>
+                        <select name="tipoDocumentoCliente" id="select-TipoDocumentoCliente">
+                            <option value="CC">CC</option>
+                            <option value="TI">TI</option>
+                            <option value="CE">CE</option>
+                        </select>
 
-                <input type="text" id="documentoCliente" placeholder="Documento Cliente" name="documentoCliente">
-                <input type="text" id="nombresCliente" placeholder="Nombres Cliente" name="nombresCliente">
-                <input type="text" id="apellidosCliente" placeholder="Apellidos Cliente" name="apellidosCliente">
-                <input type="text" id="telefonoCliente" placeholder="Telefono Cliente" name="telefonoCliente">
-                <input type="text" id="direccionCliente" placeholder="Direccion Cliente" name="direccionCliente">
-                <input type="password" id="passwordCliente" placeholder="Contraseña" name="passwordCliente">
-        <select name="estadoCliente" id="select-Estado">
-            <option value="Activo">Activo</option>
-            <option value="Inactivo">Inactivo</option>
-        </select>
-            </div>
-                <h4 id="titulo-tabla">Agregar Productos</h4>
+                        <input type="text" id="documentoCliente" placeholder="Documento Cliente" name="documentoCliente">
+                        <input type="text" id="nombresCliente" placeholder="Nombres Cliente" name="nombresCliente">
+                        <input type="text" id="apellidosCliente" placeholder="Apellidos Cliente" name="apellidosCliente">
+                        <input type="text" id="telefonoCliente" placeholder="Telefono Cliente" name="telefonoCliente">
+                        <input type="text" id="direccionCliente" placeholder="Direccion Cliente" name="direccionCliente">
+                        <input type="password" id="passwordCliente" placeholder="Contraseña" name="passwordCliente">
+                        <select name="estadoCliente" id="select-Estado">
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
+                    <h4 id="titulo-tabla">Agregar Productos</h4>
                     <div id="contenidoDos">
-                    <div id="contenidoUno">
-                        <div class="input-izquierda">
-                            <label for="codigo">Código</label>
-                            <input type="text" id="id" name="id" placeholder="Código">
+                        <div id="contenidoUno">
+                            <div class="input-izquierda">
+                                <label for="codigo">Código</label>
+                                <input type="text" id="id" name="id" placeholder="Código">
+                            </div>
+                            <div class="input-derecha">
+                                <label for="producto">Producto</label>
+                                <input type="text" id="producto" placeholder="Producto" name="producto">
+                            </div>
+                            <div class="input-derecha">
+                                <label for="descripcion">Descripción</label>
+                                <input type="text" id="descripcion" placeholder="Descripción" name="descripcion">
+                            </div>
+                            <div class="input-izquierda">
+                                <label for="Categoria">Categoria</label>
+                                <select name="categoria" id="select-Categoria">
+                                    <option selected="selected" value="1">Herramientas</option>
+                                    <option value="2">Pinturas</option>
+                                    <option value="3">Cementos</option>
+                                    <option value="4">Herramientas Electricas</option>
+                                    <option value="5">Carpinteria</option>
+                                    <option value="6">Tornilleria</option>
+                                    <option value="7">Plomeria</option>
+                                    <option value="8">Jardineria</option>
+                                    <option value="9">Accesorios</option>
+                                </select>
+                            </div>
+                            <div class="input-izquierda">
+                                <label for="descuento">Precio UNI</label>
+                                <input type="text" id="Precio" placeholder="Precio UNI" name="precio">
+                            </div>
+                            <div class="input-derecha">
+                                <label for="cantidad">Cantidad</label>
+                                <input type="text" id="cantidad" placeholder="Cantidad" name="cantidad">
+                            </div>
                         </div>
-                        <div class="input-derecha">
-                            <label for="producto">Producto</label>
-                            <input type="text" id="producto" placeholder="Producto" name="producto">
-                        </div>
-                        <div class="input-derecha">
-                            <label for="descripcion">Descripción</label>
-                            <input type="text" id="descripcion" placeholder="Descripción" name="descripcion">
-                        </div>
-                        <div class="input-izquierda">
-                            <label for="Categoria">Categoria</label>
-                            <select name="categoria" id="select-Categoria">
-                                <option selected="selected" value="1">Herramientas</option>
-                                <option value="2">Pinturas</option>
-                                <option value="3">Cementos</option>
-                                <option value="4">Herramientas Electricas</option>
-                                <option value="5">Carpinteria</option>
-                                <option value="6">Tornilleria</option>
-                                <option value="7">Plomeria</option>
-                                <option value="8">Jardineria</option>
-                                <option value="9">Accesorios</option>
-                            </select>
-                        </div>
-                        <div class="input-izquierda">
-                            <label for="descuento">Precio UNI</label>
-                            <input type="text" id="Precio" placeholder="Precio UNI" name="precio">
-                        </div>
-                        <div class="input-derecha">
-                            <label for="cantidad">Cantidad</label>
-                            <input type="text" id="cantidad" placeholder="Cantidad" name="cantidad">
+                        <div id="contenidoUno">
+                            <div class="input-derecha">
+                                <label for="imagen">Imagen</label>
+                                <input type="text" id="imagen" name="imagen" placeholder="Ruta Imagen">
+                            </div>
                         </div>
                     </div>
-                    <div id="contenidoUno">
-                        <div class="input-derecha">
-                            <label for="imagen">Imagen</label>
-                            <input type="text" id="imagen" name="imagen" placeholder="Ruta Imagen">
-                        </div>
+                    <div id="conten-botones">
+                        <button id="btn-venta" type="submit" name="guardar">
+                            <i class="fas fa-save"></i><i class="fas fa-arrow-circle-right"></i> Guardar
+                        </button>
+                        <button id="btn-generar-reporte" type="submit" formaction="generar_reporte_ventas.php" formtarget="_blank">
+                            Generar Reporte
+                        </button>
                     </div>
-                    </div>
-                <div id="conten-botones">
-                    <button id="btn-venta" type="submit" name="guardar">
-                        <i class="fas fa-save"></i><i class="fas fa-arrow-circle-right"></i> Guardar
-                    </button>
-                    <a href="../compartido/reportes.php" id="btn-excel" name="exportar_excel">
-                        <i class="fas fa-file-excel"></i> Exportar a Excel
-                    </a>
-                    <button id="btn-pdf" type="submit" name="exportar_pdf">
-                        <i class="fas fa-file-pdf"></i> Exportar a PDF
-                    </button>
-                </div>
                 </form>
             </div>
             <?php include "../compartido/generarVenta.php"; ?>

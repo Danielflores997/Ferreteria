@@ -46,6 +46,11 @@ if (isset($_POST['guardar'])) {
     ?>
 
     <h4 id="titulo-tabla">Ventas</h4>
+    <div id="buscar">
+    <button id="buscar-Proveedor"><i class="fa-solid fa-magnifying-glass"></i></button>
+    <input id="ip-buscar-Proveedor" type="text">
+</div>
+
     <div id="tabla">
         <table>
             <tr>
@@ -81,6 +86,7 @@ if (isset($_POST['guardar'])) {
                             <input type="hidden" name="id" value="<?php echo $row['idcodigo']; ?>">
                             <button type="submit" name="eliminar"><i class="fas fa-trash"></i></button>
                         </form>
+                        <a href="../Php/generar_pdf.php?id=<?php echo $row['idcodigo']; ?>" target="_blank">Descargar PDF</a>
                     </td>
                 </tr>
             <?php

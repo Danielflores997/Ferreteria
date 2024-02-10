@@ -61,7 +61,7 @@ if (!isset($_SESSION['correo'])) {
                 <!-- Aquí puedes mostrar el correo del usuario -->
                 <?php
                 if (isset($_SESSION['correo'])) {
-                    echo "<h3>Bienvenido: " . $_SESSION['correo'] . "</h3>";
+                    echo "<h3>Bienvenido: <br>" . $_SESSION['correo'] . "</h3>";
                 }
                 ?>
             </div>

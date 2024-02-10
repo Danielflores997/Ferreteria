@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<?php
+include '../compartido/conexion.php';
+
+
+// Resto del código...
+?>
+
 <?php
 session_start();
 
@@ -7,11 +16,6 @@ if (!isset($_SESSION['correo'])) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-    <?php
-        include '../compartido/conexion.php'; 
-    ?>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,6 +26,7 @@ if (!isset($_SESSION['correo'])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>Visualizar Catálogo</title>
 </head>
+
 <body>
     <div class="encabezado">
         <header>
@@ -63,49 +68,54 @@ if (!isset($_SESSION['correo'])) {
             <div class="nom-usuario">
                 <?php
                 if (isset($_SESSION['correo'])) {
-                    echo "<h3>Bienvenido: " . $_SESSION['correo'] . "</h3>";
+                    echo "<h3>Bienvenido:<br> " . $_SESSION['correo'] . "</h3>";
                 }
                 ?>
             </div>
             <?php include "../compartido/menuLateral.php"; ?>
         </div>
         <!-- peticiones -->
-<div>
-    <h2>Peticiones</h2>
-    <?php
-    // Consulta SQL para obtener los datos de la tabla "peticiones"
-    $sql = "SELECT * FROM peticiones";
-    $result = $conn->query($sql);
+        <div class="contenedor-tabla-peticiones">
+            <?php
+            // Consulta SQL para obtener los datos de la tabla "peticiones"
+            $sql = "SELECT * FROM peticiones";
+            $result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
-        echo "<table border='1'>
-        <tr>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Direccion</th>
-            <th>Telefono</th>
-            <th>Correo</th>
-            <th>Motivo</th>
-        </tr>";
+            if ($result->num_rows > 0) {
+                echo "<div class='contenedor-tabla-peticiones'>
+                <h2>Peticiones</h2>";
+                echo "<table border='1'>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Direccion</th>
+                    <th>Telefono</th>
+                    <th>Correo</th>
+                    <th>Motivo</th>
+                </tr>";
 
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr>";
-            echo "<td>" . $row['Nombre'] . "</td>";
-            echo "<td>" . $row['Apellido'] . "</td>";
-            echo "<td>" . $row['Direccion'] . "</td>";
-            echo "<td>" . $row['Telefono'] . "</td>";
-            echo "<td>" . $row['Correo'] . "</td>";
-            echo "<td>" . $row['Motivo'] . "</td>";
-            echo "</tr>";
-        }
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . $row['Nombre'] . "</td>";
+                    echo "<td>" . $row['Apellido'] . "</td>";
+                    echo "<td>" . $row['Direccion'] . "</td>";
+                    echo "<td>" . $row['Telefono'] . "</td>";
+                    echo "<td>" . $row['Correo'] . "</td>";
+                    echo "<td>" . $row['Motivo'] . "</td>";
+                    echo "</tr>";
+                }
 
-        echo "</table>";
-    } else {
-        echo "No se encontraron peticiones en la base de datos.";
-    }
-    ?>
-</div>
+                echo "</table>";
+                echo "</div>";
+            } else {
+                echo '<div class ="mensajes-alertas"> No se encontraron resultados.
+                    <div class ="mensaje-boton"><a href="../Php/index.php">Aceptar</a>
+                    </div>' . $mysqli->error;
+            }
+            ?>
+        </div>
     </div>
     <?php include "../compartido/footer.php"; ?>
 </body>
+
 </html>

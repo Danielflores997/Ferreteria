@@ -32,6 +32,7 @@ section h2 {
     background-position: center;
     filter:(0.9); /* Ajusta el valor de brillo aquí */
     color: #fff;
+    min-height: 600px;
   }
   #mision-vision{
     display: flex;

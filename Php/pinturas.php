@@ -41,7 +41,9 @@
                         <?php                            
                     }
                 } else {
-                    echo "No se encontraron resultados.";
+                    echo '<div class ="mensajes-alertas"> No se encontraron resultados.
+                    <div class ="mensaje-boton"><a href="../Php/index.php">Aceptar</a>
+                    </div>' . $mysqli->error;
                 }
                 ?>
         <div class="icono-carrito">
