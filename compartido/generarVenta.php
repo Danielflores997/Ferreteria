@@ -46,11 +46,11 @@ if (isset($_POST['guardar'])) {
     ?>
 
     <h4 id="titulo-tabla">Ventas</h4>
-    <div id="buscar">
-    <button id="buscar-Proveedor"><i class="fa-solid fa-magnifying-glass"></i></button>
-    <input id="ip-buscar-Proveedor" type="text">
-</div>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <div id="buscar">
+            <button id="buscar-venta"><i class="fas fa-search"></i></button>
+            <input id="ip-buscar-venta" type="text">
+        </div>
     <div id="tabla">
         <table>
             <tr>
@@ -94,13 +94,31 @@ if (isset($_POST['guardar'])) {
             ?>
         </table>
     </div>
-
     <script>
         function confirmarEliminacion() {
             return confirm("¿Estás seguro de que deseas eliminar este producto?");
         }
     </script>
+    <script>
+    $(document).ready(function() {
+        // Agregar el evento de clic al botón de búsqueda de ventas
+        $("#buscar-venta").click(function() {
+            // Obtener el valor del campo de búsqueda de ventas
+            var searchTerm = $("#ip-buscar-venta").val();
 
+            // Realizar la petición AJAX al servidor para buscar ventas
+            $.ajax({
+                url: "../compartido/buscarVenta.php",
+                method: "POST",
+                data: { searchTerm: searchTerm },
+                success: function(response) {
+                    // Actualizar la tabla de ventas con los resultados de la búsqueda
+                    $("#tabla table").html(response);
+                }
+            });
+        });
+    });
+</script>
 <?php
 }
 ?>
