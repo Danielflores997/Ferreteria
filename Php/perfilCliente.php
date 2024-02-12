@@ -15,11 +15,11 @@ if (!isset($_SESSION['correo'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil</title>
 </head>
-<body>  
+<body>
     <header>
         <div class="titulo">
             <h1>FERRETERIA MEISSEN</h1>
-        </div>    
+        </div>
         <div class="logo">
             <img src="../imagenes/ferreteria.jpeg" alt="logo ferreteria">
         </div>
@@ -41,6 +41,7 @@ if (!isset($_SESSION['correo'])) {
         </div>
     </nav>
 
+    
     <div class="contenedor-elementos">
         <div class="menu-cliente">
         <select id="select-menu-cliente" onchange="location.href=this.value;">
@@ -51,35 +52,13 @@ if (!isset($_SESSION['correo'])) {
         </div>
         <div class="seccion-compras">
             <br>
-            <h3>Mis Compras</h3>
             <div class="tabla">
-                <table>
-                    <tr>
-                        <th class="celda-principal">Fecha</th>
-                        <th class="celda-principal">Producto</th>
-                        <th class="celda-principal">Precio</th>
-                        <th class="celda-principal">Cantidad</th>
-                        <th class="celda-principal">Descripción</th>
-                        <th class="celda-principal">Total</th>
-                    </tr>
-                    <tr>
-                        <td>25/07/2014</td>
-                        <td>Martillo</td>
-                        <td>10000</td>
-                        <td>12</td>
-                        <td>Martillo para carpinteria</td>
-                        <td>120000</td>
-                    </tr>
-                    <!-- Otras filas de la tabla aquí -->
-                </table>
+            <?php include "../compartido/perfil.php"; ?>
             </div>
         </div>
     </div>
 
-    <?php
-        include "../compartido/footer.php"
-    ?>
-    
+    <?php include "../compartido/footer.php"; ?>
 
 </body>
 </html>

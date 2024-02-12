@@ -24,7 +24,7 @@ if (!isset($_SESSION['correo'])) {
         <header>
             <div class="titulo">
                 <h1>FERRETERIA MEISSEN</h1>
-            </div>    
+            </div>
             <div class="logo">
                 <img src="../imagenes/ferreteria.jpeg" alt="logo ferreteria">
             </div>
@@ -55,7 +55,7 @@ if (!isset($_SESSION['correo'])) {
                 ?>
             </h3>
             <div id="foto">
-                <img src="../imagenes/administrador ferreteria.jpg" alt="">    
+                <img src="../imagenes/administrador ferreteria.jpg" alt="">
             </div>
             <div class="nom-usuario">
                 <!-- Aquí puedes mostrar el correo del usuario -->
@@ -69,7 +69,7 @@ if (!isset($_SESSION['correo'])) {
         </div>
         <!-- Datos del usuario -->
         <div>
-            <?php include "../compartido/perfil.php"; ?> 
+            <?php include "../compartido/perfil.php"; ?>
         </div>
     </div>
     <?php include "../compartido/footer.php"; ?>

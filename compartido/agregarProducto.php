@@ -1,52 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../CSS/mensajes.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actualizar</title>
+    <link rel="stylesheet" href="../CSS/mensajes.css">
+    <title>mensaje</title>
 </head>
 <body>
     
+
 <?php
 include "conexion.php";
 
 if (isset($_POST['guardar'])) {
-    // Validar y convertir idProveedor a entero
-    $idProveedor = isset($_POST['idProveedor']) ? intval($_POST['idProveedor']) : 0;
 
-    // Verificar si idProveedor es un número entero positivo
-    if ($idProveedor > 0 && is_numeric($_POST['idProveedor'])) {
-        // Datos del proveedor
-        $nombreProveedor = $_POST['nombreProveedor'];
-        $apellidoProveedor = $_POST['apellidoProveedor'];
-        $telefonoProveedor = $_POST['telefonoProveedor'];
-        $direccionProveedor = $_POST['direccionProveedor'];
-        $correoProveedor = $_POST['correoProveedor'];
+    // Datos del proveedor
+    $nombreProveedor = $_POST['nombreProveedor'];
+    $apellidoProveedor = $_POST['apellidoProveedor'];
+    $idProveedor = $_POST['idProveedor'];
+    $telefonoProveedor = $_POST['telefonoProveedor'];
+    $direccionProveedor = $_POST['direccionProveedor'];
+    $correoProveedor = $_POST['correoProveedor'];
 
-        // Insertar datos del proveedor
-        $sqlProveedor = "INSERT INTO proveedor (nombreProveedor, apellidoProveedor, idProveedor, telefonoProveedor, direccionProveedor, correoProveedor) VALUES (?, ?, ?, ?, ?, ?)";
-        $stmtProveedor = mysqli_prepare($conn, $sqlProveedor);
-        mysqli_stmt_bind_param($stmtProveedor, "ssssss", $nombreProveedor, $apellidoProveedor, $idProveedor, $telefonoProveedor, $direccionProveedor, $correoProveedor);
+    // Verificar si el ID del proveedor ya está en uso
+$sqlVerificarID = "SELECT idProveedor FROM proveedor WHERE idProveedor = ?";
+$stmtVerificarID = mysqli_prepare($conn, $sqlVerificarID);
+mysqli_stmt_bind_param($stmtVerificarID, "s", $idProveedor);
+mysqli_stmt_execute($stmtVerificarID);
+mysqli_stmt_store_result($stmtVerificarID);
 
-        if (!mysqli_stmt_execute($stmtProveedor)) {
+if (mysqli_stmt_num_rows($stmtVerificarID) > 0) {
+    echo '<div class ="mensajes-alertas">El ID del proveedor ya está en uso.
+    <div class ="mensaje-boton"><a href="../Php/inventario.php">Aceptar</a>
+    </div>
+</div>';
+} else {
+    // Insertar datos del proveedor
+    $sqlProveedor = "INSERT INTO proveedor (nombreProveedor, apellidoProveedor, idProveedor, telefonoProveedor, direccionProveedor, correoProveedor) VALUES (?, ?, ?, ?, ?, ?)";
+    $stmtProveedor = mysqli_prepare($conn, $sqlProveedor);
+    mysqli_stmt_bind_param($stmtProveedor, "ssssss", $nombreProveedor, $apellidoProveedor, $idProveedor, $telefonoProveedor, $direccionProveedor, $correoProveedor);
+
+    if (!mysqli_stmt_execute($stmtProveedor)) {
+        $error = true;
+        echo 'Error al agregar el proveedor:' . mysqli_error($conn);
+    } else {
+        echo "Proveedor agregado correctamente.";
+    }
+}
+
+    // Datos del producto
+    $codigo = $_POST['codigo'];
+    $producto = $_POST['producto'];
+    $precio = $_POST['precio'];
+    $cantidad = $_POST['cantidad'];
+    $descripcion = $_POST['descripcion'];
+    $categoria = $_POST['categoria'];
+    $imagen_url = $_POST['imagen'];
+
+    // Realizar la inserción en la base de datos
+    $sql = "INSERT INTO productos (codigoProducto, nombreProductos, valorProducto, stockProducto, descripcionProducto, nombreCategoria, imagen) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "ssddsss", $codigo, $producto, $precio, $cantidad, $descripcion, $categoria, $imagen_url);
+
+    if (mysqli_stmt_execute($stmt)) {
+        echo '<div class ="mensajes-alertas">Nuevo producto agregado correctamente
+        <div class ="mensaje-boton"><a href="../Php/inventario.php">Aceptar</a>
+        </div>
+    </div>';
+    } else {
+        $error = true;
+        echo '<div class ="mensajes-alertas">Error al agregar el producto
+        <div class ="mensaje-boton"><a href="../Php/inventario.php">Aceptar</a>
+        </div>
+    </div>'. mysqli_error($conn);
+    }
+
+    // Actualizar el inventario
+    if (isset($_POST['actualizar'])) {
+        $producto = $_POST['producto'];
+        $cantidad = $_POST['cantidad'];
+
+        // Realizar la actualización del inventario
+        $sql = "UPDATE productos SET stockProducto = stockProducto + $cantidad WHERE nombreProductos = '$producto'";
+        if (mysqli_query($conn, $sql)) {
+            echo '<div class ="mensajes-alertas">Inventario actualizado correctamente
+            <div class ="mensaje-boton"><a href="../Php/inventario.php">Aceptar</a>
+            </div>
+        </div>';
+        } else {
             $error = true;
-            echo '<div class ="mensajes-alertas">¡Error al agregar el proveedor.
-            <div class ="mensaje-boton"><a href="../Php/inventario.php">Aceptar</a></div>' . mysqli_error($conn);
+            echo '<div class ="mensajes-alertas">Error al actualizar el inventario:
+            <div class ="mensaje-boton"><a href="../Php/inventario.php">Aceptar</a>
+            </div>
+        </div>'. mysqli_error($conn);
         }
 
-        // Resto del código...
+        // Obtener los datos actualizados del inventario
+        $sql = "SELECT nombreProductos, stockProducto FROM productos";
+        $result = mysqli_query($conn, $sql);
 
-        // Cerrar las declaraciones preparadas
-        mysqli_stmt_close($stmtProveedor);
-        mysqli_stmt_close($stmt);
-
-        // Cerrar la conexión
-        mysqli_close($conn);
-    } else {
-        echo '<div class ="mensajes-alertas">¡Error: El dato que ingresaste en la casilla ID Proveedor no es Valido.
-        <div class ="mensaje-boton"><a href="../Php/inventario.php">Aceptar</a></div>';
+        if (mysqli_num_rows($result) > 0) {
+            echo "<h2>Inventario Actualizado</h2>";
+            echo "<table>";
+            echo "<tr><th>Producto</th><th>Cantidad</th></tr>";
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo "<tr><td>" . $row['nombreProductos'] . "</td><td>" . $row['stockProducto'] . "</td></tr>";
+            }
+            echo "</table>";
+        } else {
+            $error = true;
+            echo '<div class ="mensajes-alertas">No se encontraron registros en el inventario
+            <div class ="mensaje-boton"><a href="../Php/inventario.php">Aceptar</a>
+            </div>
+        </div>';
+            
+        }
     }
+
+    // Cerrar la conexión
+    mysqli_close($conn);
 }
 ?>
 </body>

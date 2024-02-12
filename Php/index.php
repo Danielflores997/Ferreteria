@@ -54,8 +54,8 @@
                                 data-precio="<?php echo $row["valorProducto"]; ?>">
                             Agregar al Carrito
                         </button>
-                    </div> 
-                    <?php                            
+                    </div>
+                    <?php
                 }
             } else {
                 echo "No se encontraron resultados.";

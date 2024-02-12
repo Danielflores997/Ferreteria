@@ -59,7 +59,6 @@ if (!isset($_SESSION['correo'])) {
             <div id="conten-venta">
                 <form id="formulario-venta" action="../compartido/agregarProducto.php" method="POST">
                     <div class="datos-proveedor">
-                        <!-- Añadí etiquetas label asociadas a los input para mejorar la accesibilidad -->
                         <label for="nombreProveedor">Nombre Proveedor</label>
                         <input type="text" id="nombreProveedor" name="nombreProveedor" placeholder="Nombre Proveedor" required>
 

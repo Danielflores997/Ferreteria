@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/mensajes.css">
+    <title>mensaje</title>
+</head>
+<body>
+    
 <?php
     include "conexion.php";
 
@@ -12,11 +22,14 @@
         $motivo = $_POST['motivo'];
 
         // Insertar datos en la base de datos
-        $sql = "INSERT INTO peticiones (Nombre, Apellido, Direccion, Telefono, Correo, Motivo) 
+        $sql = "INSERT INTO peticiones (Nombre, Apellido, Direccion, Telefono, Correo, Motivo)
                 VALUES ('$nombre', '$apellido', '$direccion', '$telefono', '$correo', '$motivo')";
 
         if ($conn->query($sql) === TRUE) {
-            echo 'Datos enviados correctamente. <a href="../Php/index.php">Inicio</a>';
+            echo '<div class ="mensajes-alertas">Datos enviados correctamente.
+            <div class ="mensaje-boton"><a href="../Php/pqrs.php">Aceptar</a>
+            </div>
+        </div>';
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
@@ -26,3 +39,5 @@
         echo "";
     }
 ?>
+</body>
+</html>
