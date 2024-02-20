@@ -54,8 +54,9 @@ if (isset($_POST['guardar'])) {
     <div id="tabla">
         <table>
             <tr>
-                <th id="celda-principal">ID Factura</th>
+                <th id="celda-principal">ID Venta</th>
                 <th id="celda-principal">Fecha</th>
+                <th id="celda-principal">ID producto</th>
                 <th id="celda-principal">Producto</th>
                 <th id="celda-principal">Descripción</th>
                 <th id="celda-principal">Cantidad</th>
@@ -70,8 +71,9 @@ if (isset($_POST['guardar'])) {
             while ($row = mysqli_fetch_assoc($result)) {
                 ?>
                 <tr>
-                    <td></td>
-                    <td></td>
+                    <td><?php echo $row['idVenta']; ?></td>
+                    <td><?php echo $row['fecha_venta']; ?></td>
+                    <td><?php echo $row['idcodigo']; ?></td>
                     <td><?php echo $row['producto']; ?></td>
                     <td><?php echo $row['descripcion']; ?></td>
                     <td><?php echo $row['cantidad']; ?></td>
@@ -87,14 +89,14 @@ if (isset($_POST['guardar'])) {
 
                     <td class="acciones">
                         <form action="../compartido/editarVenta.php" method="POST">
-                            <input type="hidden" name="id" value="<?php echo $row['idcodigo']; ?>">
+                            <input type="hidden" name="id" value="<?php echo $row['idVenta']; ?>">
                             <button type="submit" name="editar"><i class="fas fa-edit"></i></button>
                         </form>
                         <form action="../compartido/eliminarVenta.php" method="POST" onsubmit="return confirmarEliminacion();">
-                            <input type="hidden" name="id" value="<?php echo $row['idcodigo']; ?>">
+                            <input type="hidden" name="id" value="<?php echo $row['idVenta']; ?>">
                             <button type="submit" name="eliminar"><i class="fas fa-trash"></i></button>
                         </form>
-                        <a href="../Php/generar_pdf.php?id=<?php echo $row['idcodigo']; ?>" target="_blank">Descargar PDF</a>
+                        <a href="../Php/generar_pdf.php?id=<?php echo $row['idVenta']; ?>" target="_blank">Descargar PDF</a>
                     </td>
                 </tr>
             <?php

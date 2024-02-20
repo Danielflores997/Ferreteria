@@ -2,6 +2,7 @@
 // Incluir la conexión a la base de datos
 include "../compartido/conexion.php";
 
+// Establecer la codificación de caracteres a UTF-8
 mysqli_set_charset($conn, "utf8");
 
 // Definir el nombre del archivo de salida
@@ -21,22 +22,23 @@ fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
 $delimitador = ';';
 
 // Escribir los títulos de las columnas
-$header = array('ID', 'Producto', 'Precio Unitario', 'Cantidad', 'Descripcion', 'Categoria');
+$header = array('ID Venta', 'Fecha de Venta', 'ID producto', 'Producto', 'Descripción', 'Cantidad', 'Precio Unitario');
 fputcsv($output, $header, $delimitador);
 
 // Ejecutar la consulta
-$query = "SELECT * FROM ventas"; // Asegúrate de ajustar esto para que coincida con tu esquema de base de datos real
+$query = "SELECT * FROM ventas";
 $result = mysqli_query($conn, $query);
 
 // Iterar sobre los resultados de la consulta y escribir en el archivo CSV
 while ($row = mysqli_fetch_assoc($result)) {
     $fila = array(
-        $row['idcodigo'], // Asegúrate de que los nombres de las columnas coincidan con tu base de datos
+        $row['idVenta'], // Asegúrate de que los nombres de las columnas coincidan con tu base de datos
+        $row['fecha_venta'],
+        $row['idcodigo'],
         $row['producto'],
-        $row['precio_unitario'], // Aquí se asume que el precio unitario ya está en el formato correcto
-        $row['cantidad'],
         $row['descripcion'],
-        $row['Categoria'],
+        $row['cantidad'],
+        $row['precio_unitario'],
     );
     fputcsv($output, $fila, $delimitador);
 }

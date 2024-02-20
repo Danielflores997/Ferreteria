@@ -33,7 +33,7 @@ include "../compartido/conexion.php"; // Asegúrate de que este es el camino cor
 
 $idventa = isset($_GET['id']) ? $_GET['id'] : die('ERROR: ID de venta no proporcionado.');
 
-$sql = "SELECT * FROM ventas WHERE idcodigo = ?";
+$sql = "SELECT * FROM ventas WHERE idVenta = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $idventa);
 $stmt->execute();
@@ -48,6 +48,8 @@ if ($result->num_rows > 0) {
     $pdf->SetFont('Arial', '', 12);
 
     // Ahora incluiremos más campos en el PDF
+    $pdf->Cell(0, 10, 'ID Venta: ' . $row['idVenta'], 0, 1);
+    $pdf->Cell(0, 10, 'Fecha de Venta: ' . $row['fecha_venta'], 0, 1);
     $pdf->Cell(0, 10, 'ID Producto: ' . $row['idcodigo'], 0, 1);
     $pdf->Cell(0, 10, 'Producto: ' . $row['producto'], 0, 1);
     $pdf->Cell(0, 10, 'Precio Unitario: $' . $row['precio_unitario'], 0, 1);

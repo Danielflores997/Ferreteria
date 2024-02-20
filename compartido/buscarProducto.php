@@ -64,3 +64,4 @@ if (isset($_POST['searchTerm'])) {
         return confirm("¿Estás seguro de que deseas eliminar este producto?");
     }
 </script>
+

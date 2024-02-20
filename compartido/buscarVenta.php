@@ -4,8 +4,8 @@ include "conexion.php";
 if (isset($_POST['searchTerm'])) {
     $searchTerm = $_POST['searchTerm'];
 
-    $query = "SELECT * FROM ventas WHERE idcodigo LIKE '%$searchTerm%' OR producto LIKE '%$searchTerm%' OR
-    precio_unitario LIKE '%$searchTerm%' OR cantidad LIKE '%$searchTerm%' OR Categoria LIKE '%$searchTerm%'";
+    $query = "SELECT * FROM ventas WHERE idVenta LIKE '%$searchTerm%' OR idcodigo LIKE '%$searchTerm%' OR producto LIKE '%$searchTerm%' OR
+    precio_unitario LIKE '%$searchTerm%' OR cantidad LIKE '%$searchTerm%' OR Categoria LIKE '%$searchTerm%' OR fecha_venta LIKE '%$searchTerm%'";
     
     $result = mysqli_query($conn, $query);
 
@@ -22,6 +22,8 @@ if (isset($_POST['searchTerm'])) {
             // Imprimir encabezado solo si no se ha impreso antes
             if (!$encabezadoImpreso) {
                 $table .= '<tr>
+                    <th id="celda-principal">Id Venta</th>
+                    <th id="celda-principal">fecha</th>
                     <th id="celda-principal">Código</th>
                     <th id="celda-principal">Producto</th>
                     <th id="celda-principal">Precio</th>
@@ -36,6 +38,8 @@ if (isset($_POST['searchTerm'])) {
 
             $idcodigo = $row['idcodigo'];
             $table .= '<tr>
+                <td>' . $row['idVenta'] . '</td>
+                <td>' . $row['fecha_venta'] . '</td>
                 <td>' . $row['idcodigo'] . '</td>
                 <td>' . $row['producto'] . '</td>
                 <td>' . $row['precio_unitario'] . '</td>

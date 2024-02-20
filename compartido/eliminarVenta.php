@@ -9,7 +9,7 @@ if (isset($_POST['eliminar'])) {
 
     mysqli_query($conexion, "SET FOREIGN_KEY_CHECKS = 0");
 
-    $consulta = "DELETE FROM ventas WHERE idcodigo = ?";
+    $consulta = "DELETE FROM ventas WHERE idVenta = ?";
     $stmt = mysqli_prepare($conexion, $consulta);
     mysqli_stmt_bind_param($stmt, "i", $id);
     mysqli_stmt_execute($stmt);

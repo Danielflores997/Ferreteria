@@ -71,7 +71,6 @@ if (!isset($_SESSION['correo'])) {
                         <input type="text" id="apellidosCliente" placeholder="Apellidos Cliente" name="apellidosCliente">
                         <input type="text" id="telefonoCliente" placeholder="Telefono Cliente" name="telefonoCliente">
                         <input type="text" id="direccionCliente" placeholder="Direccion Cliente" name="direccionCliente">
-                        <input type="password" id="passwordCliente" placeholder="Contraseña" name="passwordCliente">
                         <select name="estadoCliente" id="select-Estado">
                             <option value="Activo">Activo</option>
                             <option value="Inactivo">Inactivo</option>
@@ -113,12 +112,6 @@ if (!isset($_SESSION['correo'])) {
                             <div class="input-derecha">
                                 <label for="cantidad">Cantidad</label>
                                 <input type="text" id="cantidad" placeholder="Cantidad" name="cantidad">
-                            </div>
-                        </div>
-                        <div id="contenidoUno">
-                            <div class="input-derecha">
-                                <label for="imagen">Imagen</label>
-                                <input type="text" id="imagen" name="imagen" placeholder="Ruta Imagen">
                             </div>
                         </div>
                     </div>

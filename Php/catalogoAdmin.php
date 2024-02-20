@@ -84,6 +84,7 @@ if (!isset($_SESSION['correo'])) {
                             <div class="item">
                                 <span class="titulo-item"><?php echo $row["nombreProductos"]; ?> </span>
                                 <img class="img-catalogo" src="<?php echo $row["imagen"]; ?>">
+                                <span class="titulo-item"><?php echo $row["descripcionProducto"]; ?> </span>
                                 <span class="precio-item">$ <?php echo number_format($row["valorProducto"], 0, ',', '.'); ?></span>
                             </div>
                             <?php

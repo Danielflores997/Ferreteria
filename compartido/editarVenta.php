@@ -54,32 +54,40 @@ if (!isset($_SESSION['correo'])) {
     }
 
     if (isset($_POST['guardar'])) {
-        $idcodigo = $_POST['id'];
+        $idVenta = $_POST['id'];
         $producto = $_POST['producto'];
         $precio_unitario = $_POST['precio'];
         $cantidad = $_POST['cantidad'];
         $descripcion = $_POST['descripcion'];
         $categoria = $_POST['categoria'];
-
-        $query = "UPDATE ventas SET producto='$producto', precio_unitario='$precio_unitario', cantidad='$cantidad', descripcion='$descripcion', Categoria='$categoria' WHERE idcodigo=$idcodigo";
+        $codigoProducto = $_POST['codigoProducto'];
+    
+        // Actualizar venta en la base de datos
+        $query = "UPDATE ventas SET producto='$producto', precio_unitario='$precio_unitario', cantidad='$cantidad', descripcion='$descripcion', Categoria='$categoria' WHERE idVenta=$idVenta";
         $result = mysqli_query($conn, $query);
         if (!$result) {
             echo "Error al guardar los cambios del producto: " . mysqli_error($conn);
         } else {
-            header("Location: ../Php/ventas.php");
-            exit();
+            // Actualizar el stock del producto en la tabla de productos
+            $queryUpdateStock = "UPDATE productos SET stockProducto = stockProducto - $cantidad WHERE codigoProducto = '$codigoProducto'";
+            $resultUpdateStock = mysqli_query($conn, $queryUpdateStock);
+            if (!$resultUpdateStock) {
+                echo "Error al actualizar el stock del producto: " . mysqli_error($conn);
+            } else {
+                header("Location: ../Php/ventas.php");
+                exit();
+            }
         }
-    }
+    }    
 
     if (isset($_POST['editar'])) {
-        $idcodigo = $_POST['id'];
+        $idVenta = $_POST['id'];
 
-
-        $query = "SELECT * FROM ventas WHERE idcodigo=$idcodigo";
+        $query = "SELECT * FROM ventas WHERE idVenta=$idVenta";
         $result = mysqli_query($conn, $query);
         $row = mysqli_fetch_assoc($result);
 
-        $idcodigo = $row['idcodigo'];
+        $idVenta = $row['idVenta'];
         $producto = $row['producto'];
         $precio_unitario = $row['precio_unitario'];
         $cantidad = $row['cantidad'];
@@ -92,7 +100,7 @@ if (!isset($_SESSION['correo'])) {
     <div class="contenedorfor">
         <form class="forEditar" action="" method="POST">
             <div>
-                <input type="hidden" type="text" id="codigo" name="id" value="<?php echo $idcodigo; ?>"><br>
+                <input type="hidden" name="id" value="<?php echo $idVenta; ?>"><br>
             </div>
             <div>
                 <label for="producto">producto:</label>
@@ -111,16 +119,12 @@ if (!isset($_SESSION['correo'])) {
                 <input type="text" id="descripcion" name="descripcion" value="<?php echo $descripcion; ?>"><br>
             </div>
             <div>
-            <label for="categoria">categoria:</label>
+                <label for="categoria">categoria:</label>
                 <select name="categoria">
                     <?php foreach ($categorias as $idCategoria => $nombreCategoria) { ?>
                         <option value="<?php echo $idCategoria; ?>" <?php if ($idCategoria == $categoria) echo "selected"; ?>><?php echo $nombreCategoria; ?></option>
                     <?php } ?>
                 </select><br>
-            </div>
-            <div>
-                <label for="imagen">Imagen:</label>
-                <input type="text" id="imagen" name="imagen" value="<?php echo $row['imagen']; ?>" placeholder="Nueva ruta de imagen">
             </div>
             <div>
                 <button type="submit" name="guardar">Guardar Cambios</button>
