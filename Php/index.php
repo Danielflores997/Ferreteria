@@ -47,6 +47,7 @@
                     <div class="item">
                         <span class="titulo-item"><?php echo $row["nombreProductos"]; ?> </span>
                         <img class="img-catalogo" src="<?php echo $row["imagen"]; ?>">
+                        <span class="titulo-item"><?php echo $row["descripcionProducto"]; ?> </span>
                         <span class="precio-item">$ <?php echo number_format($row["valorProducto"], 0, ',', '.'); ?></span>
                         <button class="boton-item"
                                 data-titulo="<?php echo $row["nombreProductos"]; ?>"
@@ -54,8 +55,8 @@
                                 data-precio="<?php echo $row["valorProducto"]; ?>">
                             Agregar al Carrito
                         </button>
-                    </div> 
-                    <?php                            
+                    </div>
+                    <?php
                 }
             } else {
                 echo "No se encontraron resultados.";

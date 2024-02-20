@@ -59,7 +59,6 @@ if (!isset($_SESSION['correo'])) {
             <div id="conten-venta">
                 <form id="formulario-venta" action="../compartido/agregarProducto.php" method="POST">
                     <div class="datos-proveedor">
-                        <!-- Añadí etiquetas label asociadas a los input para mejorar la accesibilidad -->
                         <label for="nombreProveedor">Nombre Proveedor</label>
                         <input type="text" id="nombreProveedor" name="nombreProveedor" placeholder="Nombre Proveedor" required>
 
@@ -130,12 +129,18 @@ if (!isset($_SESSION['correo'])) {
                         <button id="btn-generar" type="button" onclick="generarReporte()">
                             <i class="fas fa-file-alt"></i> Generar Reporte
                         </button>
+                        <button id="btn-generar" type="button" onclick="generarReporteCsv()">
+                            <i class="fas fa-file-alt"></i> Generar Reporte excel
+                        </button>
                     </div>
                 </form>
             </div>
     <script>
     function generarReporte() {
         window.location.href = "generar_reporte_inventario.php";
+    }
+    function generarReporteCsv() {
+        window.location.href = "generar_reporte_inventario_csv.php";
     }
     </script>
             <?php

@@ -92,6 +92,7 @@ if (!isset($_SESSION['correo'])) {
                     <th>Telefono</th>
                     <th>Correo</th>
                     <th>Motivo</th>
+                    <th>Estado</th>
                 </tr>";
 
                 while ($row = $result->fetch_assoc()) {
@@ -102,7 +103,12 @@ if (!isset($_SESSION['correo'])) {
                     echo "<td>" . $row['Telefono'] . "</td>";
                     echo "<td>" . $row['Correo'] . "</td>";
                     echo "<td>" . $row['Motivo'] . "</td>";
-                    echo "</tr>";
+                    echo "<td>Atendido
+                    <select name='estado[]'>
+                        <option value='No' ". ($row['Estado'] == 'No' ? 'selected' : '') .">No</option>
+                        <option value='Sí' ". ($row['Estado'] == 'Sí' ? 'selected' : '') .">Sí</option>
+                    </select>
+                </td>";
                 }
 
                 echo "</table>";

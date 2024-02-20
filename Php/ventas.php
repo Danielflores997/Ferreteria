@@ -127,7 +127,10 @@ if (!isset($_SESSION['correo'])) {
                             <i class="fas fa-save"></i><i class="fas fa-arrow-circle-right"></i> Guardar
                         </button>
                         <button id="btn-generar-reporte" type="submit" formaction="generar_reporte_ventas.php" formtarget="_blank">
-                            Generar Reporte
+                            Generar Reporte pdf
+                        </button>
+                        <button id="btn-generar-reporte-csv" type="submit" formaction="generar_reporte_ventas_csv.php" formtarget="_blank">
+                            Generar Reporte excel
                         </button>
                     </div>
                 </form>

@@ -47,36 +47,44 @@ if (isset($_POST['guardar'])) {
 
     <h4 id="titulo-tabla">Ventas</h4>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <div id="buscar">
-            <button id="buscar-venta"><i class="fas fa-search"></i></button>
-            <input id="ip-buscar-venta" type="text">
-        </div>
+    <div id="buscar">
+        <button id="buscar-venta"><i class="fas fa-search"></i></button>
+        <input id="ip-buscar-venta" type="text">
+    </div>
     <div id="tabla">
         <table>
             <tr>
-                <th id="celda-principal">id</th>
+                <th id="celda-principal">ID Factura</th>
+                <th id="celda-principal">Fecha</th>
                 <th id="celda-principal">Producto</th>
-                <th id="celda-principal">Precio</th>
-                <th id="celda-principal">Cantidad</th>
                 <th id="celda-principal">Descripción</th>
-                <th id="celda-principal">Categoría</th>
+                <th id="celda-principal">Cantidad</th>
+                <th id="celda-principal">Precio Unitario</th>
+                <th id="celda-principal">Totales</th>
                 <th id="celda-principal">Acciones</th>
             </tr>
 
             <?php
+            $totalVentas = 0; // Inicializar la variable para el total
+
             while ($row = mysqli_fetch_assoc($result)) {
-            ?>
+                ?>
                 <tr>
-                    <td><?php echo $row['idcodigo']; ?></td>
+                    <td></td>
+                    <td></td>
                     <td><?php echo $row['producto']; ?></td>
-                    <td><?php echo $row['precio_unitario']; ?></td>
-                    <td><?php echo $row['cantidad']; ?></td>
                     <td><?php echo $row['descripcion']; ?></td>
-                    <td>
-                        <?php foreach ($categorias as $idCategoria => $nombreCategoria) { ?>
-                            <?php if ($idCategoria == $row['Categoria']) echo $nombreCategoria ?>
-                        <?php } ?>
-                    </td>
+                    <td><?php echo $row['cantidad']; ?></td>
+                    <td><?php echo $row['precio_unitario']; ?></td>
+
+                    <?php
+                    // Calcular el total de la fila y acumularlo
+                    $totalFila = $row['cantidad'] * $row['precio_unitario'];
+                    $totalVentas += $totalFila;
+                    ?>
+
+                    <td><?php echo $totalFila; ?></td>
+
                     <td class="acciones">
                         <form action="../compartido/editarVenta.php" method="POST">
                             <input type="hidden" name="id" value="<?php echo $row['idcodigo']; ?>">
@@ -92,6 +100,13 @@ if (isset($_POST['guardar'])) {
             <?php
             }
             ?>
+
+            <!-- Imprimir una fila adicional para mostrar el total general -->
+            <tr>
+                <td colspan="6"></td>
+                <td>Total: <?php echo $totalVentas; ?></td>
+                <td></td>
+            </tr>
         </table>
     </div>
     <script>
@@ -100,25 +115,25 @@ if (isset($_POST['guardar'])) {
         }
     </script>
     <script>
-    $(document).ready(function() {
-        // Agregar el evento de clic al botón de búsqueda de ventas
-        $("#buscar-venta").click(function() {
-            // Obtener el valor del campo de búsqueda de ventas
-            var searchTerm = $("#ip-buscar-venta").val();
+        $(document).ready(function() {
+            // Agregar el evento de clic al botón de búsqueda de ventas
+            $("#buscar-venta").click(function() {
+                // Obtener el valor del campo de búsqueda de ventas
+                var searchTerm = $("#ip-buscar-venta").val();
 
-            // Realizar la petición AJAX al servidor para buscar ventas
-            $.ajax({
-                url: "../compartido/buscarVenta.php",
-                method: "POST",
-                data: { searchTerm: searchTerm },
-                success: function(response) {
-                    // Actualizar la tabla de ventas con los resultados de la búsqueda
-                    $("#tabla table").html(response);
-                }
+                // Realizar la petición AJAX al servidor para buscar ventas
+                $.ajax({
+                    url: "../compartido/buscarVenta.php",
+                    method: "POST",
+                    data: { searchTerm: searchTerm },
+                    success: function(response) {
+                        // Actualizar la tabla de ventas con los resultados de la búsqueda
+                        $("#tabla table").html(response);
+                    }
+                });
             });
         });
-    });
-</script>
-<?php
+    </script>
+    <?php
 }
 ?>

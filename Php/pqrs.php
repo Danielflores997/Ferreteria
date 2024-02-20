@@ -14,7 +14,6 @@
     <?php
     include '../compartido/menu.php';
     include '../compartido/conexion.php';
-    include '../compartido/peticiones.php';
     ?>
         <form method="post" action="../compartido/peticiones.php">
         <h2>Contactanos</h2>
