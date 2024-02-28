@@ -5,6 +5,22 @@ if (!isset($_SESSION['correo'])) {
     header('Location: index.php');
     exit();
 }
+
+include "../compartido/conexion.php";
+
+$correo = $_SESSION['correo'];
+
+$stmt = $conn->prepare("SELECT fotoPerfil FROM usuario WHERE correo = ?");
+$stmt->bind_param("s", $correo);
+$stmt->execute();
+$stmt->bind_result($fotoPerfil);
+$stmt->fetch();
+$stmt->close();
+$conn->close();
+
+if (!$fotoPerfil) {
+    $fotoPerfil = '../imagenes/default_avatar.jpg';
+}
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +59,7 @@ if (!isset($_SESSION['correo'])) {
         <div id="menu-lateral">
             <h3>Administrador</h3>
             <div id="foto">
-                <img src="../imagenes/administrador ferreteria.jpg" alt="">
+                <img src="<?php echo $fotoPerfil; ?>" alt="Foto de perfil">
             </div>
             <div class="nom-usuario">
                 <?php
@@ -80,6 +96,24 @@ if (!isset($_SESSION['correo'])) {
                     <h4 id="titulo-tabla">Agregar Productos</h4>
                     <div id="contenidoDos">
                         <div id="contenidoUno">
+                        <div class="input-izquierda">
+                        <label for="codigo">Ultimo Código</label>
+                            <?php
+                                include "../compartido/conexion.php";
+
+                                $queryUltimoCodigo = "SELECT MAX(codigoProducto) AS ultimoCodigo FROM productos";
+                                $resultUltimoCodigo = mysqli_query($conn, $queryUltimoCodigo);
+
+                                if (!$resultUltimoCodigo) {
+                                die("Error al obtener el último código del producto: " . mysqli_error($conn));
+                                }
+
+                                $rowUltimoCodigo = mysqli_fetch_assoc($resultUltimoCodigo);
+                                $ultimoCodigoProducto = $rowUltimoCodigo['ultimoCodigo'];
+
+                                echo '<input type="text" id="codigo" name="codigo"  required value="' . $ultimoCodigoProducto . '" readonly>';
+                                ?>
+                            </div>
                             <div class="input-izquierda">
                                 <label for="codigo">Código</label>
                                 <input type="text" id="codigo" name="codigo" placeholder="Código" required>

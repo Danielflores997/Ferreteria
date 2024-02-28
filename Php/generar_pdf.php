@@ -8,7 +8,7 @@ class PDF extends FPDF
     {
         // Logo
         $this->Image('../imagenes/logo.png',10,6,30); // Asume que tienes un logo en la misma carpeta, ajusta la ruta según sea necesario
-        $this->SetFont('Arial', 'B', 15);
+        $this->SetFont('Arial', 'B', 10);
         // Movernos a la derecha
         $this->Cell(80);
         // Título

@@ -16,7 +16,6 @@
     include "../compartido/menu.php";
     include "../compartido/conexion.php";
     ?>
-  
         <div class="slider">
             <ul>
                 <li>

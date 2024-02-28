@@ -1,21 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<?php
-include '../compartido/conexion.php';
-
-
-// Resto del código...
-?>
-
 <?php
 session_start();
 
 if (!isset($_SESSION['correo'])) {
-    header('Location: index.php'); // Redirigir si el usuario no ha iniciado sesión
+    header('Location: index.php');
     exit();
+}
+
+// Incluir el archivo de conexión a la base de datos
+include "../compartido/conexion.php";
+
+// Obtener el correo del usuario de la sesión
+$correo = $_SESSION['correo'];
+
+// Realizar la consulta para obtener la información del usuario, incluyendo la foto de perfil
+$stmt = $conn->prepare("SELECT fotoPerfil FROM usuario WHERE correo = ?");
+$stmt->bind_param("s", $correo);
+$stmt->execute();
+$stmt->bind_result($fotoPerfil);
+$stmt->fetch();
+$stmt->close();
+
+// Si no se encontró la foto de perfil, utilizar una por defecto
+if (!$fotoPerfil) {
+    $fotoPerfil = '../imagenes/default_avatar.jpg';
 }
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,7 +38,6 @@ if (!isset($_SESSION['correo'])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>Visualizar Catálogo</title>
 </head>
-
 <body>
     <div class="encabezado">
         <header>
@@ -63,7 +74,7 @@ if (!isset($_SESSION['correo'])) {
                 ?>
             </h3>
             <div id="foto">
-                <img src="../imagenes/administrador ferreteria.jpg" alt="">
+                <img src="<?php echo $fotoPerfil; ?>" alt="Foto de perfil">
             </div>
             <div class="nom-usuario">
                 <?php
@@ -123,5 +134,4 @@ if (!isset($_SESSION['correo'])) {
     </div>
     <?php include "../compartido/footer.php"; ?>
 </body>
-
 </html>

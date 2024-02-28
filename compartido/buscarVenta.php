@@ -48,14 +48,14 @@ if (isset($_POST['searchTerm'])) {
                 <td>' . $row['Categoria'] . '</td>
                 <td class="acciones">
                         <form action="../compartido/editarVenta.php" method="POST">
-                            <input type="hidden" name="id" value="' . $row['idcodigo'] . '">
+                            <input type="hidden" name="id" value="' . $row['idVenta'] . '">
                             <button type="submit" name="editar"><i class="fas fa-edit"></i></button>
                         </form>
                         <form action="../compartido/eliminarVenta.php" method="POST" onsubmit="return confirmarEliminacion();">
-                            <input type="hidden" name="id" value="' . $row['idcodigo'] . '">
+                            <input type="hidden" name="id" value="' . $row['idVenta'] . '">
                             <button type="submit" name="eliminar"><i class="fas fa-trash"></i></button>
                         </form>
-                        <a href="../Php/generar_pdf.php?id=' . $row['idcodigo'] . '" target="_blank">Descargar PDF</a>
+                        <a href="../Php/generar_pdf.php?id=' . $row['idVenta'] . '" target="_blank">Descargar PDF</a>
                     </td>
             </tr>';
         }

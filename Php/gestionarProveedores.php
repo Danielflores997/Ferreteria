@@ -5,6 +5,26 @@ if (!isset($_SESSION['correo'])) {
     header('Location: index.php');
     exit();
 }
+
+// Incluir el archivo de conexión a la base de datos
+include "../compartido/conexion.php";
+
+// Obtener el correo del usuario de la sesión
+$correo = $_SESSION['correo'];
+
+// Realizar la consulta para obtener la información del usuario, incluyendo la foto de perfil
+$stmt = $conn->prepare("SELECT fotoPerfil FROM usuario WHERE correo = ?");
+$stmt->bind_param("s", $correo);
+$stmt->execute();
+$stmt->bind_result($fotoPerfil);
+$stmt->fetch();
+$stmt->close();
+$conn->close();
+
+// Si no se encontró la foto de perfil, utilizar una por defecto
+if (!$fotoPerfil) {
+    $fotoPerfil = '../imagenes/default_avatar.jpg';
+}
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +59,7 @@ if (!isset($_SESSION['correo'])) {
         <div id="menu-lateral">
             <h3>Administrador</h3>
             <div id="foto">
-                <img src="../imagenes/administrador ferreteria.jpg" alt="">    
+                <img src="<?php echo $fotoPerfil; ?>" alt="Foto de perfil">
             </div>
             <div class="nom-usuario">
                 <!-- Aquí puedes mostrar el correo del usuario -->

@@ -7,7 +7,7 @@ class PDF extends FPDF
     function Header()
     {
         $this->Image('../imagenes/logo.png', 10, 6, 30);
-        $this->SetFont('Arial', 'B', 15, 'UTF-8'); // Configurar la codificación de caracteres
+        $this->SetFont('Arial', 'B', 10, 'UTF-8'); // Configurar la codificación de caracteres
         $this->Cell(80);
         $this->Cell(30, 10, 'Detalle de Venta', 0, 1, 'C');
         $this->Ln(20);
