@@ -83,7 +83,7 @@ if (!$fotoPerfil) {
                     }
                 ?>
             </div>
-            <?php include "../compartido/menuLateral.php"; ?>
+            <?php include "../compartido/menuLateralVendedor.php"; ?>
         </div>
 
         <div class="inventario">

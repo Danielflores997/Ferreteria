@@ -23,7 +23,7 @@ $conn->close();
 
 // Si no se encontró la foto de perfil, utilizar una por defecto
 if (!$fotoPerfil) {
-    $fotoPerfil = '../imagenes/default_avatar.jpg';
+    $fotoPerfil = '../imagenes/default_avatar.png';
 }
 ?>
 
@@ -34,7 +34,7 @@ if (!$fotoPerfil) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="../CSS/vistaCatalogo.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/vistaAdmin.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>Visualizar Catalogo</title>
@@ -92,5 +92,7 @@ if (!$fotoPerfil) {
             <?php include "../compartido/perfil.php"; ?>
         </div>
     </div>
+    <?php include "../compartido/footer.php"; ?>
+
 </body>
 </html>

@@ -2,8 +2,28 @@
 session_start();
 
 if (!isset($_SESSION['correo'])) {
-    header('Location: index.php'); // Redirigir si el usuario no ha iniciado sesión
+    header('Location: index.php');
     exit();
+}
+
+// Incluir el archivo de conexión a la base de datos
+include "../compartido/conexion.php";
+
+// Obtener el correo del usuario de la sesión
+$correo = $_SESSION['correo'];
+
+// Realizar la consulta para obtener la información del usuario, incluyendo la foto de perfil
+$stmt = $conn->prepare("SELECT fotoPerfil FROM usuario WHERE correo = ?");
+$stmt->bind_param("s", $correo);
+$stmt->execute();
+$stmt->bind_result($fotoPerfil);
+$stmt->fetch();
+$stmt->close();
+$conn->close();
+
+// Si no se encontró la foto de perfil, utilizar una por defecto
+if (!$fotoPerfil) {
+    $fotoPerfil = '../imagenes/default_avatar.png';
 }
 ?>
 
@@ -43,6 +63,32 @@ if (!isset($_SESSION['correo'])) {
 
     <div class="contenedor-elementos">
         <div class="menu-cliente">
+        <h3>
+                <!-- Mostrar el rol del usuario -->
+                <?php
+                if (isset($_SESSION['rol'])) {
+                    $rol = $_SESSION['rol'];
+                    if ($rol == 1) {
+                        echo "Administrador";
+                    } elseif ($rol == 2) {
+                        echo "Vendedor";
+                    } else {
+                        echo "Cliente";
+                    }
+                }
+                ?>
+            </h3>
+            <div id="foto">
+                <img class="foto-perfil" src="<?php echo $fotoPerfil; ?>" alt="Foto de perfil">
+            </div>
+            <div class="nom-usuario">
+                <!-- Aquí puedes mostrar el correo del usuario -->
+                <?php
+                if (isset($_SESSION['correo'])) {
+                    echo "<h3>Bienvenido: <br>" . $_SESSION['correo'] . "</h3>";
+                }
+                ?>
+            </div>
         <select id="select-menu-cliente" onchange="location.href=this.value;">
                 <option selected>Opciones</option>
                 <option value="../Php/perfilCliente.php">Mi Perfil</option>
@@ -63,12 +109,7 @@ if (!isset($_SESSION['correo'])) {
                         <th class="celda-principal">Total</th>
                     </tr>
                     <tr>
-                        <td>25/07/2014</td>
-                        <td>Martillo</td>
-                        <td>10000</td>
-                        <td>12</td>
-                        <td>Martillo para carpinteria</td>
-                        <td>120000</td>
+                        
                     </tr>
                     <!-- Otras filas de la tabla aquí -->
                 </table>

@@ -70,15 +70,6 @@ if (isset($_POST['guardar'])) {
     mysqli_stmt_bind_param($stmtUpdate, "sssssssi", $tipoDocumento, $identificacion, $nombre, $apellido, $telefono, $direccion, $estado, $idCliente);
     mysqli_stmt_execute($stmtUpdate);
 
-    // Actualizar la contraseña solo si se proporciona una nueva contraseña
-    if (!empty($_POST['nuevaContraseña'])) {
-        $nuevaContraseña = $_POST['nuevaContraseña'];
-        $queryUpdateContraseña = "UPDATE cliente SET passwordCliente=? WHERE idCliente=?";
-        $stmtUpdateContraseña = mysqli_prepare($conn, $queryUpdateContraseña);
-        mysqli_stmt_bind_param($stmtUpdateContraseña, "si", $nuevaContraseña, $idCliente);
-        mysqli_stmt_execute($stmtUpdateContraseña);
-    }
-
     // Redirigir al usuario a la página de gestionarFuncionarios
     header("Location: ../Php/gestionarFuncionarios.php");
     exit();
@@ -123,8 +114,6 @@ if (isset($_POST['editar'])) {
     <input type="text" name="telefono" value="<?php echo $telefono; ?>"><br>
     <label for="direccion">Dirección:</label>
     <input type="text" name="direccion" value="<?php echo $direccion; ?>"><br>
-    <label for="nuevaContraseña">Nueva Contraseña:</label>
-    <input type="text" name="nuevaContraseña" value=""><br>
     <label for="estado">Estado:</label>
     <select name="estado">
         <option value="Activo" <?php if ($estado == 'Activo') echo 'selected'; ?>>Activo</option>

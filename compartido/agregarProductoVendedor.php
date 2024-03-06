@@ -35,7 +35,7 @@ if (isset($_POST['guardar'])) {
 
     if (mysqli_stmt_num_rows($stmtVerificarID) > 0) {
         echo '<div class ="mensajes-alertas">El ID del proveedor ya está en uso.
-        <div class ="mensaje-boton"><a href="../Php/inventario.php">Aceptar</a>
+        <div class ="mensaje-boton"><a href="../Php/inventarioVendedor.php">Aceptar</a>
         </div>
     </div>';
     } else {
@@ -49,7 +49,7 @@ if (isset($_POST['guardar'])) {
             echo 'Error al agregar el proveedor:' . mysqli_error($conn);
         } else {
             echo '<div class ="mensajes-alertas">Proveedor agregado correctamente.
-            <div class ="mensaje-boton"><a href="../Php/inventario.php">Aceptar</a>
+            <div class ="mensaje-boton"><a href="../Php/inventarioVendedorinventarioVendedor.php">Aceptar</a>
             </div>';
         }
     }
@@ -78,7 +78,7 @@ if (isset($_POST['guardar'])) {
         mysqli_stmt_execute($stmtActualizarStock);
 
         echo '<div class ="mensajes-alertas">El producto ya existe. Se ha actualizado el stock.
-        <div class ="mensaje-boton"><a href="../Php/inventario.php">Aceptar</a>
+        <div class ="mensaje-boton"><a href="../Php/inventarioVendedor.php">Aceptar</a>
         </div>
     </div>';
     } else {
@@ -89,12 +89,12 @@ if (isset($_POST['guardar'])) {
 
         if (mysqli_stmt_execute($stmtInsertarProducto)) {
             echo '<div class ="mensajes-alertas">Nuevo producto agregado correctamente
-            <div class ="mensaje-boton"><a href="../Php/inventario.php">Aceptar</a>
+            <div class ="mensaje-boton"><a href="../Php/inventarioVendedor.php">Aceptar</a>
             </div>
         </div>';
         } else {
             echo '<div class ="mensajes-alertas">Error al agregar el producto
-            <div class ="mensaje-boton"><a href="../Php/inventario.php">Aceptar</a>
+            <div class ="mensaje-boton"><a href="../Php/inventarioVendedor.php">Aceptar</a>
             </div>
         </div>'. mysqli_error($conn);
         }

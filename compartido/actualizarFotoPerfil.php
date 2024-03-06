@@ -17,10 +17,27 @@ mysqli_stmt_bind_param($stmt_actualizar, "ss", $nuevo_enlace, $correo);
 $resultado_actualizar = mysqli_stmt_execute($stmt_actualizar);
 
 if ($resultado_actualizar) {
-    // Redireccionar a perfil.php si la foto se actualizó correctamente
-    header('Location: ../Php/vistaAdmin.php');
+    // Obtener el rol del usuario después de actualizar la foto
+    $consulta_obtener_rol = "SELECT rol_idRol FROM usuario WHERE correo = ?";
+    $stmt_obtener_rol = mysqli_prepare($conexion, $consulta_obtener_rol);
+    mysqli_stmt_bind_param($stmt_obtener_rol, "s", $correo);
+    mysqli_stmt_execute($stmt_obtener_rol);
+    $resultado_obtener_rol = mysqli_stmt_get_result($stmt_obtener_rol);
+    $usuario = mysqli_fetch_assoc($resultado_obtener_rol);
+    $rol = $usuario['rol_idRol'];
+
+    // Redireccionar según el rol
+    if ($rol == 0) {
+        header('Location: ../Php/perfilCliente.php');
+    } else {
+        header('Location: ../Php/vistaAdmin.php');
+    }
     exit;
 } else {
-    echo "Hubo un error al actualizar la foto de perfil.";
+    echo '<div class ="mensajes-alertas">Hubo un error al actualizar la foto de perfil
+    <div class ="mensaje-boton"><a href="../Php/perfilCliente.php">Aceptar</a>
+    </div>
+</div>';
 }
+
 

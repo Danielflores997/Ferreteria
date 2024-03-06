@@ -23,7 +23,7 @@ $conn->close();
 
 // Si no se encontró la foto de perfil, utilizar una por defecto
 if (!$fotoPerfil) {
-    $fotoPerfil = '../imagenes/default_avatar.jpg';
+    $fotoPerfil = '../imagenes/default_avatar.png';
 }
 ?>
 

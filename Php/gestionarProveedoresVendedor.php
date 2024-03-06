@@ -83,7 +83,7 @@ if (!$fotoPerfil) {
                     }
                 ?>
             </div>
-            <?php include "../compartido/menuLateral.php"; ?>
+            <?php include "../compartido/menuLateralVendedor.php"; ?>
         </div>
 
         <div class="inventario">
@@ -101,7 +101,6 @@ if (!$fotoPerfil) {
             <th id="celda-principal">Telefono</th>
             <th id="celda-principal">Direccion</th>
             <th id="celda-principal">correo</th>
-            <th id="celda-principal">Acciones</th>
         </tr>
         <?php
         include "../compartido/conexion.php";
@@ -123,18 +122,6 @@ if (!$fotoPerfil) {
                 <td><?php echo $row['telefonoProveedor']; ?></td>
                 <td><?php echo $row['direccionProveedor']; ?></td>
                 <td><?php echo $row['correoProveedor']; ?></td>
-                <td class="acciones">
-                <form action="../compartido/editarProveedor.php" method="POST">
-                    <input type="hidden" name="tabla" value="Proveedor">
-                    <input type="hidden" name="id" value="<?php echo $row['idProveedor']; ?>">
-                    <button type="submit" name="editar"><i class="fas fa-edit"></i></button>
-                </form>
-                <form action="../compartido/eliminarProveedor.php" method="POST" onsubmit="return confirmarEliminacionProveedor();">
-                    <input type="hidden" name="tabla" value="Proveedor">
-                    <input type="hidden" name="id" value="<?php echo $row['idProveedor']; ?>">
-                    <button type="submit" name="eliminar"><i class="fas fa-trash"></i></button>
-                </form>
-                </td>
             </tr>
         <?php
         }
@@ -157,7 +144,7 @@ if (!$fotoPerfil) {
 
             // Realizar la petición AJAX al servidor para buscar usuarios
             $.ajax({
-                url: "../compartido/buscarProveedor.php", // Archivo PHP que manejará la búsqueda de usuarios
+                url: "../compartido/buscarProveedorVendedor.php", // Archivo PHP que manejará la búsqueda de usuarios
                 method: "POST",
                 data: { searchTerm: searchTerm }, // Enviar el término de búsqueda al servidor
                 success: function(response) {

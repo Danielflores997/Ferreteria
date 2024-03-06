@@ -183,7 +183,20 @@ $conn->close();
     </div>
     <div id="contenido">
         <div id="menu-lateral">
-            <h3>Administrador</h3>
+        <h3>
+                <?php
+                if (isset($_SESSION['rol'])) {
+                    $rol = $_SESSION['rol'];
+                    if ($rol == 1) {
+                        echo "Administrador";
+                    } elseif ($rol == 2) {
+                        echo "Vendedor";
+                    } else {
+                        echo "Cliente";
+                    }
+                }
+                ?>
+            </h3>
             <div id="foto">
                 <img src="<?php echo $fotoPerfil; ?>" alt="Foto de perfil">
             </div>
@@ -195,7 +208,7 @@ $conn->close();
                 }
                 ?>
             </div>
-            <?php include "../compartido/menuLateral.php"; ?>
+            <?php include "../compartido/menuLateralVendedor.php"; ?>
         </div>
         <div class="inventario">
             <h4 id="titulo-tabla">Documento Venta</h4>  

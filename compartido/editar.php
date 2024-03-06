@@ -65,9 +65,11 @@ if (isset($_POST['guardar'])) {
     $nuevaRutaImagen = $_POST['imagen'];
 
     // Aquí puedes agregar la lógica para guardar los cambios del producto
-    $query = "UPDATE productos SET codigoProducto='$codigoProducto', nombreProductos='$nombreProducto', valorProducto=$valorProducto, stockProducto=$stockProducto, descripcionProducto='$descripcionProducto', nombreCategoria='$nombreCategoria', imagen='$nuevaRutaImagen' WHERE idProducto=$idProducto";
-
-    $result = mysqli_query($conn, $query);
+    $query = "UPDATE productos SET codigoProducto=?, nombreProductos=?, valorProducto=?, stockProducto=?, descripcionProducto=?, nombreCategoria=?, imagen=? WHERE idProducto=?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "ssdissss", $codigoProducto, $nombreProducto, $valorProducto, $stockProducto, $descripcionProducto, $nombreCategoria, $nuevaRutaImagen, $idProducto);
+    $result = mysqli_stmt_execute($stmt);
+    
     if (!$result) {
         echo "Error al guardar los cambios del producto: " . mysqli_error($conn);
     } else {

@@ -34,10 +34,10 @@ if (!$fotoPerfil) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="../CSS/vistaAdmin.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/VistaCatalogo.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <title>Visualizar Catalogo</title>
+    <title>Visualizar Catálogo</title>
 </head>
 <body>
     <div class="encabezado">
@@ -57,10 +57,10 @@ if (!$fotoPerfil) {
             </div>
         </nav>
     </div>
-    <div id="contenedor">
+
+    <div id="contenedor" style="display: flex;">
         <div id="menu-lateral">
             <h3>
-                <!-- Mostrar el rol del usuario -->
                 <?php
                 if (isset($_SESSION['rol'])) {
                     $rol = $_SESSION['rol'];
@@ -78,21 +78,48 @@ if (!$fotoPerfil) {
                 <img src="<?php echo $fotoPerfil; ?>" alt="Foto de perfil">
             </div>
             <div class="nom-usuario">
-                <!-- Aquí puedes mostrar el correo del usuario -->
                 <?php
                 if (isset($_SESSION['correo'])) {
-                    echo "<h3>Bienvenido: <br>" . $_SESSION['correo'] . "</h3>";
+                    echo "<h3>Bienvenido: " . $_SESSION['correo'] . "</h3>";
                 }
                 ?>
             </div>
             <?php include "../compartido/menuLateralVendedor.php"; ?>
         </div>
-        <!-- Datos del usuario -->
-        <div>
-            <?php include "../compartido/perfil.php"; ?>
+
+        <!-- Contenido de "Productos" -->
+        <div class="catalogo-container">
+            <h2 class="catalogo">Productos</h2>
+            <section class="contenedor">
+                <div class="contenedor-items">
+                    <?php
+                    include "../compartido/conexion.php";
+                    
+                    $sql = "SELECT * FROM productos";
+                    $result = mysqli_query($conn, $sql);
+
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                            <div class="item">
+                                <span class="titulo-item"><?php echo $row["nombreProductos"]; ?> </span>
+                                <img class="img-catalogo" src="<?php echo $row["imagen"]; ?>">
+                                <span class="titulo-item"><?php echo $row["descripcionProducto"]; ?> </span>
+                                <span class="precio-item">$ <?php echo number_format($row["valorProducto"], 0, ',', '.'); ?></span>
+                            </div>
+                            <?php
+                        }
+                    } else {
+                        echo "No se encontraron resultados.";
+                    }
+                    ?>
+                </div>
+            </section>
         </div>
     </div>
-    <?php include "../compartido/footer.php"; ?>
 
+    <?php include "../compartido/footer.php"; ?>
 </body>
 </html>
+
+

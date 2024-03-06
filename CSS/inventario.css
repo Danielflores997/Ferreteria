@@ -144,7 +144,6 @@ input#telefonoProveedor::placeholder,
 input#direccionProveedor::placeholder,
 input#correoProveedor::placeholder {
     font-weight: bold;
-    color: rgb(6, 72, 6);
     padding-left: 5px;
 }
 

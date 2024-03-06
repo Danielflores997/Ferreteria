@@ -98,7 +98,12 @@ button.btn-login:hover {
 
 .menu-cliente {
     background-color: transparent;
-    width: auto;    
+    min-width: 320px;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;   
+    margin-top: 25px; 
 }
 
 .seccion-compras {
@@ -163,9 +168,8 @@ tr {
 }
 
 h3 {
-    color:rgb(9, 151, 9);;
+    color: #fff;
     font-size:20px;
-    font-weight:900;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -178,4 +182,25 @@ tr:nth-child(even) {
 
 tr:hover td {
     background-color: rgb(158, 219, 158);
+}
+  
+  #foto {
+    background-color: rgb(161, 166, 172);
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    max-width: 130px;
+    min-width: 80px;
+    min-height: 80px;
+    border-style: groove;
+    border-color: solid whitesmoke;
+    border-radius: 50%;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    overflow: hidden;
+  }
+.foto-perfil{
+    width: 150px;
+    height: 150px;
 }

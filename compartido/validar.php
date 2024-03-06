@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($rol == 1) {
                 header('Location: ../Php/vistaAdmin.php');
             } elseif ($rol == 2) {
-                header('Location: ../Php/vistaAdmin.php');
+                header('Location: ../Php/vistaVendedor.php');
             } else {
                 header('Location: ../Php/perfilCliente.php');
             }

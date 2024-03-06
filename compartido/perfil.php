@@ -44,6 +44,8 @@ if (!$usuario) {
             </form>
         </div>
     </div>
-    <?php include "../compartido/footer.php"; ?>
+    <style>
+    </style>
+ 
 </body>
 </html>

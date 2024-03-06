@@ -134,12 +134,12 @@ $(document).ready(function() {
                 }
                 ?>
             </div>
-            <?php include "../compartido/menuLateral.php"; ?>
+            <?php include "../compartido/menuLateralVendedor.php"; ?>
         </div>
         <div class="inventario">
             <h4 id="titulo-tabla">Datos Proveedor</h4>
             <div id="conten-venta">
-                <form id="formulario-venta" action="../compartido/agregarProducto.php" method="POST">
+                <form id="formulario-venta" action="../compartido/agregarProductoVendedor.php" method="POST">
                 <div class="datos-proveedor">
                     <label for="nombreProveedor">Documento Proveedor</label>
                     <input type="text" id="idProveedor" name="idProveedor" placeholder="Documento Proveedor" required>
@@ -310,7 +310,6 @@ $(document).ready(function() {
                             <th class="celda-principal">Cantidad</th>
                             <th class="celda-principal">Descripción</th>
                             <th class="celda-principal">Categoría</th>
-                            <th class="celda-principal">Acciones</th>
                         </tr>
 
                         <?php
@@ -323,16 +322,6 @@ $(document).ready(function() {
                                 <td><?php echo htmlspecialchars($row['stockProducto']); ?></td>
                                 <td><?php echo htmlspecialchars($row['descripcionProducto']); ?></td>
                                 <td><?php echo htmlspecialchars($row['nombreCategoria']); ?></td>
-                                <td class="acciones">
-                                    <form action="../compartido/editar.php" method="POST">
-                                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['idProducto']); ?>">
-                                        <button type="submit" name="editar"><i class="fas fa-edit"></i></button>
-                                    </form>
-                                    <form action="../compartido/eliminar.php" method="POST" onsubmit="return confirmarEliminacion();">
-                                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['idProducto']); ?>">
-                                        <button type="submit" name="eliminar"><i class="fas fa-trash"></i></button>
-                                    </form>
-                                </td>
                             </tr>
                         <?php
                         }
@@ -353,7 +342,7 @@ $(document).ready(function() {
 
             // Realizar la petición AJAX al servidor para buscar productos
             $.ajax({
-                url: "../compartido/buscarProducto.php", // Archivo PHP que manejará la búsqueda de productos
+                url: "../compartido/buscarProductoVendedor.php", // Archivo PHP que manejará la búsqueda de productos
                 method: "POST",
                 data: { searchTerm: searchTerm }, // Enviar el término de búsqueda al servidor
                 success: function(response) {
@@ -371,5 +360,4 @@ $(document).ready(function() {
     </div>
     <?php include "../compartido/footer.php"; ?>
 </body>
-
 </html>

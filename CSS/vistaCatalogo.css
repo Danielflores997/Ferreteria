@@ -161,6 +161,7 @@ h2.catalogo {
 
 
 .contenedor .contenedor-items .item {
+    background-color: #fff;
     max-width: 200px;
     min-width: 200px;
     padding: 10px;
