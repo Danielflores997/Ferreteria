@@ -21,28 +21,41 @@ if (isset($_POST['guardar'])) {
         $descripcion = $_POST['descripcion'];
         $categoria = $_POST['categoria'];
 
-        // Insertar datos del producto
-        $sqlProducto = "INSERT INTO ventas (idcodigo, producto, precio_unitario, cantidad, descripcion, Categoria) VALUES (?, ?, ?, ?, ?, ?)";
-        $stmtProducto = mysqli_prepare($conn, $sqlProducto);
-        mysqli_stmt_bind_param($stmtProducto, "ssddss", $codigoProducto, $producto, $precio_unitario, $cantidad, $descripcion, $categoria);
+        // Verificar si hay suficientes productos en el inventario
+        $queryStock = "SELECT stockProducto FROM productos WHERE codigoProducto = ?";
+        $stmtStock = mysqli_prepare($conn, $queryStock);
+        mysqli_stmt_bind_param($stmtStock, "s", $codigoProducto);
+        mysqli_stmt_execute($stmtStock);
+        mysqli_stmt_bind_result($stmtStock, $stockProducto);
+        mysqli_stmt_fetch($stmtStock);
+        mysqli_stmt_close($stmtStock);
 
-        if (mysqli_stmt_execute($stmtProducto)) {
-            // Actualizar stock del producto en la tabla de productos
-            $sqlUpdateStock = "UPDATE productos SET stockProducto = stockProducto - ? WHERE codigoProducto = ?";
-            $stmtUpdateStock = mysqli_prepare($conn, $sqlUpdateStock);
-            mysqli_stmt_bind_param($stmtUpdateStock, "is", $cantidad, $codigoProducto);
-            mysqli_stmt_execute($stmtUpdateStock);
-            mysqli_stmt_close($stmtUpdateStock);
-
-            // Continúa la lógica para insertar datos del cliente...
-
-            $response['success'] = true;
-            $response['message'] = '¡Datos guardados exitosamente!';
+        if ($stockProducto < $cantidad) {
+            $response['message'] = 'No hay suficiente cantidad de productos en el inventario.';
         } else {
-            $response['message'] = '¡Error al agregar producto! ' . mysqli_error($conn);
-        }
+            // Insertar datos del producto
+            $sqlProducto = "INSERT INTO ventas (idcodigo, producto, precio_unitario, cantidad, descripcion, Categoria) VALUES (?, ?, ?, ?, ?, ?)";
+            $stmtProducto = mysqli_prepare($conn, $sqlProducto);
+            mysqli_stmt_bind_param($stmtProducto, "ssddss", $codigoProducto, $producto, $precio_unitario, $cantidad, $descripcion, $categoria);
 
-        mysqli_stmt_close($stmtProducto);
+            if (mysqli_stmt_execute($stmtProducto)) {
+                // Actualizar stock del producto en la tabla de productos
+                $sqlUpdateStock = "UPDATE productos SET stockProducto = stockProducto - ? WHERE codigoProducto = ?";
+                $stmtUpdateStock = mysqli_prepare($conn, $sqlUpdateStock);
+                mysqli_stmt_bind_param($stmtUpdateStock, "is", $cantidad, $codigoProducto);
+                mysqli_stmt_execute($stmtUpdateStock);
+                mysqli_stmt_close($stmtUpdateStock);
+
+                // Continúa la lógica para insertar datos del cliente...
+
+                $response['success'] = true;
+                $response['message'] = '¡Datos guardados exitosamente!';
+            } else {
+                $response['message'] = '¡Error al agregar producto! ' . mysqli_error($conn);
+            }
+
+            mysqli_stmt_close($stmtProducto);
+        }
     }
 } else {
     $response['message'] = 'No se recibió el formulario correctamente.';

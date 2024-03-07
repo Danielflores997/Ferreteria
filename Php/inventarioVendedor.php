@@ -243,6 +243,32 @@ $(document).ready(function() {
         window.location.href = "generar_reporte_inventario_csv.php";
     }
     </script>
+    <script>
+    $(document).ready(function() {
+        // Realizar la petición AJAX para obtener los productos escasos
+        $.ajax({
+        type: 'GET',
+        url: '../compartido/productosBajoStock.php',
+        dataType: 'json',
+        success: function(response) {
+            // Verificar si hay productos escasos
+            if (response.length > 0) {
+                // Mostrar una alerta con los productos escasos
+                mostrarAlertaEscasos(response);
+            }
+        }
+    });
+});
+
+// Función para mostrar una alerta con los productos escasos
+function mostrarAlertaEscasos(productos) {
+    var mensaje = "Los siguientes productos tienen un stock menor de 10:\n";
+    productos.forEach(function(producto) {
+        mensaje += " - Código: " + producto.codigoProducto + " - " + producto.nombreProductos + "\n";
+    });
+    alert(mensaje);
+}
+</script>
             <?php
             include "../compartido/conexion.php";
 
