@@ -24,6 +24,20 @@ $stmt->close();
 if (!$fotoPerfil) {
     $fotoPerfil = '../imagenes/default_avatar.png';
 }
+
+// Procesar el formulario para actualizar el estado de las peticiones
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Verificar si el formulario se envió correctamente
+    if (isset($_POST['estado']) && is_array($_POST['estado'])) {
+        // Iterar sobre las peticiones y actualizar su estado en la base de datos
+        foreach ($_POST['estado'] as $correo => $estado) {
+            $stmt = $conn->prepare("UPDATE peticiones SET Estado = ? WHERE Correo = ?");
+            $stmt->bind_param("ss", $estado, $correo);
+            $stmt->execute();
+            $stmt->close();
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -87,49 +101,52 @@ if (!$fotoPerfil) {
         </div>
         <!-- peticiones -->
         <div class="contenedor-tabla-peticiones">
-            <?php
-            // Consulta SQL para obtener los datos de la tabla "peticiones"
-            $sql = "SELECT * FROM peticiones";
-            $result = $conn->query($sql);
+            <form method="post" action="">
+                <?php
+                // Consulta SQL para obtener los datos de la tabla "peticiones"
+                $sql = "SELECT * FROM peticiones";
+                $result = $conn->query($sql);
 
-            if ($result->num_rows > 0) {
-                echo "<div class='contenedor-tabla-peticiones'>
-                <h2>Peticiones</h2>";
-                echo "<table border='1'>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Direccion</th>
-                    <th>Telefono</th>
-                    <th>Correo</th>
-                    <th>Motivo</th>
-                    <th>Estado</th>
-                </tr>";
+                if ($result->num_rows > 0) {
+                    echo "<div class='contenedor-tabla-peticiones'>
+                    <h2>Peticiones</h2>";
+                    echo "<table border='1'>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Direccion</th>
+                        <th>Telefono</th>
+                        <th>Correo</th>
+                        <th>Motivo</th>
+                        <th>Respondido</th>
+                    </tr>";
 
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    echo "<td>" . $row['Nombre'] . "</td>";
-                    echo "<td>" . $row['Apellido'] . "</td>";
-                    echo "<td>" . $row['Direccion'] . "</td>";
-                    echo "<td>" . $row['Telefono'] . "</td>";
-                    echo "<td>" . $row['Correo'] . "</td>";
-                    echo "<td>" . $row['Motivo'] . "</td>";
-                    echo "<td>Atendido
-                    <select name='estado[]'>
-                        <option value='No' ". ($row['Estado'] == 'No' ? 'selected' : '') .">No</option>
-                        <option value='Sí' ". ($row['Estado'] == 'Sí' ? 'selected' : '') .">Sí</option>
-                    </select>
-                </td>";
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td>" . $row['Nombre'] . "</td>";
+                        echo "<td>" . $row['Apellido'] . "</td>";
+                        echo "<td>" . $row['Direccion'] . "</td>";
+                        echo "<td>" . $row['Telefono'] . "</td>";
+                        echo "<td>" . $row['Correo'] . "</td>";
+                        echo "<td>" . $row['Motivo'] . "</td>";
+                        echo "<td>
+                        <select name='estado[" . $row['Correo'] . "]'>
+                        <option value='No' " . ($row['Estado'] == 'No' ? 'selected' : '') . ">No</option>
+                        <option value='Si' " . ($row['Estado'] == 'Si' ? 'selected' : '') . ">Sí</option>
+                    </select>                    
+                            </td>";
+                        echo "</tr>";
+                    }
+                    echo "</table>";
+                    echo "</div>";
+                } else {
+                    echo '<div class ="mensajes-alertas"> No se encontraron resultados.
+                        <div class ="mensaje-boton"><a href="../Php/peticiones.php">Aceptar</a>
+                        </div>' . $mysqli->error;
                 }
-
-                echo "</table>";
-                echo "</div>";
-            } else {
-                echo '<div class ="mensajes-alertas"> No se encontraron resultados.
-                    <div class ="mensaje-boton"><a href="../Php/index.php">Aceptar</a>
-                    </div>' . $mysqli->error;
-            }
-            ?>
+                ?>
+                <button type="submit">Guardar estado</button>
+            </form>
         </div>
     </div>
     <?php include "../compartido/footer.php"; ?>

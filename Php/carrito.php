@@ -12,7 +12,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>Carrito de Compras</title>
 </head>
-
 <body>
     <?php include "../compartido/menu.php"; ?>
     <h2 class="catalogo">Carrito de Compras</h2>

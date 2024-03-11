@@ -284,7 +284,7 @@ $conn->close();
                     </div>
                 </form>
             </div>
-            <?php include "../compartido/generarVenta.php"; ?>
+            <?php include "../compartido/generarVentaVendedor.php"; ?>
         </div>
     </div>
     <?php include "../compartido/footer.php"; ?>

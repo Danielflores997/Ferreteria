@@ -66,7 +66,7 @@ if (isset($_POST['guardar'])) {
             </tr>
 
             <?php
-            $totalVentas = 0; // Inicializar la variable para el total
+            $totalVentas = 0;
 
             while ($row = mysqli_fetch_assoc($result)) {
                 ?>
@@ -88,14 +88,6 @@ if (isset($_POST['guardar'])) {
                     <td><?php echo $totalFila; ?></td>
 
                     <td class="acciones">
-                        <form action="../compartido/editarVenta.php" method="POST">
-                            <input type="hidden" name="id" value="<?php echo $row['idVenta']; ?>">
-                            <button type="submit" name="editar"><i class="fas fa-edit"></i></button>
-                        </form>
-                        <form action="../compartido/eliminarVenta.php" method="POST" onsubmit="return confirmarEliminacion();">
-                            <input type="hidden" name="id" value="<?php echo $row['idVenta']; ?>">
-                            <button type="submit" name="eliminar"><i class="fas fa-trash"></i></button>
-                        </form>
                         <a href="../Php/generar_pdf.php?id=<?php echo $row['idVenta']; ?>" target="_blank">Descargar PDF</a>
                     </td>
                 </tr>
@@ -125,7 +117,7 @@ if (isset($_POST['guardar'])) {
 
                 // Realizar la petición AJAX al servidor para buscar ventas
                 $.ajax({
-                    url: "../compartido/buscarVenta.php",
+                    url: "../compartido/buscarVentaVendedor.php",
                     method: "POST",
                     data: { searchTerm: searchTerm },
                     success: function(response) {
