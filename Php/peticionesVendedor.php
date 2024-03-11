@@ -97,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
                 ?>
             </div>
-            <?php include "../compartido/menuLateral.php"; ?>
+            <?php include "../compartido/menuLateralVendedor.php"; ?>
         </div>
         <!-- peticiones -->
         <div class="contenedor-tabla-peticiones">
