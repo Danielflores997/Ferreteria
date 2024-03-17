@@ -1,7 +1,14 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['correo'])) {
+    header('Location: index.php');
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html>
-<link rel="stylesheet" type="text/css" href="../CSS/Carrito.css">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,6 +19,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>Carrito de Compras</title>
 </head>
+
 <body>
     <?php include "../compartido/menu.php"; ?>
     <h2 class="catalogo">Carrito de Compras</h2>
@@ -24,159 +32,129 @@
                 </ul>
                 <h3 class="total carrito-precio-total">Total: $0</h3>
                 <button class="btn-vaciar-carrito">Vaciar Carrito</button>
+                <!-- Agregar un formulario oculto para procesar la compra -->
+                <form id="form-comprar" method="POST" action="../compartido/procesar_compra.php" style="display: none;">
+                    <input type="hidden" id="input-productos" name="productos">
+                </form>
+                <!-- Botón para realizar la compra -->
                 <button class="btn-comprar-carrito">Comprar</button>
             </div>
         </div>
     </section>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            function mostrarCarrito() {
-                var carritoItems = document.getElementById('carrito-lista');
-                carritoItems.innerHTML = '';
+    $(document).ready(function () {
+        function mostrarCarrito() {
+            var carritoItems = document.getElementById('carrito-lista');
+            carritoItems.innerHTML = '';
 
-                var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
+            var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
 
-                carritoProductos.forEach(function(producto) {
-                    var nuevoItem = document.createElement('li');
-                    nuevoItem.classList.add('carrito-item');
-                    nuevoItem.innerHTML = `
-                        <img src="${producto.imagen}" alt="" width="80px">
-                        <div class="carrito-item-detalles">
-                            <span class="carrito-item-titulo">${producto.titulo}</span>
-                            <div class="selector-cantidad">
-                                <button class="restar-cantidad">-</button>
-                                <span class="carrito-item-cantidad">${producto.cantidad}</span>
-                                <button class="sumar-cantidad">+</button>
-                            </div>
-                            <span class="carrito-item-precio">$${producto.precio}</span>
+            // Depurar: Imprimir el contenido del carrito en la consola
+            console.log("Productos en el carrito:", carritoProductos);
+
+            carritoProductos.forEach(function (producto) {
+                var nuevoItem = document.createElement('li');
+                nuevoItem.classList.add('carrito-item');
+                nuevoItem.innerHTML = `
+                    <img src="${producto.imagen}" alt="" width="80px">
+                    <div class="carrito-item-detalles">
+                        <span class="carrito-item-titulo">${producto.titulo}</span>
+                        <div class="selector-cantidad">
+                            <button class="restar-cantidad">-</button>
+                            <span class="carrito-item-cantidad">${producto.cantidad}</span>
+                            <button class="sumar-cantidad">+</button>
                         </div>
-                        <button class="btn-eliminar">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    `;
+                        <span class="carrito-item-precio">$${producto.precio}</span>
+                    </div>
+                    <button class="btn-eliminar">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                `;
 
-                    nuevoItem.querySelector('.restar-cantidad').addEventListener('click', function() {
-                        restarCantidad(producto);
-                    });
-
-                    nuevoItem.querySelector('.sumar-cantidad').addEventListener('click', function() {
-                        sumarCantidad(producto);
-                    });
-
-                    nuevoItem.querySelector('.btn-eliminar').addEventListener('click', function() {
-                        eliminarProducto(producto);
-                    });
-
-                    carritoItems.appendChild(nuevoItem);
+                nuevoItem.querySelector('.restar-cantidad').addEventListener('click', function () {
+                    restarCantidad(producto);
                 });
 
-                actualizarTotal();
-            }
-
-            function comprarcarrito() {
-
-                var productos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
-                // Obtener el ID de usuario desde el localStorage en JavaScript
-                var idUsuario = localStorage.getItem('idUsuario');
-
-                // Comprobar si se ha obtenido correctamente
-                if (idUsuario) {
-                    // Realizar la solicitud POST al archivo procesar_pedido.php
-                    var url = 'http://localhost/Ferreteria/compartido/factura.php'; // Ajusta la URL adecuadamente
-
-                    // Configurar los datos de la solicitud POST
-                    var data = {
-                        usuario_idUsuario: idUsuario,
-                        productos: JSON.stringify(productos) // Convertir productos a JSON
-                    };
-
-                    // Configurar las opciones de la solicitud POST
-                    var options = {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: new URLSearchParams(data)
-                    };
-
-                    // Realizar la solicitud POST
-                    fetch(url, options)
-                        .then(response => {
-                            response.text();
-                            localStorage.removeItem('carritoProductos');
-                            mostrarCarrito();
-                            alert("compra exitosa")
-                        })
-                        .then(data => console.log(data))
-                        .catch(error => console.error('Error:', error));
-                } else {
-                    console.error('No se pudo obtener el ID de usuario del localStorage.');
-                    alert("compra fallida")
-                }
-
-            }
-
-            function actualizarTotal() {
-                var total = 0;
-                var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
-
-                carritoProductos.forEach(function(producto) {
-                    total += producto.precio * producto.cantidad;
+                nuevoItem.querySelector('.sumar-cantidad').addEventListener('click', function () {
+                    sumarCantidad(producto);
                 });
 
-                var carritoPrecioTotal = document.querySelector('.carrito-precio-total');
-                carritoPrecioTotal.innerText = '$' + total.toFixed(0);
-            }
+                nuevoItem.querySelector('.btn-eliminar').addEventListener('click', function () {
+                    eliminarProducto(producto);
+                });
 
-            function restarCantidad(producto) {
-                var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
-                var index = carritoProductos.findIndex(item => item.titulo === producto.titulo);
+                carritoItems.appendChild(nuevoItem);
+            });
 
-                if (index !== -1 && carritoProductos[index].cantidad > 1) {
-                    carritoProductos[index].cantidad--;
-                    localStorage.setItem('carritoProductos', JSON.stringify(carritoProductos));
-                    mostrarCarrito();
-                }
-            }
+            actualizarTotal();
+        }
 
-            function sumarCantidad(producto) {
-                var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
-                var index = carritoProductos.findIndex(item => item.titulo === producto.titulo);
+        function actualizarTotal() {
+            var total = 0;
+            var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
 
-                if (index !== -1) {
-                    carritoProductos[index].cantidad++;
-                    localStorage.setItem('carritoProductos', JSON.stringify(carritoProductos));
-                    mostrarCarrito();
-                }
-            }
+            carritoProductos.forEach(function (producto) {
+                total += producto.precio * producto.cantidad;
+            });
 
-            function eliminarProducto(producto) {
-                var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
-                var index = carritoProductos.findIndex(item => item.titulo === producto.titulo);
+            var carritoPrecioTotal = document.querySelector('.carrito-precio-total');
+            carritoPrecioTotal.innerText = '$' + total.toFixed(0);
+        }
 
-                if (index !== -1) {
-                    carritoProductos.splice(index, 1);
-                    localStorage.setItem('carritoProductos', JSON.stringify(carritoProductos));
-                    mostrarCarrito();
-                }
-            }
+        function restarCantidad(producto) {
+            var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
+            var index = carritoProductos.findIndex(item => item.titulo === producto.titulo);
 
-            $(".btn-vaciar-carrito").on("click", function() {
-                localStorage.removeItem('carritoProductos');
+            if (index !== -1 && carritoProductos[index].cantidad > 1) {
+                carritoProductos[index].cantidad--;
+                localStorage.setItem('carritoProductos', JSON.stringify(carritoProductos));
                 mostrarCarrito();
-            });
+            }
+        }
 
-            $(".btn-comprar-carrito").on("click", function() {
-                localStorage.removeItem('carritoProductos');
-                comprarcarrito();
-            });
+        function sumarCantidad(producto) {
+            var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
+            var index = carritoProductos.findIndex(item => item.titulo === producto.titulo);
 
+            if (index !== -1) {
+                carritoProductos[index].cantidad++;
+                localStorage.setItem('carritoProductos', JSON.stringify(carritoProductos));
+                mostrarCarrito();
+            }
+        }
+
+        function eliminarProducto(producto) {
+            var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
+            var index = carritoProductos.findIndex(item => item.titulo === producto.titulo);
+
+            if (index !== -1) {
+                carritoProductos.splice(index, 1);
+                localStorage.setItem('carritoProductos', JSON.stringify(carritoProductos));
+                mostrarCarrito();
+            }
+        }
+
+        $(".btn-vaciar-carrito").on("click", function () {
+            localStorage.removeItem('carritoProductos');
             mostrarCarrito();
         });
+
+        $(".btn-comprar-carrito").on("click", function () {
+            var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
+            // Modificar los productos para que incluyan el idProducto
+            var productosIDs = carritoProductos.map(producto => {
+                return { idProducto: producto.idProducto, cantidad: producto.cantidad }; // Ajuste aquí para incluir el idProducto
+            });
+            // Insertar los IDs en el formulario
+            $("#input-productos").val(JSON.stringify(productosIDs));
+            // Enviar el formulario
+            $("#form-comprar").submit();
+        });
+
+        mostrarCarrito();
+    });
     </script>
 </body>
 <?php include '../compartido/footer.php'; ?>
-
 </html>

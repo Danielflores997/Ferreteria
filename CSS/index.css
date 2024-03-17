@@ -224,6 +224,18 @@ h2 {
     cursor: pointer;
 }
 
+.boton-agregado {
+    display: block;
+    margin: 10px auto;
+    border: none;
+    background-color: rgb(51, 141, 51); /* Cambia el color de fondo a verde */
+    color: white; /* Cambia el color del texto a blanco */
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
 .img-catalogo {
     width: 150px;
     height: 150px;

@@ -27,17 +27,19 @@
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
                         ?>
-                        <div class="item">
-                            <span class="titulo-item"><?php echo $row["nombreProductos"];?> </span>
-                            <img class="img-catalogo" src="<?php echo $row["imagen"]; ?>">
-                            <span class="precio-item">$ <?php echo number_format($row["valorProducto"], 0, ',', '.');?></span>
-                            <button class="boton-item"
+                    <div class="item">
+                        <span class="titulo-item"><?php echo $row["nombreProductos"]; ?> </span>
+                        <img class="img-catalogo" src="<?php echo $row["imagen"]; ?>">
+                        <span class="titulo-item"><?php echo $row["descripcionProducto"]; ?> </span>
+                        <span class="precio-item">$ <?php echo number_format($row["valorProducto"], 0, ',', '.'); ?></span>
+                        <button class="boton-item"
                                 data-titulo="<?php echo $row["nombreProductos"]; ?>"
                                 data-imagen="<?php echo $row["imagen"]; ?>"
-                                data-precio="<?php echo $row["valorProducto"]; ?>">
+                                data-precio="<?php echo $row["valorProducto"]; ?>"
+                                onclick="agregarAlCarrito(this)">
                             Agregar al Carrito
                         </button>
-                        </div> 
+                    </div>
                         <?php                            
                     }
                 } else {
@@ -53,6 +55,14 @@
         include '../compartido/carrito.php';
         include '../compartido/footer.php';
         ?>
+    <script>
+        function agregarAlCarrito(button) {
+        var titulo = button.getAttribute('data-titulo');
+        button.textContent =' agregado al carrito';
+        button.classList.remove('boton-item');
+        button.classList.add('boton-agregado');
+        }
+    </script>
     </div>
 </body>
 </html>
