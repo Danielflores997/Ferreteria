@@ -19,12 +19,30 @@ $stmt->execute();
 $stmt->bind_result($fotoPerfil);
 $stmt->fetch();
 $stmt->close();
-$conn->close();
 
 // Si no se encontró la foto de perfil, utilizar una por defecto
 if (!$fotoPerfil) {
     $fotoPerfil = '../imagenes/default_avatar.png';
 }
+
+// Obtener el ID del usuario a partir del correo electrónico
+$stmt_usuario = $conn->prepare("SELECT idUsuario FROM usuario WHERE correo = ?");
+$stmt_usuario->bind_param("s", $correo);
+$stmt_usuario->execute();
+$stmt_usuario->bind_result($idUsuario);
+$stmt_usuario->fetch();
+$stmt_usuario->close();
+
+// Realizar la consulta para obtener las compras del usuario actual
+$stmt_compras = $conn->prepare("SELECT c.fecha, p.nombreProductos, p.valorProducto, c.cantidad, p.descripcionProducto, (p.valorProducto * c.cantidad) AS total
+                       FROM compras c
+                       JOIN productos p ON c.producto_id = p.idProducto
+                       WHERE c.usuario_id = ?");
+$stmt_compras->bind_param("i", $idUsuario);
+$stmt_compras->execute();
+$resultado = $stmt_compras->get_result();
+$stmt_compras->close();
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +51,7 @@ if (!$fotoPerfil) {
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../CSS/comprasCliente.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Perfil</title>
+    <title>Mis Compras</title>
 </head>
 <body>  
     <header>
@@ -63,7 +81,7 @@ if (!$fotoPerfil) {
 
     <div class="contenedor-elementos">
         <div class="menu-cliente">
-        <h3>
+            <h3>
                 <!-- Mostrar el rol del usuario -->
                 <?php
                 if (isset($_SESSION['rol'])) {
@@ -89,11 +107,11 @@ if (!$fotoPerfil) {
                 }
                 ?>
             </div>
-        <select id="select-menu-cliente" onchange="location.href=this.value;">
+            <select id="select-menu-cliente" onchange="location.href=this.value;">
                 <option selected>Opciones</option>
                 <option value="../Php/perfilCliente.php">Mi Perfil</option>
                 <option value="comprasCliente.php">Mis Compras</option>
-        </select>
+            </select>
         </div>
         <div class="seccion-compras">
             <br>
@@ -108,19 +126,23 @@ if (!$fotoPerfil) {
                         <th class="celda-principal">Descripción</th>
                         <th class="celda-principal">Total</th>
                     </tr>
-                    <tr>
-                        
-                    </tr>
-                    <!-- Otras filas de la tabla aquí -->
+                    <?php
+                    // Iterar sobre los resultados de la consulta y mostrar cada compra en una fila de la tabla
+                    while ($row = $resultado->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td>" . $row['fecha'] . "</td>";
+                        echo "<td>" . $row['nombreProductos'] . "</td>";
+                        echo "<td>$" . $row['valorProducto'] . "</td>";
+                        echo "<td>" . $row['cantidad'] . "</td>";
+                        echo "<td>" . $row['descripcionProducto'] . "</td>";
+                        echo "<td>$" . $row['total'] . "</td>";
+                        echo "</tr>";
+                    }
+                    ?>
                 </table>
             </div>
         </div>
     </div>
-
-    <?php
-        include "../compartido/footer.php"
-    ?>
-    
-
+    <?php include '../compartido/footer.php'; ?>
 </body>
 </html>

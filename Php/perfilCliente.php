@@ -103,8 +103,6 @@ if (!$fotoPerfil) {
             </div>
         </div>
     </div>
-
-    <?php include "../compartido/footer.php"; ?>
-
+    <?php include '../compartido/footer.php'; ?>
 </body>
 </html>

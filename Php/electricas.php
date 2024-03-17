@@ -16,7 +16,7 @@
     include '../compartido/conexion.php'; 
     ?>
     <div class="encabezado">   
-        <h2 class="catalogo">Pintura</h2>
+        <h2 class="catalogo">Electricas</h2>
         <section class="contenedor">
             <!--contenedor de elementos-->
             <div class="contenedor-items">
@@ -32,37 +32,65 @@
                         <img class="img-catalogo" src="<?php echo $row["imagen"]; ?>">
                         <span class="titulo-item"><?php echo $row["descripcionProducto"]; ?> </span>
                         <span class="precio-item">$ <?php echo number_format($row["valorProducto"], 0, ',', '.'); ?></span>
+                        <!-- Asegurarse de establecer correctamente el data-idproducto -->
                         <button class="boton-item"
                                 data-titulo="<?php echo $row["nombreProductos"]; ?>"
                                 data-imagen="<?php echo $row["imagen"]; ?>"
                                 data-precio="<?php echo $row["valorProducto"]; ?>"
+                                data-idproducto="<?php echo $row["idProducto"]; ?>"
                                 onclick="agregarAlCarrito(this)">
                             Agregar al Carrito
                         </button>
-                    </div> 
-                        <?php                            
-                    }
-                } else {
-                    echo "No se encontraron resultados.";
+                    </div>
+                    <?php
                 }
-                ?>
+            } else {
+                echo "No se encontraron resultados.";
+            }
+            ?>
+        </div>
         <div class="icono-carrito">
             <a href="../Php/carrito.php"><i class="fa-solid fa-cart-shopping"></i></a>
         </div>
-            </div>
-        </section>
-        <?php
-        include '../compartido/carrito.php';
-        include '../compartido/footer.php';
-        ?>
-    <script>
-        function agregarAlCarrito(button) {
+    </section>
+</body>
+  <?php include '../compartido/footer.php'; ?>
+<script>
+    function agregarAlCarrito(button) {
         var titulo = button.getAttribute('data-titulo');
-        button.textContent =' agregado al carrito';
+        var imagen = button.getAttribute('data-imagen');
+        var precio = button.getAttribute('data-precio');
+        var idProducto = button.getAttribute('data-idproducto');
+        button.textContent = 'Agregado al carrito';
         button.classList.remove('boton-item');
         button.classList.add('boton-agregado');
+
+        // Obtener el carrito actual del localStorage
+        var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
+
+        // Verificar si el producto ya está en el carrito
+        var productoExistente = carritoProductos.find(producto => producto.idProducto === idProducto);
+
+        if (productoExistente) {
+            // Si el producto ya está en el carrito, solo incrementa la cantidad
+            productoExistente.cantidad++;
+        } else {
+            // Si el producto no está en el carrito, agrégalo
+            var producto = {
+                idProducto: idProducto,
+                titulo: titulo,
+                imagen: imagen,
+                precio: precio,
+                cantidad: 1
+            };
+            carritoProductos.push(producto);
         }
-    </script>
-    </div>
-</body>
+
+        // Guardar el carrito actualizado en el localStorage
+        localStorage.setItem('carritoProductos', JSON.stringify(carritoProductos));
+
+        // Depurar: Imprimir el contenido del carrito en la consola
+        console.log("Carrito actualizado:", carritoProductos);
+    }
+</script>
 </html>
