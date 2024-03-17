@@ -118,7 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <th>Telefono</th>
                         <th>Correo</th>
                         <th>Motivo</th>
-                        <th>Respondido</th>
+                        <th>Contestado</th>
                     </tr>";
 
                     while ($row = $result->fetch_assoc()) {

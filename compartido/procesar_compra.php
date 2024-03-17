@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/mensajes.css">
+    <title>mensaje</title>
+</head>
+<body>
+
 <?php
 session_start();
 
@@ -67,8 +77,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conexion->close();
 
     // Mostrar mensaje de compra exitosa
-    echo "¡Compra exitosa! Gracias por tu compra.";
+    echo '<div class ="mensajes-alertas">¡Compra exitosa! Gracias por tu compra.
+        <div class ="mensaje-boton"><a href="../Php/comprasCliente.php">Aceptar</a>
+        </div>
+    </div>';
 } else {
-    echo "Error: El formulario de compra no se envió correctamente.";
+    echo '<div class ="mensajes-alertas">Error: El formulario de compra no se envió correctamente.
+        <div class ="mensaje-boton"><a href="../Php/index.php">Aceptar</a>
+        </div>
+    </div>';
 }
 ?>

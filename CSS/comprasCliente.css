@@ -107,7 +107,7 @@ button.btn-login:hover {
 }
 
 .seccion-compras {
-    background-color: #fff;
+    background-color: #135c0c;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -168,12 +168,16 @@ tr {
 }
 
 h3 {
-    color: #fff;
+    color: #0d5e18;
     font-size:20px;
     width: 100%;
     display: flex;
     justify-content: center;
     text-align: center;
+}
+
+h2 {
+    color: #0d5e18;
 }
 
 tr:nth-child(even) {

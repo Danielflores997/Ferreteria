@@ -115,7 +115,7 @@ $conn->close();
         </div>
         <div class="seccion-compras">
             <br>
-            <h3>Mis Compras</h3>
+            <h2>Mis Compras</h2>
             <div class="tabla">
                 <table>
                     <tr>

@@ -6,5 +6,6 @@
                 <option value="gestionarFuncionarios.php">Gestionar Usuarios</option>
                 <option value="gestionarProveedores.php">Gestionar proveedores</option>
                 <option value="ventas.php">Ventas</option>
+                <option value="ventasCarrito.php">Compras carrito</option>
                 <option value="peticiones.php">peticiones</option>
 </select>
