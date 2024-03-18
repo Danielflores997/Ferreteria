@@ -11,72 +11,92 @@
 <?php
 session_start();
 
-// Verificar si el formulario se envió correctamente
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Verificar si el usuario está autenticado
-    if (!isset($_SESSION['correo'])) {
-        echo "Error: Debes iniciar sesión para realizar una compra.";
-        exit();
-    }
+if (!isset($_SESSION['correo'])) {
+    header('Location: index.php');
+    exit();
+}
 
-    // Conexión a la base de datos
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conexion = new mysqli("localhost", "root", "", "ferreterianuevo");
 
-    // Verificar la conexión
     if ($conexion->connect_error) {
         echo "Error de conexión: " . $conexion->connect_error;
         exit();
     }
 
-    // Obtener el correo electrónico de la sesión
     $correo_usuario = $_SESSION['correo'];
-
-    // Consulta para obtener el usuario_id basado en el correo electrónico de la sesión
     $consulta_usuario = "SELECT idUsuario FROM usuario WHERE correo = ?";
     $declaracion_usuario = $conexion->prepare($consulta_usuario);
     $declaracion_usuario->bind_param("s", $correo_usuario);
     $declaracion_usuario->execute();
     $resultado_usuario = $declaracion_usuario->get_result();
 
-    // Verificar si se encontró el usuario
     if ($resultado_usuario->num_rows == 0) {
         echo "Error: No se encontró el usuario.";
         exit();
     }
 
-    // Obtener el usuario_id
     $fila_usuario = $resultado_usuario->fetch_assoc();
     $usuario_id = $fila_usuario['idUsuario'];
 
-    // Obtener los productos del formulario
     $productos = json_decode($_POST['productos'], true);
 
-    // Preparar y ejecutar la consulta para insertar cada producto en la tabla de compras
+    // Verificar y restar la cantidad comprada del inventario
     foreach ($productos as $producto) {
-        $producto_id = $producto['idProducto'] ?? null; // Se agrega un valor predeterminado en caso de que no se envíe el idProducto
+        $producto_id = $producto['idProducto'] ?? null;
         $cantidad = $producto['cantidad'];
         $fecha = date("Y-m-d H:i:s");
 
-        $consulta = "INSERT INTO compras (usuario_id, producto_id, cantidad, fecha) VALUES (?, ?, ?, ?)";
-        $declaracion = $conexion->prepare($consulta);
-        $declaracion->bind_param("iiis", $usuario_id, $producto_id, $cantidad, $fecha);
-        $declaracion->execute();
+        // Verificar si hay suficiente inventario disponible
+        $consulta_inventario = "SELECT stockProducto FROM productos WHERE idProducto = ?";
+        $declaracion_inventario = $conexion->prepare($consulta_inventario);
+        $declaracion_inventario->bind_param("i", $producto_id);
+        $declaracion_inventario->execute();
+        $resultado_inventario = $declaracion_inventario->get_result();
 
-        // Verificar si se insertó correctamente
-        if ($declaracion->affected_rows <= 0) {
+        if ($resultado_inventario->num_rows == 0) {
+            echo "Error: No se encontró el producto en el inventario.";
+            exit();
+        }
+
+        $fila_inventario = $resultado_inventario->fetch_assoc();
+        $stock_disponible = $fila_inventario['stockProducto'];
+
+        if ($cantidad > $stock_disponible) {
+            echo "Error: No hay suficiente inventario disponible para el producto.";
+            exit();
+        }
+
+        // Insertar la compra en la tabla de compras
+        $consulta_compra = "INSERT INTO compras (usuario_id, producto_id, cantidad, fecha) VALUES (?, ?, ?, ?)";
+        $declaracion_compra = $conexion->prepare($consulta_compra);
+        $declaracion_compra->bind_param("iiis", $usuario_id, $producto_id, $cantidad, $fecha);
+        $declaracion_compra->execute();
+
+        if ($declaracion_compra->affected_rows <= 0) {
             echo "Error al procesar la compra.";
-            $declaracion->close();
+            $declaracion_compra->close();
             $conexion->close();
             exit();
         }
 
-        $declaracion->close();
+        // Restar la cantidad comprada del inventario
+        $nuevo_stock = $stock_disponible - $cantidad;
+        $actualizar_inventario = "UPDATE productos SET stockProducto = ? WHERE idProducto = ?";
+        $declaracion_actualizar = $conexion->prepare($actualizar_inventario);
+        $declaracion_actualizar->bind_param("ii", $nuevo_stock, $producto_id);
+        $declaracion_actualizar->execute();
+
+        if ($declaracion_actualizar->affected_rows <= 0) {
+            echo "Error al actualizar el inventario.";
+            $declaracion_actualizar->close();
+            $conexion->close();
+            exit();
+        }
     }
 
-    // Cerrar la conexión
     $conexion->close();
 
-    // Mostrar mensaje de compra exitosa
     echo '<div class ="mensajes-alertas">¡Compra exitosa! Gracias por tu compra.
         <div class ="mensaje-boton"><a href="../Php/comprasCliente.php">Aceptar</a>
         </div>
@@ -88,3 +108,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>';
 }
 ?>
+</body>
+</html>

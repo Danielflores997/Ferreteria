@@ -118,9 +118,14 @@ if (!isset($_SESSION['correo'])) {
             var index = carritoProductos.findIndex(item => item.titulo === producto.titulo);
 
             if (index !== -1) {
-                carritoProductos[index].cantidad++;
-                localStorage.setItem('carritoProductos', JSON.stringify(carritoProductos));
-                mostrarCarrito();
+                // Verificar si hay suficientes existencias del producto
+                if (producto.cantidadDisponible > 0) {
+                    carritoProductos[index].cantidad++;
+                    localStorage.setItem('carritoProductos', JSON.stringify(carritoProductos));
+                    mostrarCarrito();
+                } else {
+                    alert('¡Producto no disponible! No hay existencias.');
+                }
             }
         }
 

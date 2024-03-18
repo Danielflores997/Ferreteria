@@ -107,7 +107,7 @@ button.btn-login:hover {
 }
 
 .seccion-compras {
-    background-color: #135c0c;
+    background-color: #f1f0f0;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -117,7 +117,7 @@ button.btn-login:hover {
 
 #select-menu-cliente {
     background-color:transparent;
-    color: #fff;
+    color: #ffffff;
     font-weight: bold;
     padding: 5px 15px;
     border: none;
@@ -168,7 +168,7 @@ tr {
 }
 
 h3 {
-    color: #0d5e18;
+    color: #ffffff;
     font-size:20px;
     width: 100%;
     display: flex;

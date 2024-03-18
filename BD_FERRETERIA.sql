@@ -63,24 +63,23 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `compras`;
 
 CREATE TABLE `compras` (
-  `idCompra` int(11) NOT NULL AUTO_INCREMENT,
-  `productos_idProducto` int(11) NOT NULL,
-  `proveedor_idProveedor` int(11) NOT NULL,
-  `fechaCompra` date NOT NULL,
-  `valorCompra` varchar(45) NOT NULL,
-  `cantidadCompra` varchar(45) NOT NULL,
-  PRIMARY KEY (`idCompra`),
-  KEY `productos_idProducto` (`productos_idProducto`),
-  KEY `proveedor_idProveedor` (`proveedor_idProveedor`),
-  CONSTRAINT `compras_ibfk_1` FOREIGN KEY (`productos_idProducto`) REFERENCES `productos` (`idProducto`),
-  CONSTRAINT `compras_ibfk_2` FOREIGN KEY (`proveedor_idProveedor`) REFERENCES `proveedor` (`idProveedor`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario_id` int(11) DEFAULT NULL,
+  `producto_id` int(11) DEFAULT NULL,
+  `cantidad` int(11) DEFAULT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `usuario_id` (`usuario_id`),
+  KEY `producto_id` (`producto_id`),
+  CONSTRAINT `compras_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`idUsuario`),
+  CONSTRAINT `compras_ibfk_2` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`idProducto`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `compras` */
 
 LOCK TABLES `compras` WRITE;
 
-insert  into `compras`(`idCompra`,`productos_idProducto`,`proveedor_idProveedor`,`fechaCompra`,`valorCompra`,`cantidadCompra`) values (1,5,4,'2023-01-05','$150,000','10'),(2,7,3,'2023-02-12','$85,000	','5'),(3,1,7,'2023-03-20','$220,000','15'),(4,7,5,'2023-04-10','$45,000','2'),(5,2,1,'2023-05-01','$320,000','8'),(6,4,2,'2023-06-18','$75,000','6'),(7,20,8,'2023-07-09','$180,000','12'),(8,15,6,'2023-08-14','$90,000','4'),(9,4,9,'2023-09-22','$200,000','9'),(10,18,9,'2023-10-07','$55,000','3'),(11,17,6,'2023-11-19','$300,000','10'),(12,12,10,'2023-10-07','$55,000','3'),(13,25,4,'2023-11-19','$300,000','10'),(14,19,2,'2023-12-03','$65,000','5'),(15,22,7,'2024-03-14','$150,000','5'),(16,18,1,'2024-04-25','$280,000','12'),(17,6,14,'2024-05-06','$95,000','4'),(18,8,12,'2024-05-06','$230,000','10'),(19,8,5,'2024-07-02','$70,000','6'),(20,18,4,'2024-08-16','$160,000','8'),(21,24,10,'2024-09-28','$45,000','2'),(22,17,4,'2024-10-15','$130,000','7'),(23,19,7,'2024-11-29','$75,000','4'),(24,4,15,'2024-12-07','$180,000','9'),(25,25,4,'2025-01-18','$95,000','6'),(26,2,10,'2025-02-03','$200,000','10'),(27,18,3,'2025-03-16','$50,000','3'),(28,20,7,'2025-04-25','$160,000','8'),(29,10,6,'2025-05-10','$75,000','4'),(30,14,9,'2025-06-23','$210,000','12');
+insert  into `compras`(`id`,`usuario_id`,`producto_id`,`cantidad`,`fecha`) values (1,20,63,1,'2024-03-01 23:36:51'),(2,20,2,1,'2024-03-01 23:36:51'),(3,20,1,1,'2024-03-01 23:36:51'),(4,20,10,1,'2024-03-02 23:36:51'),(5,22,31,1,'2024-03-03 23:37:41'),(6,22,39,1,'2024-03-03 23:37:41'),(7,22,44,1,'2024-03-04 23:37:41'),(8,22,42,1,'2024-03-06 23:37:41'),(9,22,4,1,'2024-03-13 23:37:41'),(10,22,60,2,'2024-03-15 23:37:41');
 
 UNLOCK TABLES;
 
@@ -204,7 +203,7 @@ CREATE TABLE `peticiones` (
 
 LOCK TABLES `peticiones` WRITE;
 
-insert  into `peticiones`(`Nombre`,`Apellido`,`Direccion`,`Telefono`,`Correo`,`Motivo`,`Estado`) values ('daniel','flores','522 Mcdounough st',2147483647,'daniflores@gmail.com','a david no le funcionan los mensajes para quejarse, ayudenlo plis','Si'),('armando','pizos','522 Mcdounough st',2147483647,'armandopizos@hotmail.com','Mensaje con 100 caracteres:\r\n\"Producto defectuoso, exijo un reemplazo.\"\r\n\r\nMensaje con 150 caractere','No'),('cristian','gray','kr 13f este 91b 17 sur',313,'cristian@gmail.com','el martillo no martilla bien','Si');
+insert  into `peticiones`(`Nombre`,`Apellido`,`Direccion`,`Telefono`,`Correo`,`Motivo`,`Estado`) values ('daniel','flores','522 Mcdounough st',2147483647,'daniflores@gmail.com','a david no le funcionan los mensajes para quejarse, ayudenlo plis','Si'),('armando','pizos','522 Mcdounough st',2147483647,'armandopizos@hotmail.com','Mensaje con 100 caracteres:\r\n\"Producto defectuoso, exijo un reemplazo.\"\r\n\r\nMensaje con 150 caractere','No'),('cristian','gray','kr 13f este 91b 17 sur',313,'cristian@gmail.com','el martillo no martilla bien','No');
 
 UNLOCK TABLES;
 
@@ -252,7 +251,7 @@ CREATE TABLE `proveedor` (
 
 LOCK TABLES `proveedor` WRITE;
 
-insert  into `proveedor`(`idProveedor`,`nombreProveedor`,`apellidoProveedor`,`telefonoProveedor`,`direccionProveedor`,`correoProveedor`) values (1,'Ferreacero','Conway','3187659087','Calle Principal 321','info@ferreacero23.com'),(2,'Herrajes','López','555-987-6543','Avenida del Sol 654','ventas@herrajeslopez.com'),(3,'Materiales','Rivas','555-555-5555','Plaza Mayor 789','contacto@materialesrivas.com'),(4,'Ferretería','Gómez','555-111-2222','Calle del Parque 234','info@ferreteriagomez.com'),(5,'Suministros','Martínez','666-777-8888','Paseo de la Montaña 567','ventas@suministrosmartinez.com'),(6,'Ferromaq','','777-333-9999','Avenida de los Flores 877','ferromaq@gmail.com'),(7,'Ferretería','Torres','555-444-3333','Calle de los Pinos 123','ventas@ferreteriatorres.com'),(8,'Comercial','Ferroplast','555-666-7777','Plaza del Mercado 456','info@comercialferroplast.com'),(9,'Proveedora daniel','Vargas','555-888-9999','Avenida de la Playa 78','ventas@proveedoravargas.com'),(10,'Ferretería','Luna','555-222-1111','Calle de la Luna 234','contacto@ferreterialuna.com'),(11,'Suministros','Herrera','555-666-4444','Paseo del Bosque 567','info@suministrosherrera.com'),(12,'Ferretería','Silva','555-222-7777','Avenida de las Palmas 890','ventas@ferreteriasilva.com'),(13,'Comercial','Morales','555-888-5555','Calle del Río 123','contacto@comercialmorales.com'),(14,'Proveedora','Pacheco','555-444-2222','Plaza de la Fuente 456','ventas@proveedorapacheco.com'),(1000320746,'daniel','Conway','8152606466','522 Mcdounough st','contacto23@ferromaq.com');
+insert  into `proveedor`(`idProveedor`,`nombreProveedor`,`apellidoProveedor`,`telefonoProveedor`,`direccionProveedor`,`correoProveedor`) values (3566769,'Ferromaq','','777-333-9999','Avenida de los Flores 877','ferromaq@gmail.com'),(3783678,'Suministros','Martínez','666-777-8888','Paseo de la Montaña 567','ventas@suministrosmartinez.com'),(7986614,'Ferretería','Luna','555-222-1111','Calle de la Luna 234','contacto@ferreterialuna.com'),(8737837,'Materiales','Rivas','555-555-5555','Plaza Mayor 789','contacto@materialesrivas.com'),(8975757,'Proveedora daniel','Vargas','555-888-9999','Avenida de la Playa 78','ventas@proveedoravargas.com'),(9874576,'Suministros','Herrera','555-666-4444','Paseo del Bosque 567','info@suministrosherrera.com'),(18165164,'Ferreacero','Conway','3187659087','Calle Principal 321','info@ferreacero23.com'),(23556457,'Ferretería','Torres','555-444-3333','Calle de los Pinos 123','ventas@ferreteriatorres.com'),(25383783,'Herrajes','López','555-987-6543','Avenida del Sol 654','ventas@herrajeslopez.com'),(27867452,'Ferretería','Gómez','555-111-2222','Calle del Parque 234','info@ferreteriagomez.com'),(34556435,'Proveedora','Pacheco','555-444-2222','Plaza de la Fuente 456','ventas@proveedorapacheco.com'),(54653525,'Comercial','Ferroplast','555-666-7777','Plaza del Mercado 456','info@comercialferroplast.com'),(96574216,'Ferretería','Silva','555-222-7777','Avenida de las Palmas 890','ventas@ferreteriasilva.com'),(903465434,'Comercial','Morales','555-888-5555','Calle del Río 123','contacto@comercialmorales.com'),(1000320746,'daniel','Conway','8152606466','522 Mcdounough st','contacto23@ferromaq.com');
 
 UNLOCK TABLES;
 
@@ -298,7 +297,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 
-insert  into `usuario`(`idUsuario`,`tipoDocumentoUsuario`,`documentoUsuario`,`nombresUsuario`,`apellidosUsuario`,`correo`,`claveUsuario`,`estadoUsuario`,`rol_idRol`,`fotoPerfil`) values (1,'TI',99752136,'Juan    ','Pérez    ','juanperez@gmail.com','juan369','Activo',2,NULL),(2,'CC',987654321,'María   ','López    ','maria.lopez@example.com','maria5678','Inactivo',2,NULL),(3,'CE',12345678,'Carlos  ','Gómez    ','carlos.gomez@example.com','carlos9823','Activo',2,NULL),(4,'CC',789123456,'Pedro   ','Ramírez  ','pedroramirez@example.com','pedro5309','Inactivo',1,NULL),(5,'CC',321654987,'Ana     ','Rodríguez| ','Rodríguez@example.com','ana2716','Activo',2,NULL),(6,'CE',87654321,'Andrés  ','Silva    ','Silva@example.com','andres4992','Inactivo',2,NULL),(7,'CC',654987321,'Carolina','Vargas','carolina.vargas@example.com','carolina7248','Activo',2,NULL),(8,'CC',234567891,'Daniel  ','Martínez ','daniel.martinez@example.com','daniel2083','Inactivo',2,NULL),(9,'CC',987654321,'José    ','Castro   ','jose.castro@example.com','jose7529','Inactivo',2,NULL),(10,'CC',456789123,'Alejandro','Gómez','alejandrogomez@example.com','alejandro6165','Activo',1,NULL),(11,'CC',789123456,'Andrea','Herrera','andreaherrera@example.com','andreaherrera','Activo',2,NULL),(12,'CC',321654987,'Andrés  ','González ','Gonzalez@example.com','andres9614','Inactivo',2,NULL),(13,'CC',1000320746,'Daniel Mauricio','Flores Rueda','daniflores5492@gmail.com','daniel','Activo',1,'https://www.mundodeportivo.com/alfabeta/hero/2023/11/halo-infinite.1699531337.9737.jpg?width=768&aspect_ratio=16:9&format=nowebp'),(14,'CC',27867867,'carolina','rueda','adrianiyarueda@gmail.com','1234','Activo',2,'https://cdn.pixabay.com/photo/2020/08/04/11/45/heart-5462571_1280.png'),(20,'CC',3543645,'armando','pizos','casas23@gmail.com','23','Activo',0,'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAJ5AaYDASI'),(22,'CC',342435345,'timmy','torner','padrinos@gmail.com','cosmo','Activo',0,NULL);
+insert  into `usuario`(`idUsuario`,`tipoDocumentoUsuario`,`documentoUsuario`,`nombresUsuario`,`apellidosUsuario`,`correo`,`claveUsuario`,`estadoUsuario`,`rol_idRol`,`fotoPerfil`) values (1,'TI',99752136,'Juan    ','Pérez    ','juanperez@gmail.com','juan369','Activo',2,NULL),(2,'CC',987654321,'María   ','López    ','maria.lopez@example.com','maria5678','Inactivo',2,NULL),(3,'CE',12345678,'Carlos  ','Gómez    ','carlos.gomez@example.com','carlos9823','Activo',2,NULL),(4,'CC',789123456,'Pedro   ','Ramírez  ','pedroramirez@example.com','pedro5309','Inactivo',1,NULL),(5,'CC',321654987,'Ana     ','Rodríguez| ','Rodríguez@example.com','ana2716','Activo',2,NULL),(6,'CE',87654321,'Andrés  ','Silva    ','Silva@example.com','andres4992','Inactivo',2,NULL),(7,'CC',654987321,'Carolina','Vargas','carolina.vargas@example.com','carolina7248','Activo',2,NULL),(8,'CC',234567891,'Daniel  ','Martínez ','daniel.martinez@example.com','daniel2083','Inactivo',2,NULL),(9,'CC',987654321,'José    ','Castro   ','jose.castro@example.com','jose7529','Inactivo',2,NULL),(10,'CC',456789123,'Alejandro','Gómez','alejandrogomez@example.com','alejandro6165','Activo',1,NULL),(11,'CC',789123456,'Andrea','Herrera','andreaherrera@example.com','andreaherrera','Activo',2,NULL),(12,'CC',321654987,'Andrés  ','González ','Gonzalez@example.com','andres9614','Inactivo',2,NULL),(13,'CC',1000320746,'Daniel Mauricio','Flores Rueda','daniflores5492@gmail.com','daniel','Activo',1,'https://www.mundodeportivo.com/alfabeta/hero/2023/11/halo-infinite.1699531337.9737.jpg?width=768&aspect_ratio=16:9&format=nowebp'),(14,'CC',27867867,'carolina','rueda','adrianiyarueda@gmail.com','1234','Activo',2,'https://img.freepik.com/vector-premium/angel-dibujos-animados-halo-fondo-rosa_712485-1527.jpg'),(20,'CC',3543645,'armando','pizos','casas23@gmail.com','23','Activo',0,'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAJ5AaYDASI'),(22,'CC',342435345,'timmy','torner','padrinos@gmail.com','cosmo','Activo',0,'https://cdn.pixabay.com/photo/2022/07/22/10/42/man-7337829_640.jpg');
 
 UNLOCK TABLES;
 
