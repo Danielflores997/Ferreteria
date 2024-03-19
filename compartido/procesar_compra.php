@@ -12,7 +12,7 @@
 session_start();
 
 if (!isset($_SESSION['correo'])) {
-    header('Location: index.php');
+    header('Location: ../Php/index.php');
     exit();
 }
 
