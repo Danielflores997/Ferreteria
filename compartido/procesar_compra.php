@@ -41,10 +41,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $productos = json_decode($_POST['productos'], true);
 
-    // Procesar la compra si hay suficiente stock para todos los productos
+    // Verificar si hay suficiente stock para todos los productos
     foreach ($productos as $producto) {
         $producto_id = $producto['idProducto'];
         $cantidad = $producto['cantidad'];
+
+        // Consultar el stock actual del producto
+        $consulta_stock = "SELECT stockProducto, nombreProductos FROM productos WHERE idProducto = ?";
+        $declaracion_stock = $conexion->prepare($consulta_stock);
+        $declaracion_stock->bind_param("i", $producto_id);
+        $declaracion_stock->execute();
+        $resultado_stock = $declaracion_stock->get_result();
+
+        if ($resultado_stock->num_rows == 0) {
+            echo "Error: No se encontró el producto en el inventario.";
+            exit();
+        }
+
+        $fila_stock = $resultado_stock->fetch_assoc();
+        $stock_disponible = $fila_stock['stockProducto'];
+        $nombre_producto = $fila_stock['nombreProductos'];
+
+        // Verificar si la cantidad solicitada excede la cantidad disponible en el stock
+        if ($cantidad > $stock_disponible) {
+            echo '<div class ="mensajes-alertas">¡Error! No hay suficiente existencia del producto "' . $nombre_producto . '".
+                <div class ="mensaje-boton"><a href="../Php/index.php">Aceptar</a>
+                </div>
+            </div>';
+            exit(); // Salir del proceso de verificación
+        }
+
+        // Procesar la compra si hay stock disponible
         $fecha = date("Y-m-d H:i:s");
 
         // Restar la cantidad comprada del inventario
