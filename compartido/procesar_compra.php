@@ -41,29 +41,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $productos = json_decode($_POST['productos'], true);
 
-    // Verificar y restar la cantidad comprada del inventario
+    // Procesar la compra si hay suficiente stock para todos los productos
     foreach ($productos as $producto) {
-        $producto_id = $producto['idProducto'] ?? null;
+        $producto_id = $producto['idProducto'];
         $cantidad = $producto['cantidad'];
         $fecha = date("Y-m-d H:i:s");
 
-        // Verificar si hay suficiente inventario disponible
-        $consulta_inventario = "SELECT stockProducto FROM productos WHERE idProducto = ?";
+        // Restar la cantidad comprada del inventario
+        $consulta_inventario = "UPDATE productos SET stockProducto = stockProducto - ? WHERE idProducto = ?";
         $declaracion_inventario = $conexion->prepare($consulta_inventario);
-        $declaracion_inventario->bind_param("i", $producto_id);
+        $declaracion_inventario->bind_param("ii", $cantidad, $producto_id);
         $declaracion_inventario->execute();
-        $resultado_inventario = $declaracion_inventario->get_result();
 
-        if ($resultado_inventario->num_rows == 0) {
-            echo "Error: No se encontró el producto en el inventario.";
-            exit();
-        }
-
-        $fila_inventario = $resultado_inventario->fetch_assoc();
-        $stock_disponible = $fila_inventario['stockProducto'];
-
-        if ($cantidad > $stock_disponible) {
-            echo "Error: No hay suficiente inventario disponible para el producto.";
+        if ($declaracion_inventario->affected_rows <= 0) {
+            echo "Error al restar la cantidad del inventario.";
+            $declaracion_inventario->close();
+            $conexion->close();
             exit();
         }
 
@@ -76,20 +69,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($declaracion_compra->affected_rows <= 0) {
             echo "Error al procesar la compra.";
             $declaracion_compra->close();
-            $conexion->close();
-            exit();
-        }
-
-        // Restar la cantidad comprada del inventario
-        $nuevo_stock = $stock_disponible - $cantidad;
-        $actualizar_inventario = "UPDATE productos SET stockProducto = ? WHERE idProducto = ?";
-        $declaracion_actualizar = $conexion->prepare($actualizar_inventario);
-        $declaracion_actualizar->bind_param("ii", $nuevo_stock, $producto_id);
-        $declaracion_actualizar->execute();
-
-        if ($declaracion_actualizar->affected_rows <= 0) {
-            echo "Error al actualizar el inventario.";
-            $declaracion_actualizar->close();
             $conexion->close();
             exit();
         }

@@ -114,20 +114,15 @@ if (!isset($_SESSION['correo'])) {
         }
 
         function sumarCantidad(producto) {
-            var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
-            var index = carritoProductos.findIndex(item => item.titulo === producto.titulo);
+    var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
+    var index = carritoProductos.findIndex(item => item.titulo === producto.titulo);
 
-            if (index !== -1) {
-                // Verificar si hay suficientes existencias del producto
-                if (producto.cantidadDisponible > 0) {
-                    carritoProductos[index].cantidad++;
-                    localStorage.setItem('carritoProductos', JSON.stringify(carritoProductos));
-                    mostrarCarrito();
-                } else {
-                    alert('¡Producto no disponible! No hay existencias.');
-                }
-            }
-        }
+    if (index !== -1) {
+        carritoProductos[index].cantidad++; // Incrementar la cantidad del producto en el carrito
+        localStorage.setItem('carritoProductos', JSON.stringify(carritoProductos));
+        mostrarCarrito();
+    }
+}
 
         function eliminarProducto(producto) {
             var carritoProductos = JSON.parse(localStorage.getItem('carritoProductos')) || [];
