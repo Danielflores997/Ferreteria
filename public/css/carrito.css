@@ -1,0 +1,132 @@
+/* Estilos para el carrito de compras */
+.carrito {
+    border: 1px solid #ddd;
+    width: 70%;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.carrito-item {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.carrito-item img {
+    width: 80px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.carrito-item-detalles {
+    flex: 1;
+}
+
+.carrito-item-titulo {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.selector-cantidad {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.carrito-item-cantidad {
+    border: 1px solid #ddd;
+    width: 30px;
+    padding: 5px;
+    text-align: center;
+}
+
+.btn-eliminar {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.btn-eliminar:hover {
+    background-color: #c0392b;
+}
+
+.carrito-precio-total {
+    font-weight: bold;
+    text-align: right;
+    margin-top: 10px;
+}
+
+.btn-vaciar-carrito {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.btn-vaciar-carrito:hover {
+    background-color: #c0392b;
+}
+
+.btn-comprar-carrito {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Estilos para el catálogo de productos (si lo necesitas) */
+.contenedor-items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.item {
+    flex: 1 1 calc(33.33% - 20px);
+    margin: 10px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    text-align: center;
+}
+
+.titulo-item {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.precio-item {
+    color: #e74c3c;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.img-catalogo {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.boton-item {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.boton-item:hover {
+    background-color: #c0392b;
+}

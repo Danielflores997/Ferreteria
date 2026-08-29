@@ -1,0 +1,91 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Kanit', sans-serif;
+    background-color: whitesmoke;
+}
+/* Estilos para el encabezado */
+header {
+    background-color: #ed1c23;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo img {
+    max-width: 100%;
+    background-color: yellow;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+h1 {
+    color: yellow;
+    font-size: 250%;
+}
+
+nav.navbar {
+    background-color: #a70207;
+    height: 60px;
+    padding-top: 10px;
+    border-style: double;
+    border-color: whitesmoke;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+a.Catalogo,
+a.Pintura,
+a.Electricas,
+a.Herramientas_Manuales,
+a.Accesorios {
+    font-size: 20px;
+    color: whitesmoke;
+    text-decoration: none;
+    padding: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-right: solid yellow;
+}
+
+a:hover {
+    color: yellow;
+}
+
+.lista {
+    width: 100%;
+    text-align:center;
+    padding-right: 20px;
+}
+
+.encabezado {
+    background-color: #fff;
+}
+
+button.btn-login {
+    background-color: whitesmoke;
+    padding: 7px;
+    border-radius: 50px;
+    border-style: none;
+}
+
+a.btn-login:hover {
+    color: red;
+}
+
+a.btn-login {
+    color: black;
+    font-size: 20px;
+    font-style: none;
+    text-decoration: none;
+}
+
+button.btn-login:hover {
+    background-color: yellow;
+}
