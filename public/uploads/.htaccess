@@ -1,0 +1,8 @@
+# Solo archivos estáticos: nunca ejecutar código en las subidas de usuarios
+php_flag engine off
+RemoveHandler .php .phtml .php3 .php4 .php5 .php7 .phps
+RemoveType .php .phtml .php3 .php4 .php5 .php7 .phps
+
+<FilesMatch "\.(?i:php|phtml|phar|cgi|pl|py|sh|htaccess)$">
+    Require all denied
+</FilesMatch>

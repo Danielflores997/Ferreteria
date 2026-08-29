@@ -1,0 +1,11 @@
+Options -Indexes
+RewriteEngine On
+RewriteBase /Ferreteria/public/
+
+# Allow direct access to real files/dirs
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Front controller
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]

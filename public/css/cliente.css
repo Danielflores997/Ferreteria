@@ -1,0 +1,454 @@
+/* ============================================================
+   Vistas del cliente (perfil, compras, contacto)
+   ============================================================ */
+:root {
+    --cl-panel: #ffffff;
+    --cl-soft: #f6f8fa;
+    --cl-border: #dde3ea;
+    --cl-text: #23303c;
+    --cl-muted: #6b7885;
+    --cl-primary: #c62128;
+    --cl-primary-dark: #a01a20;
+    --cl-ok: #1a7f45;
+}
+
+.cliente-wrap {
+    max-width: 1000px;
+    margin: 28px auto 40px;
+    padding: 0 18px;
+    color: var(--cl-text);
+}
+
+.cliente-wrap h2 {
+    margin: 0 0 20px;
+    font-size: 1.5rem;
+    border-left: 4px solid var(--cl-primary);
+    padding-left: 12px;
+}
+
+.cliente-panel {
+    background: var(--cl-panel);
+    border: 1px solid var(--cl-border);
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(16, 24, 40, .05);
+}
+
+.cliente-panel > h3 {
+    margin: 0 0 16px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--cl-border);
+}
+
+.cliente-panel > h3 i {
+    color: var(--cl-primary);
+}
+
+/* ---------- Cabecera de perfil ---------- */
+.perfil-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.perfil-header img {
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--cl-primary);
+    background: var(--cl-soft);
+}
+
+.perfil-header .datos h3 {
+    margin: 0 0 4px;
+    font-size: 1.2rem;
+}
+
+.perfil-header .datos span {
+    color: var(--cl-muted);
+    font-size: .9rem;
+}
+
+.cliente-datos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 10px;
+}
+
+.cliente-datos div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    background: var(--cl-soft);
+    border-radius: 8px;
+    font-size: .9rem;
+}
+
+.cliente-datos span:first-child {
+    color: var(--cl-muted);
+}
+
+.pill {
+    padding: 2px 12px;
+    border-radius: 20px;
+    font-size: .78rem;
+    background: rgba(198, 33, 40, .1);
+    color: var(--cl-primary);
+}
+
+.pill.ok {
+    background: rgba(26, 127, 69, .12);
+    color: var(--cl-ok);
+}
+
+/* ---------- Formularios ---------- */
+.cliente-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px 18px;
+}
+
+.cliente-form .campo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.cliente-form .campo.ancho-total {
+    grid-column: 1 / -1;
+}
+
+.cliente-wrap label {
+    font-size: .76rem;
+    font-weight: 600;
+    color: var(--cl-muted);
+    text-transform: uppercase;
+    letter-spacing: .3px;
+}
+
+.cliente-wrap input[type="text"],
+.cliente-wrap input[type="url"],
+.cliente-wrap input[type="email"],
+.cliente-wrap input[type="tel"],
+.cliente-wrap textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--cl-border);
+    border-radius: 8px;
+    background: var(--cl-panel);
+    color: var(--cl-text);
+    font-size: .92rem;
+    font-family: inherit;
+}
+
+.cliente-wrap textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.cliente-wrap input:focus,
+.cliente-wrap textarea:focus {
+    outline: none;
+    border-color: var(--cl-primary);
+    box-shadow: 0 0 0 3px rgba(198, 33, 40, .12);
+}
+
+.cliente-wrap input[type="file"] {
+    padding: 8px;
+    border: 1px dashed var(--cl-border);
+    border-radius: 8px;
+    background: var(--cl-panel);
+    color: var(--cl-muted);
+    font-size: .85rem;
+    width: 100%;
+}
+
+.cliente-wrap input[type="file"]::file-selector-button {
+    margin-right: 10px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    background: var(--cl-primary);
+    color: #fff;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.foto-actual {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.foto-actual img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--cl-primary);
+}
+
+/* ---------- Botones ---------- */
+.cliente-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.btn-cliente {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: var(--cl-primary);
+    color: #fff;
+    font-size: .92rem;
+    font-family: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-cliente:hover {
+    background: var(--cl-primary-dark);
+    color: #fff;
+}
+
+.btn-cliente.secundario {
+    background: var(--cl-panel);
+    border: 1px solid var(--cl-border);
+    color: var(--cl-text);
+}
+
+.btn-cliente.secundario:hover {
+    border-color: var(--cl-primary);
+    color: var(--cl-primary);
+    background: var(--cl-panel);
+}
+
+/* ---------- Tablas ---------- */
+.cliente-tabla {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--cl-border);
+    border-radius: 12px;
+    background: var(--cl-panel);
+}
+
+.cliente-tabla table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .9rem;
+}
+
+.cliente-tabla th {
+    background: var(--cl-soft);
+    color: var(--cl-muted);
+    text-align: left;
+    padding: 12px;
+    font-size: .74rem;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    border-bottom: 1px solid var(--cl-border);
+}
+
+.cliente-tabla td {
+    padding: 12px;
+    border-top: 1px solid var(--cl-border);
+}
+
+.cliente-tabla tr:hover td {
+    background: var(--cl-soft);
+}
+
+.cliente-vacio {
+    padding: 26px;
+    text-align: center;
+    color: var(--cl-muted);
+}
+
+/* ---------- Carrito ---------- */
+.carrito-item {
+    display: grid;
+    grid-template-columns: 90px minmax(0, 1fr) auto auto auto;
+    align-items: center;
+    gap: 18px;
+    padding: 16px 18px;
+    background: var(--cl-panel);
+    border: 1px solid var(--cl-border);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(16, 24, 40, .05);
+}
+
+.carrito-item img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    background: var(--cl-soft);
+    border-radius: 8px;
+}
+
+.carrito-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.carrito-info strong {
+    font-size: 1rem;
+}
+
+.carrito-info .precio-unitario {
+    font-size: .85rem;
+    color: var(--cl-muted);
+}
+
+.carrito-cantidad {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--cl-border);
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.carrito-cantidad button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 6px;
+    background: var(--cl-soft);
+    color: var(--cl-text);
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.carrito-cantidad button:hover {
+    background: var(--cl-primary);
+    color: #fff;
+}
+
+.carrito-cantidad span {
+    min-width: 30px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.carrito-subtotal {
+    font-weight: 700;
+    font-size: 1.05rem;
+    white-space: nowrap;
+}
+
+.carrito-eliminar {
+    border: none;
+    background: none;
+    color: var(--cl-muted);
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.carrito-eliminar:hover {
+    color: var(--cl-primary);
+}
+
+.carrito-resumen {
+    background: var(--cl-panel);
+    border: 1px solid var(--cl-border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 8px;
+}
+
+.carrito-resumen .total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--cl-border);
+}
+
+.carrito-resumen .total span {
+    color: var(--cl-muted);
+    text-transform: uppercase;
+    font-size: .8rem;
+    letter-spacing: .4px;
+}
+
+.carrito-resumen .total strong {
+    font-size: 1.5rem;
+    color: var(--cl-primary);
+}
+
+.carrito-resumen .cliente-acciones {
+    justify-content: flex-end;
+}
+
+.carrito-vacio {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.carrito-vacio i {
+    font-size: 2.6rem;
+    color: var(--cl-border);
+}
+
+.carrito-vacio p {
+    margin: 0;
+    color: var(--cl-muted);
+}
+
+@media (max-width: 720px) {
+    .carrito-item {
+        grid-template-columns: 70px minmax(0, 1fr) auto;
+        row-gap: 12px;
+    }
+
+    .carrito-item img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .carrito-cantidad {
+        grid-column: 2;
+    }
+
+    .carrito-subtotal {
+        grid-column: 3;
+    }
+}
+
+/* ---------- Mensajes ---------- */
+.cliente-ok {
+    padding: 12px 16px;
+    border-radius: 8px;
+    background: rgba(26, 127, 69, .1);
+    border: 1px solid rgba(26, 127, 69, .3);
+    color: var(--cl-ok);
+    margin-bottom: 18px;
+}
+
+/* El footer heredado es fixed y tapa el contenido */
+body footer {
+    position: static !important;
+    width: auto;
+}

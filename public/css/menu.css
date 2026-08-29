@@ -1,0 +1,132 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Kanit', sans-serif;
+    background-color: whitesmoke;
+}
+/* Estilos para el encabezado */
+header {
+    background-color: #ed1c23;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo img {
+    max-width: 100%;
+    background-color: yellow;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+h1 {
+    color: yellow;
+    font-size: 250%;
+}
+
+nav.navbar {
+    background-color: #a70207;
+    padding: 0;
+    border-style: double;
+    border-color: whitesmoke;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+/* Aplica a todos los enlaces del menú, tengan clase o no */
+.lista {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 4px 0;
+    width: 100%;
+    padding: 10px 16px;
+}
+
+.lista a {
+    font-size: 18px;
+    color: whitesmoke;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-right: 2px solid yellow;
+    white-space: nowrap;
+}
+
+.lista a:last-of-type {
+    border-right: none;
+}
+
+.lista a:hover,
+.lista a:visited:hover {
+    color: yellow;
+}
+
+.lista a:visited {
+    color: whitesmoke;
+}
+
+.lista button.btn-login {
+    margin-left: 10px;
+}
+
+.lista button.btn-login a {
+    border-right: none;
+    padding: 0;
+}
+
+a:hover {
+    color: yellow;
+}
+
+.encabezado {
+    background-color: #fff;
+}
+
+button.btn-login {
+    background-color: whitesmoke;
+    padding: 7px;
+    border-radius: 50px;
+    border-style: none;
+}
+
+a.btn-login:hover {
+    color: red;
+}
+
+a.btn-login {
+    color: black;
+    font-size: 20px;
+    font-style: none;
+    text-decoration: none;
+}
+
+button.btn-login:hover {
+    background-color: yellow;
+}
+
+/* Icono flotante del carrito, disponible en todas las vistas públicas */
+.icono-carrito {
+    position: fixed;
+    bottom: 50px;
+    right: 60px;
+    font-size: 48px;
+    z-index: 1000;
+}
+
+.icono-carrito a {
+    position: relative;
+    display: inline-block;
+    color: #a70207;
+    text-decoration: none;
+}
+
+.icono-carrito a:hover {
+    color: #ed1c23;
+}
