@@ -19,7 +19,7 @@ if (isset($_POST['registro'])) {
     // Verificar que todos los campos estén completos
     if (empty($_POST['tipo_documento']) || empty($_POST['documento']) || empty($_POST['nombre']) || empty($_POST['apellido']) || empty($_POST['Correo']) || empty($_POST['Contraseña']) || empty($_POST['Confirmar'])) {
         echo '<div class ="mensajes-alertas">Todos los campos son obligatorios. Por favor, completa todos los campos.
-        <div class ="mensaje-boton"><a href="../Php/registroCliente.php">Aceptar</a>
+        <div class ="mensaje-boton"><a href="../public/registroCliente.php">Aceptar</a>
         </div>
     </div>';
 exit();
@@ -42,7 +42,7 @@ exit();
 
     if ($contrasena !== $confirmarContrasena) {
         echo '<div class ="mensajes-alertas"> Las contraseñas no coinciden. Por favor, inténtalo nuevamente.
-        <div class ="mensaje-boton"><a href="../Php/registroCliente.php">Aceptar</a>
+        <div class ="mensaje-boton"><a href="../public/registroCliente.php">Aceptar</a>
         </div>
     </div>';
 exit();
@@ -54,7 +54,7 @@ exit();
 
     if ($resultadoDocumento->num_rows > 0) {
         echo '<div class ="mensajes-alertas">El número de documento ya esta registrado
-                <div class ="mensaje-boton"><a href="../Php/registroCliente.php">Aceptar</a>
+                <div class ="mensaje-boton"><a href="../public/registroCliente.php">Aceptar</a>
                 </div>
             </div>';
         exit();
@@ -65,10 +65,10 @@ exit();
 
     if ($mysqli->query($sql)) {
         echo '<div class ="mensajes-alertas">¡Bienvenido! Registro exitoso.
-        <div class ="mensaje-boton"><a href="../Php/loginCliente.php">Aceptar</a></div>' . $mysqli->error;
+        <div class ="mensaje-boton"><a href="../public/login.php">Aceptar</a></div>' . $mysqli->error;
     } else {
         echo '<div class ="mensajes-alertas"> Error al registrar el usuario:
-        <div class ="mensaje-boton"><a href="../Php/registroCliente.php">Aceptar</a>
+        <div class ="mensaje-boton"><a href="../public/registroCliente.php">Aceptar</a>
         </div>' . $mysqli->error;
     }
 

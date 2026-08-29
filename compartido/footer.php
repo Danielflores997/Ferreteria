@@ -3,16 +3,16 @@
     <h4>Ferreteria Meissen</h4>
     <div class="enlaces">
         <ul>
-                    <li><a href="../Php/pqrs.php">Contacto</a></li>
-                    <li><a href="nosotros.php">Nosotros</a></li>
-                    <li><a href="../Php/index.php">Catalogo</a></li>
-                    <li><a href="../Php/pinturas.php">Pintura</a></li>
-                    <li><a href="../Php/electricas.php">Electricas</a></li>
-                    <li><a href="../Php/herramientas.php">Herramientas</a></li>
-                    <li><a href="../Php/accesorios.php">Accesorios</a></li>
-                    <li><a href="../Php/carpinteria.php">Carpinteria</a></li>
-                    <li><a href="../Php/plomeria.php">Plomeria</a></li>
-                    <li><a href="../Php/jardineria.php">Jardineria</a></li>
+                    <li><a href="../public/pqrs.php">Contacto</a></li>
+                    <li><a href="../public/nosotros.php">Nosotros</a></li>
+                    <li><a href="../public/index.php">Catalogo</a></li>
+                    <li><a href="../public/ventas.php?categoria=2">Pintura</a></li>
+                    <li><a href="../public/ventas.php?categoria=4">Electricas</a></li>
+                    <li><a href="../public/ventas.php?categoria=1">Herramientas</a></li>
+                    <li><a href="../public/ventas.php?categoria=9">Accesorios</a></li>
+                    <li><a href="../public/ventas.php?categoria=5">Carpinteria</a></li>
+                    <li><a href="../public/ventas.php?categoria=7">Plomeria</a></li>
+                    <li><a href="../public/ventas.php?categoria=8">Jardineria</a></li>
         </ul>
     </div>
     <h4>Redes sociales</h4>

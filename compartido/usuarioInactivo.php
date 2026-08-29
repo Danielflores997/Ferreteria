@@ -74,7 +74,7 @@
   <div class="error-container animated fadeIn">
     <h2>Error de Acceso</h2>
     <p>Tu cuenta está inactiva.</p>
-    <a href="../Php/loginCliente.php">Volver al Inicio de Sesión</a>
+    <a href="../public/login.php">Volver al Inicio de Sesión</a>
   </div>
 </body>
 </html>

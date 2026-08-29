@@ -30,11 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['rol'] = $rol;
 
             if ($rol == 1) {
-                header('Location: ../Php/vistaAdmin.php');
+                header('Location: ../public/admin.php');
             } elseif ($rol == 2) {
-                header('Location: ../Php/vistaVendedor.php');
+                header('Location: ../public/ventas.php');
             } else {
-                header('Location: ../Php/perfilCliente.php');
+                header('Location: ../public/perfilCliente.php');
             }
 
             // Iniciar sesión y guardar el correo en la variable de sesión
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: usuarioInactivo.php');
         }
     } else {
-        header('Location: ../Php/loginCliente.php');
+        header('Location: ../public/login.php');
     }
 }
 
