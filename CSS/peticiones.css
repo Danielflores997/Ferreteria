@@ -1,0 +1,256 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Kanit', sans-serif;
+    background-color: whitesmoke;
+}
+
+header {
+    background-color: #ed1c23;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo img {
+    max-width: 100%;
+    background-color: yellow;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+h1 {
+    color: yellow;
+    font-size: 250%;
+}
+
+nav.navbar {
+    background-color:#a70207;
+    height: 60px;
+    padding-top: 10px;
+    border-style: double;
+    border-color: whitesmoke;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+.lista a {
+    font-size: 20px;
+    color: whitesmoke;
+    text-decoration: none;
+    padding: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-right: solid yellow;
+}
+
+.lista a:hover {
+    color: yellow;
+}
+
+.lista {
+    width: 100%;
+    text-align: right;
+    padding-right: 20px;
+}
+
+.encabezado {
+    background-color: yellow;
+}
+
+button.btn-login {
+    background-color: whitesmoke;
+    padding: 7px;
+    border-radius: 50px;
+    border-style: none;
+}
+
+a.btn-login:hover {
+    color: red;
+}
+
+a.btn-login {
+    color: black;
+    font-size: 20px;
+    font-style: none;
+    text-decoration: none;
+}
+
+button.btn-login:hover {
+    background-color: yellow;
+}
+
+/* Estilos para el footer */
+footer {
+    background-color:#333;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+}
+
+footer h4 {
+    margin-bottom: 10px;
+}
+
+.enlaces ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.enlaces ul li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.enlaces ul li a {
+    text-decoration: none;
+    color:#fff;
+}
+
+.sociales-link a {
+    color:#fff;
+    margin-right: 10px;
+}
+
+.sociales-link p {
+    margin-top: 10px;
+    color:#fff;
+}
+
+/*estilo para la tabla de peticiones*/
+    table {
+        width: 100%;
+        margin-top: 30px;
+        border-collapse: collapse;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        font-family: Arial, sans-serif;
+        background-color: #ddf7dd;
+        font-weight:600;
+    }
+
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom:none;
+    }
+
+    th {
+        background-color: rgb(5, 138, 5);
+        color:#fff;
+    }
+
+    tr:hover {
+        background-color: #f5fcef;
+    }
+
+    h2 {
+        text-align: center;
+        color: rgb(5, 138, 5);
+        font-size: xx-large;
+        font-weight:900;
+    }
+
+/* Estilos para el menú lateral */
+h3 {
+    color: #fff;
+    text-align: center;
+}
+
+select option #selec-admin {
+    background-color: transparent;
+    color: #333;
+}
+
+#selec-admin {
+    border: none;
+    outline: none;
+    color: #fff;
+    background-color: #ed1c23;
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-left: 5px;
+    margin-right: 5px;
+    min-width: 85px;
+    cursor: pointer;
+}
+
+#select-categoria {
+    color: #333;
+}
+
+select option #select-categoria {
+    background-color: whitesmoke;
+    color: #fff;
+}
+
+#foto {
+    background-color: rgb(161, 166, 172);
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    max-width: 130px;
+    min-width: 80px;
+    min-height: 80px;
+    border-style: groove;
+    border-color: solid whitesmoke;
+    border-radius: 50%;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+#menu-lateral {
+    background-color: #ed1c23;
+    width: 20%;
+    max-width: 300px;
+    min-width: 160px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 200px;
+    height: 100%;
+    position: static;
+}
+.contenedor-tabla-peticiones{
+    width: 100%;
+    padding: 35px 20px;
+    text-align: center;
+    min-height: 600px;
+}
+
+button[type="submit"] {
+    background-color: #4CAF50; 
+    color: white; 
+    padding: 20px 40px; 
+    font-size: 1.2em;
+    border: none; 
+    border-radius: 10px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3); 
+    transform: translateY(-2px); 
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+

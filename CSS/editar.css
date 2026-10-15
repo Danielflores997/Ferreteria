@@ -1,0 +1,150 @@
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Kanit', sans-serif;
+}
+
+/* Estilos para el encabezado */
+header {
+    background-color: #ed1c23;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo img {
+    max-width: 100%;
+    background-color: yellow;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+h1 {
+    color: yellow;
+    font-size: 250%;
+}
+
+nav.navbar {
+    background-color: #a70207;
+    height: 60px;
+    padding-top: 10px;
+    border-style: double;
+    border-color: whitesmoke;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+a.CatalogoTodo,
+a.Pintura,
+a.Electricas,
+a.Herramientas_Manuales,
+a.Accesorios {
+    font-size: 20px;
+    color: whitesmoke;
+    text-decoration: none;
+    padding: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-right: solid yellow;
+}
+
+a:hover {
+    color: yellow;
+}
+
+.lista {
+    width: 100%;
+    text-align: right;
+    padding-right: 20px;
+}
+.encabezado {
+    background-color: yellow;
+}
+
+button.btn-login {
+    background-color: whitesmoke;
+    padding: 7px;
+    border-radius: 50px;
+    border-style: none;
+}
+
+a.btn-login:hover {
+    color: red;
+}
+
+a.btn-login {
+    color: black;
+    font-size: 20px;
+    font-style: none;
+    text-decoration: none;
+}
+
+button.btn-login:hover {
+    background-color: yellow;
+}
+
+
+#titulo-tabla{
+    font-size: 25px;
+    margin-top: 25px;
+    padding: 0;
+    color: rgb(8, 109, 8);
+    display: flex;
+    justify-content: center;
+}
+.contenedorfor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f1f1f1; /* Cambia el color de fondo */
+    margin: 50px;
+}
+
+.forEditar {
+    background-color: #ffffff;
+    width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    text-align: center; /* Centra el contenido horizontalmente */
+}
+
+.forEditar h4 {
+    margin-top: 0; /* Elimina el margen superior del título */
+}
+
+.forEditar label {
+    display: block;
+    margin-bottom: 5px;
+    text-align: left; /* Alinea las etiquetas a la izquierda */
+}
+
+.forEditar input[type="text"],
+.forEditar input[type="number"],
+.forEditar select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.forEditar button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.forEditar button:hover {
+    background-color: #0056b3;
+}

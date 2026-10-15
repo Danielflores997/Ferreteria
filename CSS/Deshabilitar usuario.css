@@ -1,0 +1,225 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.container{
+    height: 180px;
+    margin: 0 auto;
+    background-color: rgb(17, 12, 12);
+    overflow: hidden;
+    padding: 80px 0;
+}
+
+.container img{
+    position: absolute;
+    width: 130px;
+    height: auto;
+    top: 40px;
+    left: 50px;
+}
+
+.titulo{
+    color:rgb(255, 255, 255); 
+    text-align: center;
+    position: absolute;
+    top: 50px;
+    left: 900px;
+    font-size: 60px;
+}
+
+td {
+    font-size: 30px;
+}
+
+option {
+    font-size: 20px;
+}
+
+
+html {
+    font-size: 62.5%;
+}
+
+.contenedor_foto3gescli{
+    position: relative;
+}
+
+img{
+    width: 45px;
+    height: 45px;
+    left: 24px;
+    top: 1.9px;
+    position: absolute;
+}
+
+main {
+    display: flex;
+}
+.seccioncontenedor2 {
+    width: 80%;
+    border: 1px solid;
+}
+.botonesgesclie {
+    display: flex;
+    flex-direction: column;    
+}
+.contenedor_foto3gescli {
+    width: 20%;
+    
+}
+.info-usuario3{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid;
+    border-radius: 25px;
+    padding: 12px;
+}
+
+.info-usuario3 p {
+    font-size: 2rem;
+}
+
+.botonesnavegacionadministrador {
+    height: 4rem;
+}
+.contenedortilulo {
+    text-align: center;
+    margin: 2%;
+    font-size: 1.8rem;
+}
+.contenedorbotongesclie button {
+    height: 5rem;
+    
+    border-radius: 6px;
+}
+.botonesbuscarcliente {
+    text-align: center;
+   
+}
+.botonesbuscarcliente .botonbuscarsuperior {
+    margin: 10px;
+    width: 13%;
+}
+.Contenedortablagesclie{
+    width: 90%;
+    margin: 0 auto;
+  
+}
+.centrartitulotabla {
+    text-align: center;
+    font-size: 1.6rem;
+}
+.Contenedortablagesclie .congesclinombre {
+    border: 1px solid;
+    height: 4rem;
+    width: 20%;
+
+}
+.tablaingresomensaje {
+    width: 60%;
+    padding: 30px;
+
+}
+
+.tablaingresomensaje .contenidomensajegesclie {
+    height: 15rem;
+    width: 100%;
+    margin: 1% 5%;
+}
+
+.mensagesclie {
+    font-size: 1.8rem;
+    margin: 5%;
+}
+
+.contenedormensajegesclie  {
+    display: flex;
+    width: 100%;
+}
+
+
+.contenedormensajegesclie button {
+    width: 20%;
+    margin: 5px;
+}
+
+.mensaje{
+    width: 100%;
+}
+
+.bottonenviarcancelar {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.footer_container-icon{
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    border: 1px solid #040000;
+    border-radius: 50%;
+}
+ 
+.footer-icon{
+    color: indianred;
+    font-size: 50px;
+    top: -130px;
+    left: -130px;
+    align-items: center;
+    height: 100px;
+    justify-content: space-around;
+}
+
+.final {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contactos {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.grupo1, .grupo2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.grupo1 {
+    order: 1;
+}
+
+.grupo2 {
+    order: 2;
+}
+
+.contacto {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.footer-icon {
+    margin-right: 10px;
+    margin-top: 50px;
+    
+}
+
+h3{
+    font-size: 40px;
+}
+
+p{
+    font-size: 30px;
+}
+

@@ -1,0 +1,44 @@
+body {
+    background-color: #E5E8E8 ;
+    height: 100vh; /* Añadido: asegura que el cuerpo ocupe el 100% de la altura de la ventana */
+    margin: 0; /* Añadido: elimina el margen predeterminado del cuerpo */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.mensajes-alertas {
+    background-color: #fff;
+    width: 25%;
+    max-width: 400px; /* Añadido: limita el ancho máximo para evitar que sea demasiado ancho en pantallas grandes */
+    height: 250px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+    border-radius: 20px;
+    box-shadow: 0 0 20px black;
+    font-family: sans-serif;
+    font-weight: bold;
+    border-style: hidden;
+    border-color: solid 2px #555;
+    text-align: center;
+    margin-top: 30px;
+}
+a{
+    color:#fff;
+    text-decoration: none;
+    margin: 10px;
+}
+.mensaje-boton{
+    background-color:#a70207;
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 25px #757575 ;
+    border: solid 1px #757575;
+}

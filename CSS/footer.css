@@ -1,0 +1,43 @@
+/* Estilos para el footer */
+footer {
+    background-color:#333;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+}  
+footer h4 {
+    margin-bottom: 10px;
+}  
+.enlaces ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.enlaces ul li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.enlaces ul li a {
+    text-decoration: none;
+    color:#fff;
+}
+
+.sociales-link a {
+    color:#fff;
+    margin-right: 10px;
+}
+
+.sociales-link p {
+    margin-top: 10px;
+    color:#fff;
+}
+
+.enlaces ul li a:hover{
+    color: yellow;
+}
+.sociales-link a:hover {
+    color:yellow;
+}

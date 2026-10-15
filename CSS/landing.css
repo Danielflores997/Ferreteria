@@ -1,0 +1,142 @@
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)),
+        url('../imagenes/admin.jpg') center/cover no-repeat fixed;
+    color: #fff;
+}
+
+/*  HERO  */
+.hero {
+    text-align: center;
+    padding: 60px 20px 40px;
+}
+
+.hero h1 {
+    font-weight: 700;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    letter-spacing: -0.5px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.hero h1 .accent {
+    color: #cf2d2d;
+}
+
+.hero p {
+    opacity: 0.85;
+    font-size: 1.1rem;
+    margin-top: 12px;
+}
+
+/*  TARJETAS DE TENANTS  */
+.tenant-card {
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 18px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    color: #212529;
+    border: none;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.tenant-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 45px rgba(255, 59, 59, 0.35);
+}
+
+.tenant-card .card-img-wrap {
+    height: 160px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.tenant-card .card-img-wrap img {
+    max-height: 120px;
+    max-width: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+.tenant-card .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 22px;
+}
+
+.tenant-card h5 {
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.tenant-card .meta {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 6px;
+}
+
+.tenant-card .meta i {
+    color: #cf2d2d;
+    width: 18px;
+}
+
+/* BOTONES  */
+.btn-enter {
+    background: linear-gradient(135deg, #cf2d2d, #a71d26);
+    color: #fff !important;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-weight: 600;
+    margin-top: auto;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+}
+
+.btn-enter:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(255, 59, 59, 0.45);
+}
+
+.btn-register {
+    display: inline-block;
+    margin-top: 40px;
+    padding: 14px 28px;
+    border: 2px solid #fff;
+    border-radius: 12px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    backdrop-filter: blur(4px);
+}
+
+.btn-register:hover {
+    background: #fff;
+    color: #a71d26;
+    transform: scale(1.05);
+}
+
+/*  ESTADO VACÍO  */
+.empty-state {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 16px;
+    backdrop-filter: blur(8px);
+    text-align: center;
+}
