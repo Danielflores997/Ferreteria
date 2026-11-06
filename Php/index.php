@@ -51,12 +51,10 @@ Tenant::resolve();
                         <img class="img-catalogo" src="<?= htmlspecialchars($row["imagen"]) ?>">
                         <span class="titulo-item"><?= htmlspecialchars($row["descripcionProducto"]) ?></span>
                         <span class="precio-item">$ <?= number_format($row["valorProducto"], 0, ',', '.') ?></span>
-                        <button class="boton-item"
-                            data-titulo="<?= htmlspecialchars($row["nombreProductos"]) ?>"
+                        <button class="boton-item" data-titulo="<?= htmlspecialchars($row["nombreProductos"]) ?>"
                             data-imagen="<?= htmlspecialchars($row["imagen"]) ?>"
                             data-precio="<?= htmlspecialchars($row["valorProducto"]) ?>"
-                            data-idproducto="<?= htmlspecialchars($row["idProducto"]) ?>"
-                            onclick="agregarAlCarrito(this)">
+                            data-idproducto="<?= htmlspecialchars($row["idProducto"]) ?>" onclick="agregarAlCarrito(this)">
                             Agregar al Carrito
                         </button>
                     </div>
@@ -100,4 +98,5 @@ Tenant::resolve();
         localStorage.setItem('carritoProductos', JSON.stringify(carritoProductos));
     }
 </script>
+
 </html>

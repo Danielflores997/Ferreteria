@@ -41,6 +41,17 @@ class AuthController
             exit();
         }
 
+        // --- EXCEPCIÓN PARA SUPERADMIN ---
+        if ((int) $usuario['rol_idRol'] === 3 && empty($usuario['tenant_id'])) {
+            $_SESSION['usuario_id'] = (int) $usuario['idUsuario'];
+            $_SESSION['correo'] = $usuario['correo'];
+            $_SESSION['rol'] = 3;
+            $_SESSION['nombre'] = $usuario['nombresUsuario'];
+
+            header("Location: ../public/superadmin.php");
+            exit();
+        }
+
         // 3. Usuario no pertenece a esta ferretería
         if ((int) $usuario['tenant_id'] !== (int) Tenant::id()) {
             header('Location: ../public/login.php?tenant=' . urlencode(Tenant::slug()) . '&error=Este usuario no pertenece a esta ferretería');
@@ -56,10 +67,14 @@ class AuthController
 
         // 5. Redirigir según rol
         $slug = urlencode(Tenant::slug());
+
         if ((int) $usuario['rol_idRol'] === 1) {
-            header("Location: ../public/admin.php?tenant=$slug");
+            // Admin → Panel de admin (cuando lo tengamos listo)
+            // Por ahora lo mandamos al catálogo filtrado
+            header("Location: ../Php/index.php?tenant=$slug");
         } elseif ((int) $usuario['rol_idRol'] === 2) {
-            header("Location: ../public/ventas.php?tenant=$slug");
+            // Cliente → Catálogo filtrado (en vez de ventas.php)
+            header("Location: ../Php/index.php?tenant=$slug");
         } else {
             header("Location: ../Php/index.php?tenant=$slug");
         }
@@ -68,10 +83,26 @@ class AuthController
 
     public function logout(): void
     {
-        // session_start() ya se hizo en el entry point
-        session_unset();
+        // session_start() ya se hizo en el entry point (logout.php)
+        $_SESSION = array(); // Limpiar todas las variables de sesión
+
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(
+                session_name(),
+                '',
+                time() - 42000,
+                $params["path"],
+                $params["domain"],
+                $params["secure"],
+                $params["httponly"]
+            );
+        }
+
         session_destroy();
-        header('Location: ../public/landing.php');
+
+        // Redirección a la landing (desde public/, es solo "landing.php")
+        header('Location: landing.php');
         exit();
     }
 }
