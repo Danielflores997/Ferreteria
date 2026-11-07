@@ -1,0 +1,218 @@
+.contenedor .catalogo-footer {
+    display: flex;
+    flex: 0 0 100%;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 20px 0 8px;
+}
+
+.catalogo-header {
+    display: block;
+    width: 100%;
+    padding: 28px 20px;
+    background: linear-gradient(135deg, #f7f8fa 0%, #fff 50%, #f2f4f7 100%);
+    border-bottom: 1px solid #e3e6ea;
+}
+
+.catalogo-header .search-bar {
+    width: min(100%, 820px);
+    padding: 0;
+    margin: 0 auto;
+}
+
+.catalogo-header .search-bar form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 62px;
+    padding: 5px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #d5d9df;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgb(35 42 52 / 12%);
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.catalogo-header .search-bar form:focus-within {
+    border-color: #a70207;
+    box-shadow: 0 0 0 4px rgb(167 2 7 / 12%), 0 10px 28px rgb(35 42 52 / 12%);
+}
+
+.catalogo-header .search-bar input[type="search"] {
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 0;
+    height: 50px;
+    padding: 0 18px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #252a31;
+    font: inherit;
+    font-size: 1rem;
+}
+
+.catalogo-header .search-bar input[type="search"]::placeholder {
+    color: #777f89;
+}
+
+.catalogo-header .search-bar form button {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-width: 132px;
+    height: 50px;
+    margin: 0;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 12px;
+    background: #a70207;
+    color: #fff;
+    font: inherit;
+    font-size: .98rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color .2s ease, transform .2s ease;
+}
+
+.catalogo-header .search-bar form button:hover {
+    background: #7d0105;
+    transform: translateY(-1px);
+}
+
+.catalogo-header .search-bar form button:focus-visible {
+    outline: 3px solid #ffcc00;
+    outline-offset: 2px;
+}
+
+.catalogo-header .search-bar .cancelar-filtro {
+    display: inline-block;
+    margin: 12px 0 0;
+    color: #7d0105;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.catalogo-footer .catalogo-resultados {
+    width: 100%;
+    margin: 0 0 12px;
+    color: #59616b;
+    font-size: .95rem;
+    text-align: center;
+}
+
+.contenedor .catalogo-footer > nav.catalogo-paginacion {
+    display: flex;
+    flex: 0 0 100%;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin: 0;
+    padding: 8px 12px;
+}
+
+.contenedor .catalogo-footer > nav.catalogo-paginacion a.pagina-numero,
+.contenedor .catalogo-footer > nav.catalogo-paginacion a.pagina-control,
+.contenedor .catalogo-footer > nav.catalogo-paginacion span.pagina-numero {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 42px;
+    margin: 0;
+    padding: 0 12px;
+    border: 1px solid #d8dce2;
+    border-radius: 9px;
+    background: #fff;
+    color: #343a40;
+    font-size: .95rem;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    transition: color .2s ease, background-color .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.contenedor .catalogo-footer > nav.catalogo-paginacion a.pagina-control {
+    gap: 9px;
+    border-color: #a70207;
+    color: #a70207;
+}
+
+.contenedor .catalogo-footer > nav.catalogo-paginacion a.pagina-numero:hover,
+.contenedor .catalogo-footer > nav.catalogo-paginacion a.pagina-control:hover {
+    transform: translateY(-1px);
+    border-color: #a70207;
+    background: #fff4f4;
+    color: #7d0105;
+}
+
+.contenedor .catalogo-footer > nav.catalogo-paginacion span.pagina-numero.activa {
+    border-color: #a70207;
+    background: #a70207;
+    color: #fff;
+}
+
+.catalogo-footer .paginas-omision {
+    padding: 0 2px;
+    color: #727983;
+}
+
+.contenedor .contenedor-items .item .img-catalogo {
+    display: block;
+    width: 100%;
+    max-width: 170px;
+    height: 150px;
+    margin: 12px auto;
+    object-fit: contain;
+    background: #fff;
+}
+
+@media (max-width: 520px) {
+    .catalogo-header {
+        padding: 18px 12px;
+    }
+
+    .catalogo-header .search-bar form {
+        min-height: 54px;
+        border-radius: 13px;
+    }
+
+    .catalogo-header .search-bar input[type="search"] {
+        height: 44px;
+        padding: 0 12px;
+        font-size: .9rem;
+    }
+
+    .catalogo-header .search-bar form button {
+        min-width: 48px;
+        height: 44px;
+        gap: 0;
+        padding: 0 14px;
+    }
+
+    .catalogo-header .search-bar form button span {
+        display: none;
+    }
+
+    .contenedor .catalogo-footer > nav.catalogo-paginacion {
+        gap: 6px;
+    }
+
+    .contenedor .catalogo-footer > nav.catalogo-paginacion a.pagina-numero,
+    .contenedor .catalogo-footer > nav.catalogo-paginacion a.pagina-control,
+    .contenedor .catalogo-footer > nav.catalogo-paginacion span.pagina-numero {
+        min-width: 38px;
+        height: 38px;
+        padding: 0 9px;
+    }
+
+    .contenedor .catalogo-footer > nav.catalogo-paginacion a.pagina-control span {
+        display: none;
+    }
+}

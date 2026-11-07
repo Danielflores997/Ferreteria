@@ -25,6 +25,9 @@
 </div>
 <?php require APP_PATH . '/views/partials/footer.php'; ?>
 <script>
+var usuarioAutenticado = <?= isLoggedIn() ? 'true' : 'false' ?>;
+var urlLoginCompra = <?= json_encode(url('auth/login', ['return' => 'cliente/carrito'])) ?>;
+
 function leerCarrito() {
     return JSON.parse(localStorage.getItem('carritoProductos')) || [];
 }
@@ -109,11 +112,22 @@ document.getElementById('btn-vaciar').onclick = function () {
 document.getElementById('btn-comprar').onclick = function () {
     var items = leerCarrito();
     if (!items.length) return;
+    if (!usuarioAutenticado) {
+        window.location.href = urlLoginCompra;
+        return;
+    }
     fetch('<?= url('cliente/procesarCompra') ?>', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ items: items })
-    }).then(function (r) { return r.json(); }).then(function (d) {
+    }).then(function (r) {
+        if (r.status === 401) {
+            window.location.href = urlLoginCompra;
+            return null;
+        }
+        return r.json();
+    }).then(function (d) {
+        if (!d) return;
         alert(d.message || 'OK');
         if (d.success) { localStorage.removeItem('carritoProductos'); render(); }
     });

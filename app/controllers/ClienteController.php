@@ -67,7 +67,9 @@ class ClienteController extends Controller
 
     public function procesarCompra()
     {
-        $this->requireLogin();
+        if (empty($_SESSION['correo'])) {
+            $this->json(['success' => false, 'message' => 'Inicia sesión para procesar la compra.'], 401);
+        }
         $input = json_decode(file_get_contents('php://input'), true);
         if (!is_array($input) || !isset($input['items']) || !is_array($input['items']) || $input['items'] === []) {
             $this->json(['success' => false, 'message' => 'El carrito está vacío o no es válido'], 400);

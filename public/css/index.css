@@ -347,6 +347,210 @@ h4{
     text-decoration: none;
 }
 
+.paginacion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem 1rem;
+}
+
+.paginacion a {
+    color: #a70207;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.paginacion a:hover {
+    color: #ed1c23;
+}
+
+.catalogo-header {
+    padding: 22px 16px;
+}
+
+.search-bar {
+    width: min(100%, 760px);
+    padding: 0;
+}
+
+.search-bar form {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    min-height: 52px;
+    overflow: hidden;
+    background: #fff;
+    border: 2px solid #d5d9df;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgb(0 0 0 / 12%);
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.search-bar form:focus-within {
+    border-color: #a70207;
+    box-shadow: 0 0 0 4px rgb(167 2 7 / 14%);
+}
+
+.search-bar input[type="search"] {
+    flex: 1;
+    min-width: 0;
+    padding: 0 18px;
+    border: 0;
+    outline: 0;
+    color: #252a31;
+    font: inherit;
+    font-size: 1rem;
+}
+
+.search-bar input[type="search"]::placeholder {
+    color: #727983;
+}
+
+.search-bar form button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-width: 120px;
+    margin: 4px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 8px;
+    background: #a70207;
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color .2s ease, transform .2s ease;
+}
+
+.search-bar form button:hover {
+    background: #7d0105;
+}
+
+.search-bar form button:active {
+    transform: scale(.98);
+}
+
+.search-bar .cancelar-filtro {
+    display: inline-block;
+    margin: 10px 0 0;
+    color: #fff;
+    font-size: .9rem;
+    text-decoration: underline;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.catalogo-resultados {
+    width: 100%;
+    margin: 20px 0 0;
+    color: #59616b;
+    font-size: .95rem;
+    text-align: center;
+}
+
+.catalogo-paginacion {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin: 18px auto 12px;
+}
+
+.catalogo-paginacion .pagina-numero,
+.catalogo-paginacion .pagina-control {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 42px;
+    margin: 0;
+    padding: 0 12px;
+    border: 1px solid #d8dce2;
+    border-radius: 9px;
+    background: #fff;
+    color: #343a40;
+    font-size: .95rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color .2s ease, background-color .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.catalogo-paginacion .pagina-control {
+    gap: 9px;
+    border-color: #a70207;
+    color: #a70207;
+}
+
+.catalogo-paginacion .pagina-numero:hover,
+.catalogo-paginacion .pagina-control:hover {
+    transform: translateY(-1px);
+    border-color: #a70207;
+    background: #fff4f4;
+    color: #7d0105;
+}
+
+.catalogo-paginacion .pagina-numero.activa {
+    border-color: #a70207;
+    background: #a70207;
+    color: #fff;
+}
+
+.catalogo-paginacion .paginas-omision {
+    padding: 0 2px;
+    color: #727983;
+}
+
+@media (max-width: 520px) {
+    .catalogo-header {
+        padding: 16px 12px;
+    }
+
+    .search-bar form {
+        min-height: 48px;
+    }
+
+    .search-bar input[type="search"] {
+        padding: 0 12px;
+        font-size: .9rem;
+    }
+
+    .search-bar form button {
+        min-width: 48px;
+        gap: 0;
+        padding: 0 12px;
+    }
+
+    .catalogo-paginacion {
+        gap: 6px;
+    }
+
+    .catalogo-paginacion .pagina-numero,
+    .catalogo-paginacion .pagina-control {
+        min-width: 38px;
+        height: 38px;
+        padding: 0 9px;
+    }
+
+    .catalogo-paginacion .pagina-control span {
+        display: none;
+    }
+}
+
 @keyframes floatAndScale {
     0% {
         transform: translateY(0) scale(1);

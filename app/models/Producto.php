@@ -84,13 +84,14 @@ class Producto extends Model
     public function ultimoCodigo($tenantId = null)
     {
         $where = $tenantId !== null ? ' WHERE p.tenant_id = ?' : '';
-        $sql = 'SELECT MAX(codigoProducto) AS ultimoCodigo FROM productos' . $where;
+        $sql = 'SELECT MAX(p.codigoProducto) AS ultimoCodigo FROM productos p' . $where;
         $stmt = $this->db->prepare($sql);
         if ($tenantId !== null) {
             $stmt->bind_param('i', $tenantId);
         }
         $stmt->execute();
-        $row = $stmt->get_result() ? $stmt->fetch_assoc() : null;
+        $result = $stmt->get_result();
+        $row = $result ? $result->fetch_assoc() : null;
         return $row ? $row['ultimoCodigo'] : '';
     }
 
@@ -153,6 +154,30 @@ class Producto extends Model
         $stmt->bind_param('ss', $estado, $like);
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function byCategoriaNombrePaginado($nombre, $limite = 12, $offset = 0)
+    {
+        $id = $this->categoriaId($nombre);
+        $where = "t.estado = 'Activo' AND (p.nombreCategoria = ? OR c.nombreCategoria = ?)";
+        $count = $this->db->prepare(
+            "SELECT COUNT(*) AS total FROM productos p JOIN tenants t ON t.id = p.tenant_id LEFT JOIN categoria c ON c.idCategoria = p.nombreCategoria WHERE {$where}"
+        );
+        $count->bind_param('is', $id, $nombre);
+        $count->execute();
+        $total = (int)($count->get_result()->fetch_assoc()['total'] ?? 0);
+
+        $stmt = $this->db->prepare(
+            "SELECT p.*, c.nombreCategoria AS categoriaNombre, t.nombre AS tenantNombre, t.slug AS tenantSlug FROM productos p JOIN tenants t ON t.id = p.tenant_id LEFT JOIN categoria c ON c.idCategoria = p.nombreCategoria WHERE {$where} ORDER BY p.idProducto DESC LIMIT ? OFFSET ?"
+        );
+        $limite = max(1, min(100, (int)$limite));
+        $offset = max(0, (int)$offset);
+        $stmt->bind_param('isii', $id, $nombre, $limite, $offset);
+        $stmt->execute();
+        return [
+            'rows' => $stmt->get_result()->fetch_all(MYSQLI_ASSOC),
+            'total' => $total,
+        ];
     }
 
     public function update($id, $data)

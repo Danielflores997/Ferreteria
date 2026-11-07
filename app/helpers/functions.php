@@ -9,6 +9,20 @@ function asset($path)
     return rtrim(BASE_URL, '/') . '/' . ltrim($path, '/');
 }
 
+function productImageUrl($image): string
+{
+    $image = trim((string)$image);
+    if ($image === '') {
+        return asset('imagenes/herramientas-png.png');
+    }
+
+    if (preg_match('~^(?:https?:)?//|^data:image/~i', $image)) {
+        return $image;
+    }
+
+    return asset($image);
+}
+
 /**
  * Build app URLs in a XAMPP-friendly way.
  * Prefer pretty paths; also expose index.php?url= for environments without rewrite.

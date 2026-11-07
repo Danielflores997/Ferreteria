@@ -1,160 +1,314 @@
-/* Estilos generales */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  
-  h1, h2 {
-    color: #333;
-  }
-  
-  /* Estilos de la sección "Nosotros" */
-  
-  section {
-    padding: 20px;
-    text-align: center;
-    font-size: large;
+.nosotros-page {
+    --nosotros-rojo: #a70207;
+    --nosotros-rojo-claro: #ed1c23;
+    --nosotros-amarillo: #ffcc00;
+    --nosotros-texto: #272727;
+    --nosotros-gris: #626262;
+    color: var(--nosotros-texto);
+    font-family: 'Open Sans', Arial, sans-serif;
 }
 
-section h2 {
-    color: red;
+.nosotros-page h2,
+.nosotros-page h3,
+.nosotros-page p {
+    margin: 0;
 }
-  /* Estilos adicionales (opcional) */
-  .container {
-    max-width: 960px;
+
+.nosotros-page h2 {
+    color: var(--nosotros-texto);
+    font-family: 'Poppins', Arial, sans-serif;
+    font-size: clamp(1.9rem, 4vw, 3.25rem);
+    line-height: 1.15;
+    text-align: left;
+}
+
+.nosotros-page h3 {
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+.nosotros-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, .85fr);
+    align-items: center;
+    gap: clamp(2rem, 5vw, 5rem);
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
-  }
-  .cuerpo {
-    background-image: url(../imagenes/evidencia.jpg);
-    background-size: cover;
-    background-position: center;
-    filter:(0.9); /* Ajusta el valor de brillo aquí */
-    color: #fff;
-    min-height: 600px;
-  }
-  #mision-vision{
-    display: flex;
+    padding: clamp(3rem, 7vw, 6rem) 2rem;
+}
+
+.nosotros-hero-contenido {
+    max-width: 650px;
+}
+
+.nosotros-etiqueta,
+.nosotros-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    margin-bottom: 1rem;
+    color: var(--nosotros-rojo);
+    font-size: .82rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.nosotros-hero-contenido h2 {
+    margin-bottom: 1.2rem;
+}
+
+.nosotros-hero-contenido > p,
+.nosotros-intro > p,
+.nosotros-como-contenido > p {
+    color: var(--nosotros-gris);
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+
+.nosotros-boton {
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
-    font-size: large;
-  }
-/* Estilos para el footer */
-footer {
-    background-color:#333;
-    padding: 20px;
-    text-align: center;
-    font-size: 14px;
+    gap: .7rem;
+    margin-top: 1.7rem;
+    padding: .9rem 1.35rem;
+    border: 2px solid var(--nosotros-rojo);
+    border-radius: 8px;
+    background: var(--nosotros-rojo);
     color: #fff;
-  }
-  
-  footer h4 {
-    margin-bottom: 10px;
-  }
-  
-  .enlaces ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .enlaces ul li {
-    display: inline-block;
-    margin-right: 10px;
-  }
-  
-  .enlaces ul li a {
+    font-weight: 700;
     text-decoration: none;
-    color:#fff;
-  }
-  
-  .sociales-link a {
-    color:#fff;
-    margin-right: 10px;
-  }
-  
-  .sociales-link p {
-    margin-top: 10px;
-    color:#fff;
-  }
-/* Estilos para el encabezado */
-header {
-  background-color: #ed1c23;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    transition: background .2s ease, color .2s ease, transform .2s ease;
 }
 
-.logo img {
-  max-width: 100%;
-  background-color: yellow;
-  padding: 5px;
-  margin: 5px;
-  border-radius: 5px;
+.nosotros-boton:hover {
+    transform: translateY(-2px);
+    background: #fff;
+    color: var(--nosotros-rojo);
 }
 
-h1 {
-  color: yellow;
-  font-size: 250%;
+.nosotros-boton:focus-visible {
+    outline: 3px solid var(--nosotros-amarillo);
+    outline-offset: 3px;
 }
 
-nav.navbar {
-  background-color: #a70207;
-  height: 60px;
-  padding-top: 10px;
-  border-style: double;
-  border-color: whitesmoke;
-  border-top: none;
-  border-left: none;
-  border-right: none;
+.nosotros-hero-imagen {
+    position: relative;
+    min-height: 340px;
 }
 
-a.Catalogo,
-a.Pintura,
-a.Electricas,
-a.Herramientas_Manuales,
-a.Accesorios {
-  font-size: 20px;
-  color: whitesmoke;
-  text-decoration: none;
-  padding: 5px;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  border-right: solid yellow;
+.nosotros-hero-imagen > img {
+    display: block;
+    width: 100%;
+    height: 390px;
+    border-radius: 18px;
+    object-fit: cover;
+    box-shadow: 0 18px 45px rgb(0 0 0 / 16%);
 }
 
-a:hover {
-  color: yellow;
+.nosotros-sello {
+    position: absolute;
+    right: -18px;
+    bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    padding: 1rem 1.2rem;
+    border-radius: 12px;
+    background: var(--nosotros-amarillo);
+    color: #3b2e00;
+    font-weight: 700;
+    line-height: 1.35;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 14%);
 }
 
-.lista {
-  width: 100%;
-  text-align:center;
-  padding-right: 20px;
+.nosotros-sello i {
+    font-size: 1.5rem;
 }
 
-.encabezado {
-  background-color: yellow;
+.nosotros-intro {
+    display: grid;
+    grid-template-columns: minmax(250px, .9fr) minmax(0, 1.1fr);
+    align-items: center;
+    gap: 3rem;
+    padding: clamp(3rem, 6vw, 5rem) max(2rem, calc((100% - 1120px) / 2));
+    background: #fff;
 }
 
-button.btn-login {
-  background-color: whitesmoke;
-  padding: 7px;
-  border-radius: 50px;
-  border-style: none;
+.nosotros-titulo-seccion h2 {
+    font-size: clamp(1.65rem, 3vw, 2.45rem);
 }
 
-a.btn-login:hover {
-  color: red;
+.nosotros-caracteristicas {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: clamp(3rem, 6vw, 5rem) 2rem;
 }
 
-a.btn-login {
-  color: black;
-  font-size: 20px;
-  font-style: none;
-  text-decoration: none;
+.nosotros-card {
+    padding: 1.8rem;
+    border: 1px solid #ececec;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 8px 25px rgb(30 30 30 / 5%);
 }
 
-button.btn-login:hover {
-  background-color: yellow;
+.nosotros-icono {
+    display: inline-grid;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 1.2rem;
+    place-items: center;
+    border-radius: 12px;
+    background: #fff2d1;
+    color: var(--nosotros-rojo);
+    font-size: 1.35rem;
+}
+
+.nosotros-card h3,
+.nosotros-proposito h3 {
+    margin-bottom: .65rem;
+    font-size: 1.15rem;
+}
+
+.nosotros-card p,
+.nosotros-proposito p {
+    color: var(--nosotros-gris);
+    line-height: 1.7;
+}
+
+.nosotros-como-funciona {
+    display: grid;
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+    align-items: center;
+    gap: clamp(2rem, 6vw, 5rem);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem clamp(4rem, 7vw, 6rem);
+}
+
+.nosotros-como-imagen img {
+    display: block;
+    width: 100%;
+    max-height: 370px;
+    padding: 1.5rem;
+    border-radius: 18px;
+    background: #fff;
+    object-fit: contain;
+}
+
+.nosotros-como-contenido h2 {
+    margin-bottom: 1rem;
+    font-size: clamp(1.7rem, 3vw, 2.5rem);
+}
+
+.nosotros-como-contenido ul {
+    display: grid;
+    gap: .9rem;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nosotros-como-contenido li {
+    display: flex;
+    align-items: flex-start;
+    gap: .7rem;
+    color: #454545;
+    line-height: 1.55;
+}
+
+.nosotros-como-contenido li i {
+    margin-top: .2rem;
+    color: var(--nosotros-rojo);
+}
+
+.nosotros-proposito {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+    padding: clamp(3rem, 6vw, 5rem) max(2rem, calc((100% - 1120px) / 2));
+    background: #fff;
+}
+
+.nosotros-proposito > div {
+    max-width: 500px;
+}
+
+.nosotros-cierre {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    max-width: 1160px;
+    margin: clamp(3rem, 6vw, 5rem) auto;
+    padding: 2.5rem;
+    border-radius: 16px;
+    background: #292929;
+    color: #fff;
+}
+
+.nosotros-cierre .nosotros-kicker {
+    color: var(--nosotros-amarillo);
+}
+
+.nosotros-cierre h2 {
+    max-width: 700px;
+    color: #fff;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.nosotros-cierre .nosotros-boton {
+    flex-shrink: 0;
+    border-color: var(--nosotros-amarillo);
+    background: var(--nosotros-amarillo);
+    color: #3b2e00;
+}
+
+.nosotros-cierre .nosotros-boton:hover {
+    background: transparent;
+    color: var(--nosotros-amarillo);
+}
+
+@media (max-width: 760px) {
+    .nosotros-hero,
+    .nosotros-intro,
+    .nosotros-como-funciona {
+        grid-template-columns: 1fr;
+    }
+
+    .nosotros-hero {
+        padding-top: 3rem;
+    }
+
+    .nosotros-hero-imagen {
+        min-height: 260px;
+    }
+
+    .nosotros-hero-imagen > img {
+        height: 300px;
+    }
+
+    .nosotros-sello {
+        right: 12px;
+    }
+
+    .nosotros-caracteristicas {
+        grid-template-columns: 1fr;
+    }
+
+    .nosotros-proposito {
+        grid-template-columns: 1fr;
+    }
+
+    .nosotros-cierre {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-right: 1rem;
+        margin-left: 1rem;
+        padding: 1.7rem;
+    }
 }

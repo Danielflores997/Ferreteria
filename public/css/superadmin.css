@@ -1,7 +1,392 @@
-/* Superadmin CSS */
-body {font-family: Arial, sans-serif; max-width: 900px; margin: 2rem auto;}
-table {width: 100%; border-collapse: collapse;}
-th, td {padding: 8px; text-align: left; border-bottom: 1px solid #ddd;}
-th {background-color: #f4f4f4;}
-a {color: #0066cc; text-decoration: none;}
-a:hover {text-decoration: underline;}
+:root {
+    color-scheme: light;
+    --ink: #202b3c;
+    --muted: #68758a;
+    --line: #e2e8f0;
+    --surface: #fff;
+    --canvas: #f3f6fb;
+    --primary: #a70207;
+    --primary-dark: #820007;
+    --success: #176b44;
+    --danger: #a12b32;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: Arial, sans-serif;
+}
+
+.superadmin {
+    width: min(1200px, calc(100% - 40px));
+    margin: 40px auto;
+}
+
+.superadmin-narrow {
+    width: min(900px, calc(100% - 40px));
+}
+
+.superadmin-header,
+.section-heading,
+.superadmin-actions,
+.form-actions,
+.row-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.superadmin-header {
+    margin-bottom: 28px;
+}
+
+.superadmin-header h1 {
+    margin: 4px 0 8px;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+}
+
+.superadmin-header p,
+.section-heading p,
+.form-help {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.eyebrow {
+    color: var(--primary) !important;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.superadmin-actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.button {
+    display: inline-flex;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 15px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    font: inherit;
+    font-size: .9rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.button-primary {
+    background: var(--primary);
+    color: #fff;
+}
+
+.button-primary:hover {
+    background: var(--primary-dark);
+}
+
+.button-secondary {
+    border-color: var(--line);
+    background: #fff;
+    color: var(--ink);
+}
+
+.button-secondary:hover {
+    background: #f8fafc;
+}
+
+.button-small {
+    min-height: 32px;
+    padding: 6px 10px;
+    font-size: .8rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card,
+.panel {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+    box-shadow: 0 4px 16px rgb(31 42 60 / 4%);
+}
+
+.stat-card {
+    display: grid;
+    gap: 14px;
+    padding: 20px;
+}
+
+.stat-card span,
+.subtext {
+    color: var(--muted);
+    font-size: .84rem;
+}
+
+.stat-card strong {
+    font-size: 1.8rem;
+}
+
+.panel {
+    padding: 24px;
+}
+
+.section-heading {
+    margin-bottom: 18px;
+}
+
+.section-heading h2,
+.form-section h2 {
+    margin: 0 0 6px;
+    font-size: 1.2rem;
+}
+
+.text-link {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.text-link:hover {
+    text-decoration: underline;
+}
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th,
+td {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle;
+}
+
+th {
+    color: var(--muted);
+    font-size: .75rem;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+td strong,
+td .subtext {
+    display: block;
+}
+
+td .subtext {
+    margin-top: 5px;
+}
+
+.status {
+    display: inline-flex;
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: .78rem;
+    font-weight: 700;
+}
+
+.status-active {
+    background: #e7f6ed;
+    color: var(--success);
+}
+
+.status-inactive {
+    background: #fff0ef;
+    color: var(--danger);
+}
+
+.row-actions {
+    justify-content: flex-start;
+}
+
+.row-actions form {
+    margin: 0;
+}
+
+.empty-state {
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+    padding: 36px 16px;
+    color: var(--muted);
+    text-align: center;
+}
+
+.empty-state p {
+    margin: 0;
+}
+
+.notice {
+    margin-bottom: 20px;
+    padding: 14px 16px;
+    border: 1px solid;
+    border-radius: 9px;
+    line-height: 1.5;
+}
+
+.notice-success {
+    border-color: #b7e5c9;
+    background: #eaf8ef;
+    color: var(--success);
+}
+
+.notice-error {
+    border-color: #f0c4c4;
+    background: #fff2f1;
+    color: var(--danger);
+}
+
+.search-form {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.search-form label {
+    font-size: .85rem;
+    font-weight: 700;
+}
+
+.search-form > div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.search-form input {
+    flex: 1;
+}
+
+.tenant-form {
+    display: grid;
+    gap: 18px;
+}
+
+.form-section {
+    display: grid;
+    gap: 16px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.form-grid label {
+    display: grid;
+    gap: 7px;
+    font-size: .88rem;
+    font-weight: 700;
+}
+
+.form-grid small {
+    color: var(--muted);
+    font-size: .78rem;
+    font-weight: 400;
+}
+
+.form-grid input,
+.form-grid select,
+.search-form input {
+    width: 100%;
+    min-height: 42px;
+    padding: 9px 11px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background: #fff;
+    color: var(--ink);
+    font: inherit;
+}
+
+.form-grid input:focus,
+.form-grid select:focus,
+.search-form input:focus {
+    border-color: var(--primary);
+    outline: 3px solid rgb(167 2 7 / 12%);
+}
+
+.form-span {
+    grid-column: 1 / -1;
+}
+
+.form-actions {
+    justify-content: flex-start;
+}
+
+@media (max-width: 760px) {
+    .superadmin {
+        width: min(100% - 24px, 600px);
+        margin: 24px auto;
+    }
+
+    .superadmin-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .superadmin-actions {
+        justify-content: flex-start;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .stat-card,
+    .panel {
+        padding: 16px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-span {
+        grid-column: auto;
+    }
+
+    .search-form > div {
+        align-items: stretch;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 420px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .superadmin-actions,
+    .form-actions {
+        align-items: stretch;
+        flex-direction: column;
+        width: 100%;
+    }
+}

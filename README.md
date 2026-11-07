@@ -30,12 +30,11 @@ Php/ compartido/ # legacy de referencia
 ## Instalación XAMPP
 
 1. Clona/copia en `C:\xampp\htdocs\Ferreteria`
-2. Importa `BD_FERRETERIA.sql` → BD `ferreterianuevo`.
-3. Haz una copia de seguridad y aplica una vez
-   `database/migrations/20261107_001_multitenant.sql`.
-4. Revisa `app/config/config.php` (`BASE_URL=/Ferreteria/public`).
-5. Crea el primer superadmin siguiendo la sección de migración.
-6. Abre `http://localhost/Ferreteria/public/`.
+2. Importa `BD_FERRETERIA.sql` → BD `ferreterianuevo`. Este dump crea directamente
+   el esquema multi-tenant para una instalación nueva.
+3. Revisa `app/config/config.php` (`BASE_URL=/Ferreteria/public`).
+4. Crea el primer superadmin siguiendo la sección de migración.
+5. Abre `http://localhost/Ferreteria/public/`.
 
 ## Rutas
 
@@ -52,10 +51,29 @@ Php/ compartido/ # legacy de referencia
 - `3` Cliente — catálogo, carrito, perfil y mis compras
 - `4` Superadmin — administración global de ferreterías
 
-## Migración multi-tenant
+## Alta de ferreterías
 
-`BD_FERRETERIA.sql` conserva el esquema original. Para actualizar una instalación
-existente:
+1. Inicia sesión con la cuenta de rol `4` y abre **Crear ferretería** desde el panel.
+2. Completa los datos de la tienda y los de su administrador. El correo de acceso
+   debe ser único y la contraseña inicial debe tener al menos 12 caracteres.
+3. Al guardar, la tienda y su administrador se crean en una sola transacción. Si
+   falla cualquiera de los dos registros, no queda una tienda incompleta.
+4. El administrador inicia sesión con las credenciales creadas y agrega productos
+   desde **Gestión Catálogo e Inventario**. Los productos quedan ligados a esa
+   ferretería y aparecen en el marketplace mientras la tienda esté activa.
+
+El panel superadmin muestra administradores, estado, productos y ventas por tienda.
+Desactivar una ferretería la oculta del marketplace sin borrar sus datos.
+
+## Base de datos multi-tenant
+
+`BD_FERRETERIA.sql` conserva los datos de muestra y crea el esquema multi-tenant
+completo, con una ferretería inicial, roles 1–4, correo global único, relaciones
+por tenant y campos requeridos por el checkout. Las cuentas antiguas mantienen
+sus contraseñas de muestra y se convierten a hash en el primer inicio de sesión.
+El dump no crea una cuenta superadmin ni contiene una contraseña inicial.
+
+Para actualizar una instalación existente que aún tiene el esquema original:
 
 1. Haz una copia de seguridad de la base `ferreterianuevo`.
 2. Revisa las consultas de preflight comentadas en
@@ -83,3 +101,6 @@ el usuario inicia sesión correctamente.
 > `tenants` o columnas `tenant_id` por una aplicación manual previa, no la
 > ejecutes: primero compara la estructura real con el archivo y prepara un patch
 > específico para esa versión.
+
+No ejecutes la migración después de importar `BD_FERRETERIA.sql`: el dump ya
+incluye esos cambios y la migración es exclusivamente para bases originales.

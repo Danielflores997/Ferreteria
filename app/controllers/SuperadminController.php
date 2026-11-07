@@ -5,22 +5,24 @@ class SuperadminController extends Controller
     {
         $this->requireSuperadmin();
         $tenantModel = $this->model('Tenant');
-        $tenants = $tenantModel->all();
+        $tenants = $tenantModel->allWithStats();
         $totalProductos = 0;
         $totalVentas = 0;
-        foreach ($tenants as $t) {
-            $p = $this->model('Producto')->allByTenant($t['id']);
-            $totalProductos += count($p);
-            $v = $this->model('Venta')->allByTenant($t['id']);
-            foreach ($v as $venta) {
-                $totalVentas += (float)$venta['precio_unitario'] * (int)$venta['cantidad'];
-            }
+        $tenantsActivos = 0;
+        foreach ($tenants as &$tenant) {
+            $tenant['totalProductos'] = (int)$tenant['totalProductos'];
+            $tenant['totalVentas'] = (float)$tenant['totalVentas'];
+            $totalProductos += $tenant['totalProductos'];
+            $totalVentas += $tenant['totalVentas'];
+            $tenantsActivos += $tenant['estado'] === 'Activo' ? 1 : 0;
         }
+        unset($tenant);
         $this->view('superadmin/index', [
             'title' => 'Panel Superadmin',
             'tenants' => $tenants,
             'totalProductos' => $totalProductos,
             'totalVentas' => $totalVentas,
+            'tenantsActivos' => $tenantsActivos,
             'css' => ['css/superadmin.css']
         ]);
     }
@@ -31,19 +33,22 @@ class SuperadminController extends Controller
         $search = $_GET['q'] ?? '';
         $tenantModel = $this->model('Tenant');
         if ($search) {
-            $tenants = $tenantModel->all();
+            $tenants = $tenantModel->allWithStats();
             $tenants = array_filter($tenants, function ($t) use ($search) {
                 return stripos($t['nombre'], $search) !== false ||
-                       stripos($t['slug'], $search) !== false;
+                       stripos($t['slug'], $search) !== false ||
+                       stripos($t['administradores'] ?? '', $search) !== false;
             });
         } else {
-            $tenants = $tenantModel->all();
+            $tenants = $tenantModel->allWithStats();
         }
         $this->view('superadmin/tenants', [
             'title' => 'Gestión de Ferreterías',
             'tenants' => $tenants,
+            'mensaje' => $_SESSION['superadmin_flash'] ?? '',
             'css' => ['css/superadmin.css']
         ]);
+        unset($_SESSION['superadmin_flash']);
     }
 
     public function crear()
@@ -51,8 +56,11 @@ class SuperadminController extends Controller
         $this->requireSuperadmin();
         $this->view('superadmin/crear', [
             'title' => 'Crear Ferretería',
+            'mensaje' => $_SESSION['superadmin_flash'] ?? '',
+            'formData' => $_SESSION['superadmin_form'] ?? [],
             'css' => ['css/superadmin.css']
         ]);
+        unset($_SESSION['superadmin_flash'], $_SESSION['superadmin_form']);
     }
 
     public function store()
@@ -81,24 +89,45 @@ class SuperadminController extends Controller
             'logo' => $_POST['logo'] ?? '',
             'estado' => $_POST['estado'] ?? 'Activo',
         ];
+        $formData = array_merge($data, [
+            'admin_tipo_documento' => $admin['tipoDocumento'],
+            'admin_documento' => $admin['documento'],
+            'admin_nombres' => $admin['nombres'],
+            'admin_apellidos' => $admin['apellidos'],
+            'admin_correo' => $admin['correo'],
+            'admin_estado' => $admin['estado'],
+        ]);
+        $error = '';
         if (
             $data['nombre'] === '' ||
             !preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $data['slug']) ||
             $admin['documento'] === '' ||
+            !ctype_digit($admin['documento']) ||
             $admin['nombres'] === '' ||
             $admin['apellidos'] === '' ||
             !filter_var($admin['correo'], FILTER_VALIDATE_EMAIL) ||
             strlen($admin['clave']) < 12
         ) {
-            $this->redirect('superadmin/crear');
+            $error = 'Revisa los datos: completa los campos obligatorios, usa un slug válido y una contraseña de al menos 12 caracteres.';
         }
-        if (!in_array($data['estado'], ['Activo', 'Inactivo'], true) || !in_array($admin['tipoDocumento'], ['CC', 'TI', 'CE'], true)) {
-            $this->redirect('superadmin/crear');
+        if ($error === '' && (!in_array($data['estado'], ['Activo', 'Inactivo'], true) || !in_array($admin['tipoDocumento'], ['CC', 'TI', 'CE'], true))) {
+            $error = 'Selecciona un estado y tipo de documento válidos.';
         }
         $tenantModel = $this->model('Tenant');
         $usuarioModel = $this->model('Usuario');
-        if ($tenantModel->findBySlug($data['slug']) || $usuarioModel->findByCorreo($admin['correo'])) {
-            $this->redirect('superadmin/crear');
+        if ($error === '' && $tenantModel->findBySlug($data['slug'])) {
+            $error = 'Ese slug ya está asignado a otra ferretería.';
+        } elseif ($error === '' && $usuarioModel->findByCorreo($admin['correo'])) {
+            $error = 'Ese correo ya tiene una cuenta en la plataforma.';
+        }
+        if ($error !== '') {
+            $this->view('superadmin/crear', [
+                'title' => 'Crear Ferretería',
+                'mensaje' => $error,
+                'formData' => $formData,
+                'css' => ['css/superadmin.css']
+            ]);
+            return;
         }
         $db = Database::getInstance()->getConnection();
         $db->begin_transaction();
@@ -112,8 +141,15 @@ class SuperadminController extends Controller
         } catch (mysqli_sql_exception | RuntimeException $e) {
             $db->rollback();
             error_log('Tenant creation failed: ' . $e->getMessage());
-            $this->redirect('superadmin/crear');
+            $this->view('superadmin/crear', [
+                'title' => 'Crear Ferretería',
+                'mensaje' => 'No fue posible guardar la ferretería y su administrador. Verifica los datos e inténtalo de nuevo.',
+                'formData' => $formData,
+                'css' => ['css/superadmin.css']
+            ]);
+            return;
         }
+        $_SESSION['superadmin_flash'] = 'Ferretería y cuenta administradora creadas correctamente. El administrador ya puede iniciar sesión y cargar productos.';
         $this->redirect('superadmin/tenants');
     }
 

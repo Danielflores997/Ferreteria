@@ -15,18 +15,23 @@
             <a href="<?= url('home/categoria/carpinteria') ?>">Carpintería</a>
             <a href="<?= url('home/categoria/plomeria') ?>">Plomería</a>
             <a href="<?= url('home/categoria/jardineria') ?>">Jardinería</a>
+            <a href="<?= url('home/categoria/cementos') ?>">Cementos</a>
+            <a href="<?= url('home/categoria/tornilleria') ?>">Tornillería</a>
             <a href="<?= url('contacto/index') ?>">Contacto</a>
             <?php if (isLoggedIn()): ?>
-                <?php if (in_array(currentRole(), [1,2], true)): ?>
-                    <button class="btn-login"><a class="btn-login" href="<?= url('admin/index') ?>">Panel</a></button>
+                <?php if (currentRole() === 4): ?>
+                    <a class="btn-login" href="<?= url('superadmin/index') ?>">Panel</a>
+                <?php elseif (in_array(currentRole(), [1,2], true)): ?>
+                    <a class="btn-login" href="<?= url('admin/index') ?>">Panel</a>
                 <?php else: ?>
-                    <button class="btn-login"><a class="btn-login" href="<?= url('cliente/perfil') ?>">Mi Perfil</a></button>
+                    <a class="btn-login" href="<?= url('cliente/perfil') ?>">Mi Perfil</a>
                 <?php endif; ?>
-                <button class="btn-login"><a class="btn-login" href="<?= url('auth/logout') ?>">Salir</a></button>
+                <a class="btn-login" href="<?= url('auth/logout') ?>">Salir</a>
             <?php else: ?>
-                <button class="btn-login"><a class="btn-login" href="<?= url('auth/login') ?>">Acceder</a></button>
-                <button class="btn-login"><a class="btn-login" href="<?= url('auth/register') ?>">Regístrate</a></button>
+                <a class="btn-login" href="<?= url('auth/login') ?>">Acceder</a>
+                <a class="btn-login" href="<?= url('auth/register') ?>">Regístrate</a>
             <?php endif; ?>
         </div>
     </nav>
 </div>
+<?php require APP_PATH . '/views/partials/carrito_flotante.php'; ?>

@@ -12,6 +12,7 @@
 <form class="login" action="<?= url('auth/login') ?>" method="POST">
     <h2>Iniciar Sesión</h2>
     <?php if (!empty($error)): ?><p style="color:red;text-align:center"><?= e($error) ?></p><?php endif; ?>
+    <?php if (!empty($returnToCart)): ?><input type="hidden" name="return" value="cliente/carrito"><?php endif; ?>
     <div class="contenedor-form">
         <label><i class="fa-solid fa-user"></i>
             <input type="email" placeholder="Correo Electrónico" name="Correo" required>

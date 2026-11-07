@@ -27,7 +27,7 @@
 <p class="tabla-vacia">No hay productos registrados.</p>
 <?php else: foreach (($productos ?? []) as $row): ?>
 <div class="producto-card">
-    <img src="<?= e($row['imagen']) ?>" alt="<?= e($row['nombreProductos']) ?>">
+    <img src="<?= e(productImageUrl($row['imagen'])) ?>" alt="<?= e($row['nombreProductos']) ?>">
     <strong><?= e($row['nombreProductos']) ?></strong>
     <span class="desc"><?= e($row['descripcionProducto']) ?></span>
     <span class="precio">$ <?= money($row['valorProducto']) ?></span>

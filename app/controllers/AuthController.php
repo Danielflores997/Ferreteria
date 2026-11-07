@@ -4,6 +4,7 @@ class AuthController extends Controller
     public function login()
     {
         $error = '';
+        $returnToCart = ($_GET['return'] ?? $_POST['return'] ?? '') === 'cliente/carrito';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $correo = trim($_POST['Correo'] ?? '');
             $clave = $_POST['Contraseña'] ?? '';
@@ -45,6 +46,9 @@ class AuthController extends Controller
                     if (in_array($rol, [1, 2], true)) {
                         $this->redirect('admin/index');
                     }
+                    if ($returnToCart) {
+                        $this->redirect('cliente/carrito');
+                    }
                     $this->redirect('cliente/perfil');
                 }
             }
@@ -56,6 +60,7 @@ class AuthController extends Controller
         $this->view('auth/login', [
             'title' => 'Iniciar sesión',
             'error' => $error,
+            'returnToCart' => $returnToCart,
             'css' => ['css/loginCliente.css', 'css/menu.css', 'css/footer.css']
         ]);
     }

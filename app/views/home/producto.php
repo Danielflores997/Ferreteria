@@ -8,6 +8,7 @@
     <title><?= e($title) ?></title>
 </head>
 <body>
+    <?php require APP_PATH . '/views/partials/menu_publico.php'; ?>
     <header>
         <div class="search-bar">
             <form method="GET" action="<?= BASE_URL ?>/home/index">
@@ -22,7 +23,7 @@
         <section class="contenedor">
             <div class="contenedor-items">
                 <div class="producto-detalle">
-                    <img class="producto-imagen" src="<?= e($producto['imagen']) ?>" alt="<?= e($producto['nombreProductos']) ?>">
+                    <img class="producto-imagen" src="<?= e(productImageUrl($producto['imagen'])) ?>" alt="<?= e($producto['nombreProductos']) ?>">
                     <h2 class="producto-titulo"><?= e($producto['nombreProductos']) ?></h2>
                     <p class="producto-descripcion"><?= e($producto['descripcionProducto']) ?></p>
                     <p class="producto-categoria">Categoria: <?= e($producto['categoriaNombre']) ?></p>
@@ -30,7 +31,7 @@
                     <p class="producto-precio">$ <?= money($producto['valorProducto']) ?></p>
                     <button class="boton-item"
                         data-titulo="<?= e($producto['nombreProductos']) ?>"
-                        data-imagen="<?= e($producto['imagen']) ?>"
+                        data-imagen="<?= e(productImageUrl($producto['imagen'])) ?>"
                         data-precio="<?= e($producto['valorProducto']) ?>"
                         data-idproducto="<?= e($producto['idProducto']) ?>"
                         onclick="agregarAlCarrito(this)">Agregar al Carrito</button>
@@ -44,7 +45,7 @@
                         <div class="similares-grid">
                             <?php foreach ($similares as $sim): ?>
                                 <div class="similar-item">
-                                    <img src="<?= e($sim['imagen']) ?>" alt="<?= e($sim['nombreProductos']) ?>">
+                                    <img src="<?= e(productImageUrl($sim['imagen'])) ?>" alt="<?= e($sim['nombreProductos']) ?>">
                                     <span class="similar-titulo"><?= e($sim['nombreProductos']) ?></span>
                                     <span class="similar-precio">$ <?= money($sim['valorProducto']) ?></span>
                                     <span class="similar-vendedor">por <?= e($sim['tenantNombre'] ?? '') ?></span>

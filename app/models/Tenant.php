@@ -8,6 +8,21 @@ class Tenant extends Model
         return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
     }
 
+    public static function allWithStats()
+    {
+        $db = Database::getInstance()->getConnection();
+        $result = $db->query(
+            "SELECT t.*,
+                (SELECT COUNT(*) FROM productos p WHERE p.tenant_id = t.id) AS totalProductos,
+                (SELECT COALESCE(SUM(v.precio_unitario * v.cantidad), 0) FROM ventas v WHERE v.tenant_id = t.id) AS totalVentas,
+                (SELECT GROUP_CONCAT(CONCAT_WS(' ', u.nombresUsuario, u.apellidosUsuario, CONCAT('(', u.correo, ')')) ORDER BY u.idUsuario SEPARATOR ', ')
+                    FROM usuario u WHERE u.tenant_id = t.id AND u.rol_idRol = 1) AS administradores
+             FROM tenants t
+             ORDER BY t.nombre"
+        );
+        return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
+    }
+
     public static function find($id)
     {
         if ($id === null || (int)$id < 1) {
