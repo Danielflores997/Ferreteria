@@ -46,3 +46,43 @@ function currentRole()
 {
     return isset($_SESSION['rol']) ? (int)$_SESSION['rol'] : 0;
 }
+
+function tenantId(): ?int
+{
+    return isset($_SESSION['tenant_id']) ? (int)$_SESSION['tenant_id'] : null;
+}
+
+function tenantName(): string
+{
+    return $_SESSION['tenant_name'] ?? 'Sin nombre';
+}
+
+function tenantSlug(): ?string
+{
+    return $_SESSION['tenant_slug'] ?? null;
+}
+
+function tenantLogo(): ?string
+{
+    return $_SESSION['tenant_logo'] ?? null;
+}
+
+function isSuperadmin(): bool
+{
+    return !empty($_SESSION['is_superadmin']) && (bool)$_SESSION['is_superadmin'];
+}
+
+function platformName(): string
+{
+    return constant('PLATFORM_NAME') ?? 'Ferreteria Marketplace';
+}
+
+function tenant(): array
+{
+    return [
+        'id' => tenantId(),
+        'nombre' => tenantName(),
+        'slug' => tenantSlug(),
+        'logo' => tenantLogo(),
+    ];
+}

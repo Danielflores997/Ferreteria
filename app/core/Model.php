@@ -7,4 +7,9 @@ class Model
     {
         $this->db = Database::getInstance()->getConnection();
     }
+
+    public function getConnection()
+    {
+        return $this->db;
+    }
 }

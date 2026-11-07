@@ -3,11 +3,34 @@ class Usuario extends Model
 {
     public function autenticar($correo, $clave)
     {
-        $stmt = $this->db->prepare('SELECT * FROM usuario WHERE correo = ? AND claveUsuario = ? LIMIT 1');
-        $stmt->bind_param('ss', $correo, $clave);
+        $stmt = $this->db->prepare('SELECT * FROM usuario WHERE correo = ? LIMIT 1');
+        $stmt->bind_param('s', $correo);
         $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        $usuario = $stmt->get_result()->fetch_assoc();
+        if (!$usuario) {
+            return null;
+        }
+
+        $stored = (string)$usuario['claveUsuario'];
+        $passwordInfo = password_get_info($stored);
+        if ($passwordInfo['algo'] !== null) {
+            return password_verify($clave, $stored) ? $usuario : null;
+        }
+        if (!hash_equals($stored, (string)$clave)) {
+            return null;
+        }
+
+        $hash = password_hash($clave, PASSWORD_DEFAULT);
+        $upgrade = $this->db->prepare('UPDATE usuario SET claveUsuario = ? WHERE idUsuario = ? AND claveUsuario = ?');
+        $upgrade->bind_param('sis', $hash, $usuario['idUsuario'], $stored);
+        if (!$upgrade->execute()) {
+            throw new RuntimeException('No se pudo actualizar de forma segura la contraseña.');
+        }
+        if ($upgrade->affected_rows !== 1) {
+            return null;
+        }
+        $usuario['claveUsuario'] = $hash;
+        return $usuario;
     }
 
     public function findByCorreo($correo)
@@ -16,6 +39,19 @@ class Usuario extends Model
         $stmt->bind_param('s', $correo);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
+    }
+
+    public function correoExists($correo, $exceptId = null)
+    {
+        if ($exceptId !== null) {
+            $stmt = $this->db->prepare('SELECT idUsuario FROM usuario WHERE correo = ? AND idUsuario != ? LIMIT 1');
+            $stmt->bind_param('si', $correo, $exceptId);
+        } else {
+            $stmt = $this->db->prepare('SELECT idUsuario FROM usuario WHERE correo = ? LIMIT 1');
+            $stmt->bind_param('s', $correo);
+        }
+        $stmt->execute();
+        return (bool)$stmt->get_result()->fetch_assoc();
     }
 
     public function getFotoPerfil($correo)
@@ -42,6 +78,24 @@ class Usuario extends Model
         return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
     }
 
+    public function allByTenant($tenantId, $search = null)
+    {
+        $sql = 'SELECT * FROM usuario WHERE tenant_id = ? AND rol_idRol != 4';
+        if ($search !== null && $search !== '') {
+            $sql .= ' AND (documentoUsuario LIKE ? OR nombresUsuario LIKE ? OR correo LIKE ? OR estadoUsuario LIKE ? OR apellidosUsuario LIKE ?)';
+        }
+        $sql .= ' ORDER BY idUsuario DESC';
+        $stmt = $this->db->prepare($sql);
+        if ($search !== null && $search !== '') {
+            $like = '%' . $search . '%';
+            $stmt->bind_param('isssss', $tenantId, $like, $like, $like, $like, $like);
+        } else {
+            $stmt->bind_param('i', $tenantId);
+        }
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function find($id)
     {
         $stmt = $this->db->prepare('SELECT * FROM usuario WHERE idUsuario = ?');
@@ -50,11 +104,23 @@ class Usuario extends Model
         return $stmt->get_result()->fetch_assoc();
     }
 
+    public function findByIdTenant($tenantId, $id)
+    {
+        $stmt = $this->db->prepare('SELECT * FROM usuario WHERE idUsuario = ? AND tenant_id = ? AND rol_idRol != 4 LIMIT 1');
+        $stmt->bind_param('ii', $id, $tenantId);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
     public function update($id, $data)
     {
-        $stmt = $this->db->prepare('UPDATE usuario SET tipoDocumentoUsuario=?, documentoUsuario=?, nombresUsuario=?, apellidosUsuario=?, correo=?, estadoUsuario=?, rol_idRol=? WHERE idUsuario=?');
+        $tenantId = $data['tenant_id'] ?? null;
+        if ($tenantId === null || (int)$data['rol'] === 4) {
+            return false;
+        }
+        $stmt = $this->db->prepare('UPDATE usuario SET tipoDocumentoUsuario=?, documentoUsuario=?, nombresUsuario=?, apellidosUsuario=?, correo=?, estadoUsuario=?, rol_idRol=? WHERE idUsuario=? AND tenant_id=? AND rol_idRol != 4');
         $stmt->bind_param(
-            'ssssssii',
+            'ssssssiii',
             $data['tipoDocumento'],
             $data['documento'],
             $data['nombres'],
@@ -62,30 +128,35 @@ class Usuario extends Model
             $data['correo'],
             $data['estado'],
             $data['rol'],
-            $id
+            $id,
+            $tenantId
         );
         $ok = $stmt->execute();
         if ($ok && !empty($data['clave'])) {
-            $stmt2 = $this->db->prepare('UPDATE usuario SET claveUsuario=? WHERE idUsuario=?');
-            $stmt2->bind_param('si', $data['clave'], $id);
-            $stmt2->execute();
+            $hash = password_hash($data['clave'], PASSWORD_DEFAULT);
+            $stmt2 = $this->db->prepare('UPDATE usuario SET claveUsuario=? WHERE idUsuario=? AND tenant_id=? AND rol_idRol != 4');
+            $stmt2->bind_param('sii', $hash, $id, $tenantId);
+            return $stmt2->execute();
         }
         return $ok;
     }
 
-    public function delete($id)
+    public function delete($tenantId, $id)
     {
-        $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
-        $stmt = $this->db->prepare('DELETE FROM usuario WHERE idUsuario = ?');
-        $stmt->bind_param('i', $id);
-        $ok = $stmt->execute();
-        $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
-        return $ok;
+        $stmt = $this->db->prepare('DELETE FROM usuario WHERE idUsuario = ? AND tenant_id = ? AND rol_idRol != 4');
+        $stmt->bind_param('ii', $id, $tenantId);
+        return $stmt->execute();
     }
 
-    public function documentoExists($documento, $exceptId = null)
+    public function documentoExists($documento, $exceptId = null, $tenantId = null)
     {
-        if ($exceptId) {
+        if ($tenantId !== null && $exceptId !== null) {
+            $stmt = $this->db->prepare('SELECT idUsuario FROM usuario WHERE documentoUsuario = ? AND idUsuario != ? AND tenant_id = ?');
+            $stmt->bind_param('sii', $documento, $exceptId, $tenantId);
+        } elseif ($tenantId !== null) {
+            $stmt = $this->db->prepare('SELECT idUsuario FROM usuario WHERE documentoUsuario = ? AND tenant_id = ?');
+            $stmt->bind_param('si', $documento, $tenantId);
+        } elseif ($exceptId !== null) {
             $stmt = $this->db->prepare('SELECT idUsuario FROM usuario WHERE documentoUsuario = ? AND idUsuario != ?');
             $stmt->bind_param('si', $documento, $exceptId);
         } else {
@@ -99,7 +170,8 @@ class Usuario extends Model
 
     public function registrar($data)
     {
-        $stmt = $this->db->prepare('INSERT INTO usuario (tipoDocumentoUsuario, documentoUsuario, nombresUsuario, apellidosUsuario, correo, claveUsuario, estadoUsuario, rol_idRol) VALUES (?,?,?,?,?,?,"Activo",3)');
+        $stmt = $this->db->prepare('INSERT INTO usuario (tipoDocumentoUsuario, documentoUsuario, nombresUsuario, apellidosUsuario, correo, claveUsuario, estadoUsuario, rol_idRol, tenant_id) VALUES (?,?,?,?,?,?,"Activo",3,NULL)');
+        $hash = password_hash($data['clave'], PASSWORD_DEFAULT);
         $stmt->bind_param(
             'ssssss',
             $data['tipoDocumento'],
@@ -107,7 +179,7 @@ class Usuario extends Model
             $data['nombres'],
             $data['apellidos'],
             $data['correo'],
-            $data['clave']
+            $hash
         );
         return $stmt->execute();
     }
@@ -122,23 +194,27 @@ class Usuario extends Model
     public function updatePasswordByCorreo($correo, $clave)
     {
         $stmt = $this->db->prepare('UPDATE usuario SET claveUsuario=? WHERE correo=?');
-        $stmt->bind_param('ss', $clave, $correo);
+        $hash = password_hash($clave, PASSWORD_DEFAULT);
+        $stmt->bind_param('ss', $hash, $correo);
         return $stmt->execute();
     }
 
     public function registrarAdmin($data)
     {
-        $stmt = $this->db->prepare('INSERT INTO usuario (tipoDocumentoUsuario, documentoUsuario, nombresUsuario, apellidosUsuario, correo, claveUsuario, estadoUsuario, rol_idRol) VALUES (?,?,?,?,?,?,?,?)');
+        $stmt = $this->db->prepare('INSERT INTO usuario (tipoDocumentoUsuario, documentoUsuario, nombresUsuario, apellidosUsuario, correo, claveUsuario, estadoUsuario, rol_idRol, tenant_id) VALUES (?,?,?,?,?,?,?,?,?)');
+        $tenantId = (int)$data['tenant_id'];
+        $hash = password_hash($data['clave'], PASSWORD_DEFAULT);
         $stmt->bind_param(
-            'sssssssi',
+            'sssssssii',
             $data['tipoDocumento'],
             $data['documento'],
             $data['nombres'],
             $data['apellidos'],
             $data['correo'],
-            $data['clave'],
+            $hash,
             $data['estado'],
-            $data['rol']
+            $data['rol'],
+            $tenantId
         );
         return $stmt->execute();
     }

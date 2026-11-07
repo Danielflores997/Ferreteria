@@ -19,10 +19,10 @@
             <input type="email" name="Correo" placeholder="Correo registrado" required>
         </label>
         <label><i class="fa-solid fa-key"></i>
-            <input type="password" name="Contraseña" placeholder="Nueva contraseña" required>
+            <input type="password" name="Contraseña" placeholder="Nueva contraseña (mínimo 12 caracteres)" minlength="12" required autocomplete="new-password">
         </label>
         <label><i class="fa-solid fa-key"></i>
-            <input type="password" name="Confirmar" placeholder="Confirmar contraseña" required>
+            <input type="password" name="Confirmar" placeholder="Confirmar contraseña" minlength="12" required autocomplete="new-password">
         </label>
         <button class="btn-ingresar" type="submit">Restablecer</button>
         <p style="text-align:center"><a href="<?= url('auth/login') ?>">Volver al login</a></p>

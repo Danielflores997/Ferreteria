@@ -15,17 +15,42 @@ class AuthController extends Controller
                     $this->view('auth/inactivo', ['title' => 'Usuario inactivo', 'css' => ['css/mensajes.css']]);
                     return;
                 }
-                $_SESSION['correo'] = $usuario['correo'];
-                $_SESSION['rol'] = (int)$usuario['rol_idRol'];
-                $_SESSION['idUsuario'] = (int)$usuario['idUsuario'];
-
-                $rol = (int)$usuario['rol_idRol'];
-                if ($rol === 1 || $rol === 2) {
-                    $this->redirect('admin/index');
+                $tenantModel = $this->model('Tenant');
+                $tenantData = $tenantModel->find($usuario['tenant_id'] ?? null);
+                if ($tenantData && $tenantData['estado'] !== 'Activo') {
+                    $this->view('auth/inactivo', ['title' => 'Ferretería inactiva', 'css' => ['css/mensajes.css']]);
+                    return;
                 }
-                $this->redirect('cliente/perfil');
+                $rol = (int)$usuario['rol_idRol'];
+                if (!in_array($rol, [1, 2, 3, 4], true)) {
+                    $error = 'La cuenta tiene un rol no válido.';
+                } elseif ($rol === 4 && $usuario['tenant_id'] !== null) {
+                    $error = 'La cuenta superadmin tiene una ferretería asignada.';
+                } elseif (in_array($rol, [1, 2], true) && !$tenantData) {
+                    $error = 'La cuenta administrativa no está asociada a una ferretería activa.';
+                } else {
+                    session_regenerate_id(true);
+                    $_SESSION['correo'] = $usuario['correo'];
+                    $_SESSION['rol'] = $rol;
+                    $_SESSION['idUsuario'] = (int)$usuario['idUsuario'];
+                    $_SESSION['is_superadmin'] = $rol === 4;
+                    $_SESSION['tenant_id'] = $tenantData ? (int)$tenantData['id'] : null;
+                    $_SESSION['tenant_name'] = $tenantData['nombre'] ?? null;
+                    $_SESSION['tenant_slug'] = $tenantData['slug'] ?? null;
+                    $_SESSION['tenant_logo'] = $tenantData['logo'] ?? null;
+
+                    if ($rol === 4) {
+                        $this->redirect('superadmin/index');
+                    }
+                    if (in_array($rol, [1, 2], true)) {
+                        $this->redirect('admin/index');
+                    }
+                    $this->redirect('cliente/perfil');
+                }
             }
-            $error = 'Correo o contraseña incorrectos';
+            if (!$usuario) {
+                $error = 'Correo o contraseña incorrectos';
+            }
         }
 
         $this->view('auth/login', [
@@ -53,6 +78,8 @@ class AuthController extends Controller
                 $mensaje = 'Todos los campos son obligatorios.';
             } elseif (!is_numeric($data['documento'])) {
                 $mensaje = 'El documento solo debe contener números.';
+            } elseif (strlen($data['clave']) < 12) {
+                $mensaje = 'La contraseña debe tener al menos 12 caracteres.';
             } elseif ($data['clave'] !== $confirmar) {
                 $mensaje = 'Las contraseñas no coinciden.';
             } else {
@@ -89,6 +116,8 @@ class AuthController extends Controller
                 $mensaje = 'Completa todos los campos.';
             } elseif ($nueva !== $confirmar) {
                 $mensaje = 'Las contraseñas no coinciden.';
+            } elseif (strlen($nueva) < 12) {
+                $mensaje = 'La contraseña debe tener al menos 12 caracteres.';
             } else {
                 $usuarioModel = $this->model('Usuario');
                 $usuario = $usuarioModel->findByCorreo($correo);

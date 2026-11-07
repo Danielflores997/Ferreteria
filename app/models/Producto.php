@@ -29,6 +29,21 @@ class Producto extends Model
         return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
     }
 
+    public function allByTenant($tenantId, $search = null)
+    {
+        if ($search) {
+            $like = '%' . $search . '%';
+            $stmt = $this->db->prepare(self::SELECT_BASE . ' WHERE p.tenant_id = ? AND (p.codigoProducto LIKE ? OR p.nombreProductos LIKE ? OR p.stockProducto LIKE ? OR c.nombreCategoria LIKE ? OR p.descripcionProducto LIKE ?) ORDER BY p.idProducto DESC');
+            $stmt->bind_param('isssss', $tenantId, $like, $like, $like, $like, $like);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        }
+        $stmt = $this->db->prepare(self::SELECT_BASE . ' WHERE p.tenant_id = ? ORDER BY p.idProducto DESC');
+        $stmt->bind_param('i', $tenantId);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function find($id)
     {
         $stmt = $this->db->prepare(self::SELECT_BASE . ' WHERE p.idProducto = ?');
@@ -37,78 +52,53 @@ class Producto extends Model
         return $stmt->get_result()->fetch_assoc();
     }
 
-    public function findByCodigo($codigo)
+    public function findByIdTenant($tenantId, $id)
     {
-        $stmt = $this->db->prepare(self::SELECT_BASE . ' WHERE p.codigoProducto = ? LIMIT 1');
-        $stmt->bind_param('s', $codigo);
+        $stmt = $this->db->prepare(self::SELECT_BASE . ' WHERE p.idProducto = ? AND p.tenant_id = ? LIMIT 1');
+        $stmt->bind_param('ii', $id, $tenantId);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
 
-    public function byCategoriaNombre($nombre)
+    public function findByCodigo($codigo, $tenantId = null)
     {
-        $id = $this->categoriaId($nombre);
-        $stmt = $this->db->prepare(self::SELECT_BASE . ' WHERE p.nombreCategoria = ? OR c.nombreCategoria = ? ORDER BY p.idProducto DESC');
-        $stmt->bind_param('is', $id, $nombre);
-        $stmt->execute();
-        $rows = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-        if ($rows) {
-            return $rows;
+        $where = $tenantId !== null ? ' AND p.tenant_id = ?' : '';
+        $stmt = $this->db->prepare(self::SELECT_BASE . ' WHERE p.codigoProducto = ?' . $where . ' LIMIT 1');
+        if ($tenantId !== null) {
+            $stmt->bind_param('si', $codigo, $tenantId);
+        } else {
+            $stmt->bind_param('s', $codigo);
         }
-
-        $like = '%' . $nombre . '%';
-        $stmt = $this->db->prepare(self::SELECT_BASE . ' WHERE c.nombreCategoria LIKE ? ORDER BY p.idProducto DESC');
-        $stmt->bind_param('s', $like);
         $stmt->execute();
-        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $stmt->get_result()->fetch_assoc();
     }
 
-    public function ultimoCodigo()
+    public function findByCodigoTenant($codigo, $tenantId)
     {
-        $result = $this->db->query('SELECT MAX(codigoProducto) AS ultimoCodigo FROM productos');
-        $row = $result ? $result->fetch_assoc() : null;
+        $stmt = $this->db->prepare(self::SELECT_BASE . ' WHERE p.codigoProducto = ? AND p.tenant_id = ? LIMIT 1');
+        $stmt->bind_param('si', $codigo, $tenantId);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
+    public function ultimoCodigo($tenantId = null)
+    {
+        $where = $tenantId !== null ? ' WHERE p.tenant_id = ?' : '';
+        $sql = 'SELECT MAX(codigoProducto) AS ultimoCodigo FROM productos' . $where;
+        $stmt = $this->db->prepare($sql);
+        if ($tenantId !== null) {
+            $stmt->bind_param('i', $tenantId);
+        }
+        $stmt->execute();
+        $row = $stmt->get_result() ? $stmt->fetch_assoc() : null;
         return $row ? $row['ultimoCodigo'] : '';
     }
 
-    public function create($data)
+    public function create($data, $tenantId = null)
     {
         $categoria = $this->categoriaId($data['categoria']);
-        $stmt = $this->db->prepare('INSERT INTO productos (codigoProducto, nombreProductos, valorProducto, stockProducto, descripcionProducto, nombreCategoria, imagen) VALUES (?,?,?,?,?,?,?)');
-        $stmt->bind_param(
-            'ssdisis',
-            $data['codigo'],
-            $data['nombre'],
-            $data['precio'],
-            $data['stock'],
-            $data['descripcion'],
-            $categoria,
-            $data['imagen']
-        );
-        return $stmt->execute();
-    }
-
-    public function sumarStock($codigo, $cantidad)
-    {
-        $stmt = $this->db->prepare('UPDATE productos SET stockProducto = stockProducto + ? WHERE codigoProducto = ?');
-        $stmt->bind_param('is', $cantidad, $codigo);
-        return $stmt->execute();
-    }
-
-    public function restarStock($codigo, $cantidad)
-    {
-        $stmt = $this->db->prepare('UPDATE productos SET stockProducto = stockProducto - ? WHERE codigoProducto = ?');
-        $stmt->bind_param('is', $cantidad, $codigo);
-        return $stmt->execute();
-    }
-
-    public function update($id, $data)
-    {
-        $categoria = $this->categoriaId($data['categoria']);
-        if ($categoria === 0) {
-            $actual = $this->find($id);
-            $categoria = $actual ? (int)$actual['nombreCategoria'] : 0;
-        }
-        $stmt = $this->db->prepare('UPDATE productos SET codigoProducto=?, nombreProductos=?, valorProducto=?, stockProducto=?, descripcionProducto=?, nombreCategoria=?, imagen=? WHERE idProducto=?');
+        $stmt = $this->db->prepare('INSERT INTO productos (codigoProducto, nombreProductos, valorProducto, stockProducto, descripcionProducto, nombreCategoria, imagen, tenant_id) VALUES (?,?,?,?,?,?,?,?)');
+        $tenantId = $tenantId ?? tenantId();
         $stmt->bind_param(
             'ssdisisi',
             $data['codigo'],
@@ -118,25 +108,180 @@ class Producto extends Model
             $data['descripcion'],
             $categoria,
             $data['imagen'],
-            $id
+            $tenantId
         );
         return $stmt->execute();
     }
 
-    public function delete($id)
+    public function sumarStock($codigo, $cantidad, $tenantId = null)
     {
-        $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
-        $stmt = $this->db->prepare('DELETE FROM productos WHERE idProducto = ?');
-        $stmt->bind_param('i', $id);
-        $ok = $stmt->execute();
-        $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
-        return $ok;
+        $tenantId = $tenantId ?? tenantId();
+        if ($cantidad <= 0 || $tenantId === null) {
+            return false;
+        }
+        $stmt = $this->db->prepare('UPDATE productos SET stockProducto = stockProducto + ? WHERE codigoProducto = ? AND tenant_id = ?');
+        $stmt->bind_param('isi', $cantidad, $codigo, $tenantId);
+        return $stmt->execute();
     }
 
-    public function bajoStock($limite = 10)
+    public function restarStock($codigo, $cantidad, $tenantId = null)
     {
-        $stmt = $this->db->prepare(self::SELECT_BASE . ' WHERE p.stockProducto < ?');
-        $stmt->bind_param('i', $limite);
+        $tenantId = $tenantId ?? tenantId();
+        if ($cantidad <= 0 || $tenantId === null) {
+            return false;
+        }
+        $stmt = $this->db->prepare('UPDATE productos SET stockProducto = stockProducto - ? WHERE codigoProducto = ? AND tenant_id = ? AND stockProducto >= ?');
+        $stmt->bind_param('isii', $cantidad, $codigo, $tenantId, $cantidad);
+        return $stmt->execute() && $stmt->affected_rows === 1;
+    }
+
+    public function byCategoriaNombre($nombre)
+    {
+        $id = $this->categoriaId($nombre);
+        $sql = 'SELECT p.*, c.nombreCategoria AS categoriaNombre, t.nombre AS tenantNombre, t.slug AS tenantSlug FROM productos p JOIN tenants t ON t.id = p.tenant_id LEFT JOIN categoria c ON c.idCategoria = p.nombreCategoria WHERE t.estado = ? AND (p.nombreCategoria = ? OR c.nombreCategoria = ?) ORDER BY p.idProducto DESC';
+        $stmt = $this->db->prepare($sql);
+        $estado = 'Activo';
+        $stmt->bind_param('sis', $estado, $id, $nombre);
+        $stmt->execute();
+        $rows = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        if ($rows) {
+            return $rows;
+        }
+
+        $like = '%' . $nombre . '%';
+        $stmt = $this->db->prepare('SELECT p.*, c.nombreCategoria AS categoriaNombre, t.nombre AS tenantNombre, t.slug AS tenantSlug FROM productos p JOIN tenants t ON t.id = p.tenant_id LEFT JOIN categoria c ON c.idCategoria = p.nombreCategoria WHERE t.estado = ? AND c.nombreCategoria LIKE ? ORDER BY p.idProducto DESC');
+        $stmt->bind_param('ss', $estado, $like);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function update($id, $data)
+    {
+        $categoria = $this->categoriaId($data['categoria']);
+        if ($categoria === 0) {
+            $actual = isset($data['tenant_id'])
+                ? $this->findByIdTenant((int)$data['tenant_id'], $id)
+                : $this->find($id);
+            $categoria = $actual ? (int)$actual['nombreCategoria'] : 0;
+        }
+        $tenantId = $data['tenant_id'] ?? null;
+        $sql = 'UPDATE productos SET codigoProducto=?, nombreProductos=?, valorProducto=?, stockProducto=?, descripcionProducto=?, nombreCategoria=?, imagen=? WHERE idProducto=?';
+        if ($tenantId !== null) {
+            $sql .= ' AND tenant_id=?';
+        }
+        $stmt = $this->db->prepare($sql);
+        if ($tenantId !== null) {
+            $stmt->bind_param(
+                'ssdisisii',
+                $data['codigo'],
+                $data['nombre'],
+                $data['precio'],
+                $data['stock'],
+                $data['descripcion'],
+                $categoria,
+                $data['imagen'],
+                $id,
+                $tenantId
+            );
+        } else {
+            $stmt->bind_param(
+                'ssdisisi',
+                $data['codigo'],
+                $data['nombre'],
+                $data['precio'],
+                $data['stock'],
+                $data['descripcion'],
+                $categoria,
+                $data['imagen'],
+                $id
+            );
+        }
+        return $stmt->execute();
+    }
+
+    public function delete($tenantId, $id)
+    {
+        $stmt = $this->db->prepare('DELETE FROM productos WHERE idProducto = ? AND tenant_id = ?');
+        $stmt->bind_param('ii', $id, $tenantId);
+        return $stmt->execute();
+    }
+
+    public function bajoStock($tenantId, $limite = 10)
+    {
+        $stmt = $this->db->prepare(self::SELECT_BASE . ' WHERE p.tenant_id = ? AND p.stockProducto < ?');
+        $stmt->bind_param('ii', $tenantId, $limite);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function marketplace($search = null, $orden = 'p.idProducto DESC', $limite = 12, $offset = 0)
+    {
+        $allowedOrders = [
+            'p.idProducto DESC',
+            'p.idProducto ASC',
+            'p.nombreProductos ASC',
+            'p.nombreProductos DESC',
+            'p.valorProducto ASC',
+            'p.valorProducto DESC',
+        ];
+        if (!in_array($orden, $allowedOrders, true)) {
+            $orden = 'p.idProducto DESC';
+        }
+        $sql = "SELECT SQL_CALC_FOUND_ROWS p.*, c.nombreCategoria AS categoriaNombre, t.nombre AS tenantNombre, t.slug AS tenantSlug FROM productos p JOIN tenants t ON t.id = p.tenant_id LEFT JOIN categoria c ON c.idCategoria = p.nombreCategoria WHERE t.estado = 'Activo'";
+        if ($search !== null && $search !== '') {
+            $sql .= ' AND (p.codigoProducto LIKE ? OR p.nombreProductos LIKE ? OR p.descripcionProducto LIKE ? OR c.nombreCategoria LIKE ?)';
+        }
+        $sql .= " ORDER BY {$orden} LIMIT ? OFFSET ?";
+        $stmt = $this->db->prepare($sql);
+        $limite = max(1, min(100, (int)$limite));
+        $offset = max(0, (int)$offset);
+        if ($search !== null && $search !== '') {
+            $like = '%' . $search . '%';
+            $stmt->bind_param('ssssii', $like, $like, $like, $like, $limite, $offset);
+        } else {
+            $stmt->bind_param('ii', $limite, $offset);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $rows = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
+        $countR = $this->db->query('SELECT FOUND_ROWS() AS total');
+        $total = $countR ? (int)($countR->fetch_assoc()['total']) : count($rows);
+        return ['rows' => $rows, 'total' => $total];
+    }
+
+    public function countMarketplace($search = null)
+    {
+        $sql = "SELECT COUNT(*) AS total FROM productos p JOIN tenants t ON t.id = p.tenant_id LEFT JOIN categoria c ON c.idCategoria = p.nombreCategoria WHERE t.estado = 'Activo'";
+        if ($search !== null && $search !== '') {
+            $sql .= ' AND (p.codigoProducto LIKE ? OR p.nombreProductos LIKE ? OR p.descripcionProducto LIKE ? OR c.nombreCategoria LIKE ?)';
+            $stmt = $this->db->prepare($sql);
+            $like = '%' . $search . '%';
+            $stmt->bind_param('ssss', $like, $like, $like, $like);
+        } else {
+            $stmt = $this->db->prepare($sql);
+        }
+        $stmt->execute();
+        $row = $stmt->get_result()->fetch_assoc();
+        return (int)($row['total'] ?? 0);
+    }
+
+    public function findPublic($id)
+    {
+        $stmt = $this->db->prepare('SELECT p.*, c.nombreCategoria AS categoriaNombre, t.nombre AS tenantNombre, t.slug AS tenantSlug FROM productos p JOIN tenants t ON t.id = p.tenant_id LEFT JOIN categoria c ON c.idCategoria = p.nombreCategoria WHERE p.idProducto = ? AND t.estado = ? LIMIT 1');
+        $estado = 'Activo';
+        $stmt->bind_param('is', $id, $estado);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
+    public function similares($idProducto, $limite = 8)
+    {
+        $actual = $this->find($idProducto);
+        if (!$actual) return [];
+        $catId = $actual['nombreCategoria'];
+        $sql = "SELECT p.*, c.nombreCategoria AS categoriaNombre, t.nombre AS tenantNombre, t.slug AS tenantSlug FROM productos p LEFT JOIN categoria c ON c.idCategoria = p.nombreCategoria LEFT JOIN tenants t ON t.id = p.tenant_id WHERE p.nombreCategoria = ? AND p.idProducto != ? AND t.estado = 'Activo' ORDER BY RAND() LIMIT ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param('isi', $catId, $idProducto, $limite);
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }

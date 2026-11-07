@@ -30,9 +30,12 @@ Php/ compartido/ # legacy de referencia
 ## Instalación XAMPP
 
 1. Clona/copia en `C:\xampp\htdocs\Ferreteria`
-2. Importa `BD_FERRETERIA.sql` → BD `ferreterianuevo`
-3. Revisa `app/config/config.php` (`BASE_URL=/Ferreteria/public`)
-4. Abre `http://localhost/Ferreteria/public/`
+2. Importa `BD_FERRETERIA.sql` → BD `ferreterianuevo`.
+3. Haz una copia de seguridad y aplica una vez
+   `database/migrations/20261107_001_multitenant.sql`.
+4. Revisa `app/config/config.php` (`BASE_URL=/Ferreteria/public`).
+5. Crea el primer superadmin siguiendo la sección de migración.
+6. Abre `http://localhost/Ferreteria/public/`.
 
 ## Rutas
 
@@ -47,3 +50,36 @@ Php/ compartido/ # legacy de referencia
 - `1` Administrador — menú completo (incluye usuarios)
 - `2` Vendedor — sin gestión de usuarios
 - `3` Cliente — catálogo, carrito, perfil y mis compras
+- `4` Superadmin — administración global de ferreterías
+
+## Migración multi-tenant
+
+`BD_FERRETERIA.sql` conserva el esquema original. Para actualizar una instalación
+existente:
+
+1. Haz una copia de seguridad de la base `ferreterianuevo`.
+2. Revisa las consultas de preflight comentadas en
+   `database/migrations/20261107_001_multitenant.sql`. Resuelve duplicados de
+   correo o de código de producto antes de continuar.
+3. Importa esa migración **una sola vez** sobre la base original. Los registros
+   existentes se asignan a `Ferretería inicial`; las cuentas de rol Cliente
+   quedan globales y sin `tenant_id`. Las categorías son globales.
+4. Crea el primer superadmin desde PowerShell con secretos temporales en el
+   entorno (no los guardes en el repositorio):
+
+   ```powershell
+   $env:FERRETERIA_SUPERADMIN_EMAIL = "admin@example.com"
+   $env:FERRETERIA_SUPERADMIN_PASSWORD = "<contraseña segura de 12+ caracteres>"
+   $env:FERRETERIA_SUPERADMIN_DOCUMENTO = "<documento numérico>"
+   php scripts/bootstrap_superadmin.php
+   Remove-Item Env:FERRETERIA_SUPERADMIN_EMAIL, Env:FERRETERIA_SUPERADMIN_PASSWORD, Env:FERRETERIA_SUPERADMIN_DOCUMENTO
+   ```
+
+El bootstrap crea una cuenta nueva con contraseña hasheada y no eleva una cuenta
+existente. Las contraseñas heredadas en texto plano se convierten a hash cuando
+el usuario inicia sesión correctamente.
+
+> La migración anterior parte del esquema original. Si la base ya tiene la tabla
+> `tenants` o columnas `tenant_id` por una aplicación manual previa, no la
+> ejecutes: primero compara la estructura real con el archivo y prepara un patch
+> específico para esa versión.

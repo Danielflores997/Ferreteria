@@ -33,12 +33,13 @@ class AdminController extends Controller
     {
         $this->requireStaff();
         $usuario = $this->model('Usuario')->findByCorreo($_SESSION['correo']);
+        $tenantId = tenantId();
         $dashboard = $this->model('Dashboard');
         $this->view('admin/dashboard', $this->adminData([
             'title' => 'Panel Administrador',
             'usuario' => $usuario,
-            'totals' => $dashboard->totals(),
-            'recientes' => $dashboard->recientes(),
+            'totals' => $dashboard->totals($tenantId),
+            'recientes' => $dashboard->recientes($tenantId),
             'css' => ADMIN_CSS
         ]));
     }
@@ -46,7 +47,9 @@ class AdminController extends Controller
     public function catalogo()
     {
         $this->requireStaff();
-        $productos = $this->model('Producto')->all();
+        $tenantId = tenantId();
+        $productoModel = $this->model('Producto');
+        $productos = $productoModel->allByTenant($tenantId);
         $this->view('admin/catalogo', $this->adminData([
             'title' => 'Catálogo Admin',
             'productos' => $productos,
@@ -57,20 +60,21 @@ class AdminController extends Controller
     public function inventario()
     {
         $this->requireStaff();
+        $tenantId = tenantId();
         $productoModel = $this->model('Producto');
         $proveedorModel = $this->model('Proveedor');
         $categoriaModel = $this->model('Categoria');
 
         // AJAX proveedor lookup
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['idProveedor']) && !isset($_POST['guardar'])) {
-            $prov = $proveedorModel->find((int)$_POST['idProveedor']);
+            $prov = $proveedorModel->findByIdTenant($tenantId, (int)$_POST['idProveedor']);
             $this->json($prov);
         }
 
         $mensaje = '';
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['guardar'])) {
             $idProv = trim($_POST['idProveedor'] ?? '');
-            if ($idProv !== '' && !$proveedorModel->exists($idProv)) {
+            if ($idProv !== '' && !$proveedorModel->exists($idProv, $tenantId)) {
                 $proveedorModel->create([
                     'id' => $idProv,
                     'nombre' => $_POST['nombreProveedor'] ?? '',
@@ -78,12 +82,13 @@ class AdminController extends Controller
                     'telefono' => $_POST['telefonoProveedor'] ?? '',
                     'direccion' => $_POST['direccionProveedor'] ?? '',
                     'correo' => $_POST['correoProveedor'] ?? '',
+                    'tenant_id' => $tenantId,
                 ]);
             }
 
             $codigo = trim($_POST['codigo'] ?? '');
             $cantidad = (int)($_POST['cantidad'] ?? 0);
-            $existente = $productoModel->findByCodigo($codigo);
+            $existente = $productoModel->findByCodigo($codigo, $tenantId);
             $catId = $_POST['categoria'] ?? '';
 
             if ($existente) {
@@ -98,6 +103,7 @@ class AdminController extends Controller
                     'descripcion' => $_POST['descripcion'] ?? '',
                     'categoria' => $catId,
                     'imagen' => $_POST['imagen'] ?? '',
+                    'tenant_id' => $tenantId,
                 ]);
                 $mensaje = 'Nuevo producto agregado correctamente.';
             }
@@ -105,8 +111,8 @@ class AdminController extends Controller
 
         $this->view('admin/inventario', $this->adminData([
             'title' => 'Inventario',
-            'productos' => $productoModel->all(),
-            'ultimoCodigo' => $productoModel->ultimoCodigo(),
+            'productos' => $productoModel->allByTenant($tenantId),
+            'ultimoCodigo' => $productoModel->ultimoCodigo($tenantId),
             'categorias' => $categoriaModel->all(),
             'mensaje' => $mensaje,
             'css' => ADMIN_CSS
@@ -116,8 +122,9 @@ class AdminController extends Controller
     public function buscarProducto()
     {
         $this->requireStaff();
+        $tenantId = tenantId();
         $term = $_POST['searchTerm'] ?? '';
-        $rows = $this->model('Producto')->all($term);
+        $rows = $this->model('Producto')->allByTenant($tenantId, $term);
         $html = '<tr>
             <th id="celda-principal">Código</th>
             <th id="celda-principal">Producto</th>
@@ -152,6 +159,7 @@ class AdminController extends Controller
     public function editarProducto($id = null)
     {
         $this->requireStaff();
+        $tenantId = tenantId();
         $productoModel = $this->model('Producto');
         $categoriaModel = $this->model('Categoria');
         $id = (int)($id ?? ($_POST['id'] ?? 0));
@@ -166,11 +174,12 @@ class AdminController extends Controller
                 'descripcion' => $_POST['descripcion'] ?? '',
                 'categoria' => $catId,
                 'imagen' => $_POST['imagen'] ?? '',
+                'tenant_id' => $tenantId,
             ]);
             $this->redirect('admin/inventario');
         }
 
-        $producto = $productoModel->find($id);
+        $producto = $productoModel->findByIdTenant($tenantId, $id);
         if (!$producto) {
             $this->redirect('admin/inventario');
         }
@@ -186,8 +195,9 @@ class AdminController extends Controller
     public function eliminarProducto()
     {
         $this->requireStaff();
+        $tenantId = tenantId();
         if (isset($_POST['id'])) {
-            $this->model('Producto')->delete((int)$_POST['id']);
+            $this->model('Producto')->delete($tenantId, (int)$_POST['id']);
         }
         $this->redirect('admin/inventario');
     }
@@ -195,16 +205,18 @@ class AdminController extends Controller
     public function bajoStock()
     {
         $this->requireStaff();
-        $this->json($this->model('Producto')->bajoStock());
+        $tenantId = tenantId();
+        $this->json($this->model('Producto')->bajoStock($tenantId));
     }
 
     public function usuarios()
     {
         $this->requireAdmin();
+        $tenantId = tenantId();
         $this->view('admin/usuarios', $this->adminData([
             'title' => 'Gestionar Usuarios',
-            'usuarios' => $this->model('Usuario')->all(),
-            'clientes' => $this->model('Cliente')->all(),
+            'usuarios' => $this->model('Usuario')->allByTenant($tenantId),
+            'clientes' => $this->model('Cliente')->allByTenant($tenantId),
             'css' => ADMIN_CSS
         ]));
     }
@@ -212,7 +224,8 @@ class AdminController extends Controller
     public function buscarUsuario()
     {
         $this->requireAdmin();
-        $rows = $this->model('Usuario')->all($_POST['searchTerm'] ?? '');
+        $tenantId = tenantId();
+        $rows = $this->model('Usuario')->allByTenant($tenantId, $_POST['searchTerm'] ?? '');
         $html = '<tr>
             <th id="celda-principal">Tipo Documento</th>
             <th id="celda-principal">Identificación</th>
@@ -245,10 +258,11 @@ class AdminController extends Controller
         echo $html; exit;
     }
 
-    public function buscarCliente()
+public function buscarCliente()
     {
         $this->requireAdmin();
-        $rows = $this->model('Cliente')->all($_POST['searchTerm'] ?? '');
+        $tenantId = tenantId();
+        $rows = $this->model('Cliente')->allByTenant($tenantId, $_POST['searchTerm'] ?? '');
         $html = '<tr>
             <th id="celda-principal">Tipo Documento</th>
             <th id="celda-principal">Identificación</th>
@@ -278,35 +292,44 @@ class AdminController extends Controller
                 </td>
             </tr>';
         }
-        echo $html; exit;
+        echo $html;
+        exit;
     }
-
     public function editarUsuario($id = null)
     {
         $this->requireAdmin();
+        $tenantId = tenantId();
         $model = $this->model('Usuario');
         $id = (int)($id ?? ($_POST['id'] ?? 0));
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['guardar'])) {
             $documento = $_POST['identificacion'] ?? '';
-            if ($model->documentoExists($documento, $id)) {
+            $correo = trim($_POST['correo'] ?? '');
+            $rol = (int)($_POST['rol'] ?? 3);
+            if ($model->documentoExists($documento, $id, $tenantId)) {
                 $error = 'El número de identificación ya está registrado.';
+            } elseif ($model->correoExists($correo, $id)) {
+                $error = 'El correo ya está registrado en la plataforma.';
+            } elseif (!in_array($rol, [1, 2, 3], true)) {
+                $error = 'El rol seleccionado no es válido.';
+            } elseif (!empty($_POST['clave']) && strlen($_POST['clave']) < 12) {
+                $error = 'La contraseña debe tener al menos 12 caracteres.';
             } else {
                 $model->update($id, [
                     'tipoDocumento' => $_POST['tipoDocumento'] ?? '',
                     'documento' => $documento,
                     'nombres' => $_POST['nombre'] ?? '',
                     'apellidos' => $_POST['apellido'] ?? '',
-                    'correo' => $_POST['correo'] ?? '',
+                    'correo' => $correo,
                     'estado' => $_POST['estado'] ?? 'Activo',
-                    'rol' => (int)($_POST['rol'] ?? 3),
-                    'clave' => $_POST['nuevaContraseña'] ?? '',
+                    'rol' => $rol,
+                    'tenant_id' => $tenantId,
                 ]);
                 $this->redirect('admin/usuarios');
             }
         }
 
-        $usuario = $model->find($id);
+        $usuario = $model->findByIdTenant($tenantId, $id);
         if (!$usuario) $this->redirect('admin/usuarios');
 
         $this->view('admin/editar_usuario', $this->adminData([
@@ -320,19 +343,21 @@ class AdminController extends Controller
     public function eliminarUsuario()
     {
         $this->requireAdmin();
-        if (isset($_POST['id'])) $this->model('Usuario')->delete((int)$_POST['id']);
+        $tenantId = tenantId();
+        if (isset($_POST['id'])) $this->model('Usuario')->delete($tenantId, (int)$_POST['id']);
         $this->redirect('admin/usuarios');
     }
 
     public function editarCliente($id = null)
     {
         $this->requireAdmin();
+        $tenantId = tenantId();
         $model = $this->model('Cliente');
         $id = (int)($id ?? ($_POST['id'] ?? 0));
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['guardar'])) {
             $documento = $_POST['identificacion'] ?? '';
-            if ($model->documentoExists($documento, $id)) {
+            if ($model->documentoExists($documento, $id, $tenantId)) {
                 $error = 'El número de identificación ya está registrado.';
             } else {
                 $model->update($id, [
@@ -343,18 +368,18 @@ class AdminController extends Controller
                     'telefono' => $_POST['telefono'] ?? '',
                     'direccion' => $_POST['direccion'] ?? '',
                     'estado' => $_POST['estado'] ?? 'Activo',
+                    'tenant_id' => $tenantId,
                 ]);
                 $this->redirect('admin/usuarios');
             }
         }
 
-        $cliente = $model->find($id);
+        $cliente = $model->findByIdTenant($tenantId, $id);
         if (!$cliente) $this->redirect('admin/usuarios');
 
         $this->view('admin/editar_cliente', $this->adminData([
             'title' => 'Editar cliente',
             'cliente' => $cliente,
-            'error' => $error ?? '',
             'css' => ADMIN_CSS
         ]));
     }
@@ -362,24 +387,27 @@ class AdminController extends Controller
     public function eliminarCliente()
     {
         $this->requireAdmin();
-        if (isset($_POST['id'])) $this->model('Cliente')->delete((int)$_POST['id']);
+        $tenantId = tenantId();
+        if (isset($_POST['id'])) $this->model('Cliente')->delete($tenantId, (int)$_POST['id']);
         $this->redirect('admin/usuarios');
     }
 
     public function proveedores()
     {
         $this->requireStaff();
+        $tenantId = tenantId();
         $this->view('admin/proveedores', $this->adminData([
             'title' => 'Proveedores',
-            'proveedores' => $this->model('Proveedor')->all(),
+            'proveedores' => $this->model('Proveedor')->allByTenant($tenantId),
             'css' => ADMIN_CSS
         ]));
     }
 
-    public function buscarProveedor()
+public function buscarProveedor()
     {
         $this->requireStaff();
-        $rows = $this->model('Proveedor')->all($_POST['searchTerm'] ?? '');
+        $tenantId = tenantId();
+        $rows = $this->model('Proveedor')->allByTenant($tenantId, $_POST['searchTerm'] ?? '');
         $html = '<tr>
             <th id="celda-principal">Identificación</th>
             <th id="celda-principal">Nombre</th>
@@ -409,10 +437,10 @@ class AdminController extends Controller
         }
         echo $html; exit;
     }
-
     public function editarProveedor($id = null)
     {
         $this->requireStaff();
+        $tenantId = tenantId();
         $model = $this->model('Proveedor');
         $id = (int)($id ?? ($_POST['id'] ?? 0));
 
@@ -423,11 +451,12 @@ class AdminController extends Controller
                 'telefono' => $_POST['telefonoProveedor'] ?? '',
                 'direccion' => $_POST['direccionProveedor'] ?? '',
                 'correo' => $_POST['correoProveedor'] ?? '',
+                'tenant_id' => $tenantId,
             ]);
             $this->redirect('admin/proveedores');
         }
 
-        $proveedor = $model->find($id);
+        $proveedor = $model->findByIdTenant($tenantId, $id);
         if (!$proveedor) $this->redirect('admin/proveedores');
 
         $this->view('admin/editar_proveedor', $this->adminData([
@@ -440,31 +469,36 @@ class AdminController extends Controller
     public function eliminarProveedor()
     {
         $this->requireStaff();
-        if (isset($_POST['id'])) $this->model('Proveedor')->delete((int)$_POST['id']);
+        $tenantId = tenantId();
+        if (isset($_POST['id'])) $this->model('Proveedor')->delete($tenantId, (int)$_POST['id']);
         $this->redirect('admin/proveedores');
     }
 
     public function ventas()
     {
         $this->requireStaff();
+        $tenantId = tenantId();
         $ventaModel = $this->model('Venta');
         $productoModel = $this->model('Producto');
         $clienteModel = $this->model('Cliente');
         $categoriaModel = $this->model('Categoria');
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['documentoCliente']) && !isset($_POST['guardar'])) {
-            $this->json($clienteModel->findByDocumento($_POST['documentoCliente']));
+            $this->json($clienteModel->findByDocumento($_POST['documentoCliente'], $tenantId));
         }
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['codigoProducto']) && !isset($_POST['guardar'])) {
-            $this->json($productoModel->findByCodigo($_POST['codigoProducto']));
+            $this->json($productoModel->findByCodigoTenant($_POST['codigoProducto'], $tenantId));
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['guardar'])) {
             $codigo = $_POST['id'] ?? '';
             $cantidad = (int)($_POST['cantidad'] ?? 0);
-            $prod = $productoModel->findByCodigo($codigo);
+            $prod = $productoModel->findByCodigoTenant($codigo, $tenantId);
             if (!$prod) {
                 $this->json(['success' => false, 'message' => 'Producto no encontrado']);
+            }
+            if ($cantidad <= 0) {
+                $this->json(['success' => false, 'message' => 'La cantidad debe ser mayor a cero'], 422);
             }
             if ((int)$prod['stockProducto'] < $cantidad) {
                 $this->json(['success' => false, 'message' => 'No hay suficiente stock']);
@@ -473,33 +507,47 @@ class AdminController extends Controller
             $catId = $_POST['categoria'] ?? '';
             $catNombre = $categorias[$catId] ?? ($prod['categoriaNombre'] ?? $catId);
 
-            $ok = $ventaModel->create([
-                'codigo' => $codigo,
-                'producto' => $_POST['producto'] ?? $prod['nombreProductos'],
-                'precio' => (float)($_POST['precio'] ?? $prod['valorProducto']),
-                'cantidad' => $cantidad,
-                'descripcion' => $_POST['descripcion'] ?? $prod['descripcionProducto'],
-                'categoria' => $catNombre,
-            ]);
-            if ($ok) {
-                $productoModel->restarStock($codigo, $cantidad);
+            $db = Database::getInstance()->getConnection();
+            $db->begin_transaction();
+            try {
+                if (!$productoModel->restarStock($codigo, $cantidad, $tenantId)) {
+                    $db->rollback();
+                    $this->json(['success' => false, 'message' => 'No hay suficiente stock']);
+                }
+                $ok = $ventaModel->create([
+                    'codigo' => $codigo,
+                    'producto' => $prod['nombreProductos'],
+                    'precio' => $prod['valorProducto'],
+                    'cantidad' => $cantidad,
+                    'descripcion' => $prod['descripcionProducto'],
+                    'categoria' => $catNombre,
+                    'tenant_id' => $tenantId,
+                ]);
+                if (!$ok) {
+                    throw new RuntimeException('No se pudo registrar la venta.');
+                }
+                $db->commit();
                 $this->json(['success' => true, 'message' => '¡Datos guardados exitosamente!']);
+            } catch (mysqli_sql_exception | RuntimeException $e) {
+                $db->rollback();
+                error_log('Error al registrar venta: ' . $e->getMessage());
+                $this->json(['success' => false, 'message' => 'Error al guardar la venta'], 500);
             }
-            $this->json(['success' => false, 'message' => 'Error al guardar la venta']);
         }
 
         $this->view('admin/ventas', $this->adminData([
             'title' => 'Ventas',
-            'ventas' => $ventaModel->all(),
+            'ventas' => $ventaModel->allByTenant($tenantId),
             'categorias' => $categoriaModel->all(),
             'css' => ADMIN_CSS
         ]));
     }
 
-    public function buscarVenta()
+public function buscarVenta()
     {
         $this->requireStaff();
-        $rows = $this->model('Venta')->all($_POST['searchTerm'] ?? '');
+        $tenantId = tenantId();
+        $rows = $this->model('Venta')->allByTenant($tenantId, $_POST['searchTerm'] ?? '');
         $html = '<tr>
             <th id="celda-principal">ID Venta</th>
             <th id="celda-principal">Fecha</th>
@@ -518,7 +566,7 @@ class AdminController extends Controller
             $total += $sub;
             $html .= '<tr>
                 <td>' . e($row['idVenta']) . '</td>
-                <td>' . e($row['fecha_venta'] ?? '') . '</td>
+                <td>' . e($row['fecha_venta']) . '</td>
                 <td>' . e($row['idcodigo']) . '</td>
                 <td>' . e($row['producto']) . '</td>
                 <td>' . e($row['descripcion']) . '</td>
@@ -537,10 +585,10 @@ class AdminController extends Controller
         $html .= '<tr><td colspan="6"></td><td>Total: ' . e($total) . '</td><td></td></tr>';
         echo $html; exit;
     }
-
     public function editarVenta($id = null)
     {
         $this->requireStaff();
+        $tenantId = tenantId();
         $model = $this->model('Venta');
         $id = (int)($id ?? ($_POST['id'] ?? 0));
 
@@ -552,11 +600,12 @@ class AdminController extends Controller
                 'cantidad' => (int)($_POST['cantidad'] ?? 0),
                 'descripcion' => $_POST['descripcion'] ?? '',
                 'categoria' => $_POST['categoria'] ?? '',
+                'tenant_id' => $tenantId,
             ]);
             $this->redirect('admin/ventas');
         }
 
-        $venta = $model->find($id);
+        $venta = $model->findByIdTenant($tenantId, $id);
         if (!$venta) $this->redirect('admin/ventas');
 
         $this->view('admin/editar_venta', $this->adminData([
@@ -569,15 +618,17 @@ class AdminController extends Controller
     public function eliminarVenta()
     {
         $this->requireStaff();
-        if (isset($_POST['id'])) $this->model('Venta')->delete((int)$_POST['id']);
+        $tenantId = tenantId();
+        if (isset($_POST['id'])) $this->model('Venta')->delete($tenantId, (int)$_POST['id']);
         $this->redirect('admin/ventas');
     }
 
     public function compras()
     {
         $this->requireStaff();
+        $tenantId = tenantId();
         $search = $_GET['buscar'] ?? '';
-        $compras = $this->model('Compra')->allConDetalle($search);
+        $compras = $this->model('Compra')->allConDetalle($tenantId, $search);
         $this->view('admin/compras', $this->adminData([
             'title' => 'Compras carrito',
             'compras' => $compras,
@@ -589,16 +640,10 @@ class AdminController extends Controller
     public function peticiones()
     {
         $this->requireStaff();
-        $model = $this->model('Peticion');
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['estado']) && is_array($_POST['estado'])) {
-            foreach ($_POST['estado'] as $correo => $estado) {
-                $model->updateEstado($correo, $estado);
-            }
-            $this->redirect('admin/peticiones');
-        }
+        $tenantId = tenantId();
         $this->view('admin/peticiones', $this->adminData([
             'title' => 'Peticiones',
-            'peticiones' => $model->all(),
+            'peticiones' => $this->model('Peticion')->allByTenant($tenantId),
             'css' => ADMIN_CSS
         ]));
     }
@@ -626,7 +671,7 @@ class AdminController extends Controller
     public function reporteInventario()
     {
         $this->requireStaff();
-        $productos = $this->model('Producto')->all();
+        $productos = $this->model('Producto')->allByTenant(tenantId());
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=inventario.csv');
         $out = fopen('php://output', 'w');
@@ -644,7 +689,7 @@ class AdminController extends Controller
     public function reporteVentas()
     {
         $this->requireStaff();
-        $ventas = $this->model('Venta')->all();
+        $ventas = $this->model('Venta')->allByTenant(tenantId());
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=ventas.csv');
         $out = fopen('php://output', 'w');
@@ -668,18 +713,29 @@ class AdminController extends Controller
             $model = $this->model('Usuario');
             $documento = trim($_POST['documento'] ?? '');
             $correo = trim($_POST['correo'] ?? '');
-            if ($model->documentoExists($documento)) {
-                // fall through redirect with no create
-            } elseif (!$model->findByCorreo($correo)) {
+            $password = $_POST['clave'] ?? '';
+            $tenantId = tenantId();
+            $rol = (int)($_POST['rol'] ?? 3);
+            if (
+                $tenantId !== null &&
+                $documento !== '' &&
+                ctype_digit($documento) &&
+                filter_var($correo, FILTER_VALIDATE_EMAIL) &&
+                strlen($password) >= 12 &&
+                in_array($rol, [1, 2, 3], true) &&
+                !$model->documentoExists($documento, null, $tenantId) &&
+                !$model->correoExists($correo)
+            ) {
                 $model->registrarAdmin([
                     'tipoDocumento' => $_POST['tipoDocumento'] ?? 'CC',
                     'documento' => $documento,
                     'nombres' => $_POST['nombres'] ?? '',
                     'apellidos' => $_POST['apellidos'] ?? '',
                     'correo' => $correo,
-                    'clave' => $_POST['clave'] ?? '',
+                    'clave' => $password,
                     'estado' => $_POST['estado'] ?? 'Activo',
-                    'rol' => (int)($_POST['rol'] ?? 3),
+                    'rol' => $rol,
+                    'tenant_id' => $tenantId,
                 ]);
             }
         }
@@ -692,9 +748,9 @@ class AdminController extends Controller
         $dashboard = $this->model('Dashboard');
         $this->view('admin/reportes', $this->adminData([
             'title' => 'Reportes',
-            'totals' => $dashboard->totals(),
-            'productos' => $this->model('Producto')->all(),
-            'ventas' => $this->model('Venta')->all(),
+            'totals' => $dashboard->totals(tenantId()),
+            'productos' => $this->model('Producto')->allByTenant(tenantId()),
+            'ventas' => $this->model('Venta')->allByTenant(tenantId()),
             'css' => ADMIN_CSS
         ]));
     }
@@ -704,7 +760,7 @@ class AdminController extends Controller
         $this->requireStaff();
         $this->view('admin/reporte_inventario', $this->adminData([
             'title' => 'Reporte Inventario',
-            'productos' => $this->model('Producto')->all(),
+            'productos' => $this->model('Producto')->allByTenant(tenantId()),
             'css' => ADMIN_CSS
         ]));
     }
@@ -714,7 +770,7 @@ class AdminController extends Controller
         $this->requireStaff();
         $this->view('admin/reporte_ventas', $this->adminData([
             'title' => 'Reporte Ventas',
-            'ventas' => $this->model('Venta')->all(),
+            'ventas' => $this->model('Venta')->allByTenant(tenantId()),
             'css' => ADMIN_CSS
         ]));
     }

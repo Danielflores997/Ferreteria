@@ -16,7 +16,7 @@ class ContactoController extends Controller
             if ($data['nombre'] === '' || $data['apellido'] === '' || $data['correo'] === '' || $data['motivo'] === '') {
                 $mensaje = 'Error: completa los campos obligatorios.';
             } else {
-                $ok = $this->model('Peticion')->create($data);
+                $ok = $this->model('Peticion')->create($data, tenantId());
                 $mensaje = $ok ? 'Petición enviada correctamente.' : 'Error al enviar la petición.';
             }
         }

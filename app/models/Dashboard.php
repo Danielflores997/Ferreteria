@@ -1,7 +1,18 @@
 <?php
 class Dashboard extends Model
 {
-    public function totals()
+    private function scalar($sql, $tenantId = null)
+    {
+        $stmt = $this->db->prepare($sql);
+        if ($tenantId !== null) {
+            $stmt->bind_param('i', $tenantId);
+        }
+        $stmt->execute();
+        $row = $stmt->get_result()->fetch_row();
+        return $row[0] ?? 0;
+    }
+
+    public function totals($tenantId = null)
     {
         $tables = [
             'productos' => 'productos',
@@ -14,32 +25,41 @@ class Dashboard extends Model
         ];
         $totals = [];
         foreach ($tables as $key => $table) {
-            $result = $this->db->query("SELECT COUNT(*) AS total FROM `{$table}`");
-            $row = $result ? $result->fetch_assoc() : ['total' => 0];
-            $totals[$key] = (int)($row['total'] ?? 0);
+            $where = $tenantId !== null ? ' WHERE tenant_id = ?' : '';
+            $totals[$key] = (int)$this->scalar("SELECT COUNT(*) FROM `{$table}`{$where}", $tenantId);
         }
 
-        $stock = $this->db->query('SELECT COALESCE(SUM(stockProducto),0) AS total FROM productos');
-        $totals['stock'] = (int)(($stock ? $stock->fetch_assoc()['total'] : 0));
-
-        $bajo = $this->db->query('SELECT COUNT(*) AS total FROM productos WHERE stockProducto < 10');
-        $totals['bajo_stock'] = (int)(($bajo ? $bajo->fetch_assoc()['total'] : 0));
-
-        $ventasMonto = $this->db->query('SELECT COALESCE(SUM(precio_unitario * cantidad),0) AS total FROM ventas');
-        $totals['monto_ventas'] = (float)(($ventasMonto ? $ventasMonto->fetch_assoc()['total'] : 0));
-
+        $where = $tenantId !== null ? ' WHERE tenant_id = ?' : '';
+        $totals['stock'] = (int)$this->scalar("SELECT COALESCE(SUM(stockProducto), 0) FROM productos{$where}", $tenantId);
+        $totals['bajo_stock'] = (int)$this->scalar(
+            'SELECT COUNT(*) FROM productos WHERE stockProducto < 10' .
+            ($tenantId !== null ? ' AND tenant_id = ?' : ''),
+            $tenantId
+        );
+        $totals['monto_ventas'] = (float)$this->scalar(
+            'SELECT COALESCE(SUM(precio_unitario * cantidad), 0) FROM ventas' . $where,
+            $tenantId
+        );
         return $totals;
     }
 
-    public function recientes()
+    public function recientes($tenantId = null)
     {
         $out = ['ventas' => [], 'productos' => [], 'peticiones' => []];
-        $v = $this->db->query('SELECT * FROM ventas ORDER BY idVenta DESC LIMIT 5');
-        if ($v) $out['ventas'] = $v->fetch_all(MYSQLI_ASSOC);
-        $p = $this->db->query('SELECT * FROM productos ORDER BY idProducto DESC LIMIT 5');
-        if ($p) $out['productos'] = $p->fetch_all(MYSQLI_ASSOC);
-        $pet = $this->db->query('SELECT * FROM peticiones ORDER BY Correo DESC LIMIT 5');
-        if ($pet) $out['peticiones'] = $pet->fetch_all(MYSQLI_ASSOC);
+        $queries = [
+            'ventas' => ['SELECT * FROM ventas', 'idVenta DESC'],
+            'productos' => ['SELECT * FROM productos', 'idProducto DESC'],
+            'peticiones' => ['SELECT * FROM peticiones', 'idPeticion DESC'],
+        ];
+        foreach ($queries as $key => [$base, $order]) {
+            $sql = $base . ($tenantId !== null ? ' WHERE tenant_id = ?' : '') . " ORDER BY {$order} LIMIT 5";
+            $stmt = $this->db->prepare($sql);
+            if ($tenantId !== null) {
+                $stmt->bind_param('i', $tenantId);
+            }
+            $stmt->execute();
+            $out[$key] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        }
         return $out;
     }
 }

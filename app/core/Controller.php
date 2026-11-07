@@ -45,6 +45,9 @@ class Controller
     protected function requireAdmin()
     {
         $this->requireLogin();
+        if (empty($_SESSION['tenant_id'])) {
+            $this->redirect('auth/login');
+        }
         if (!isset($_SESSION['rol']) || (int)$_SESSION['rol'] !== 1) {
             $this->redirect('home/index');
         }
@@ -53,8 +56,19 @@ class Controller
     protected function requireStaff()
     {
         $this->requireLogin();
+        if (empty($_SESSION['tenant_id'])) {
+            $this->redirect('auth/login');
+        }
         $rol = isset($_SESSION['rol']) ? (int)$_SESSION['rol'] : 0;
         if (!in_array($rol, [1, 2], true)) {
+            $this->redirect('home/index');
+        }
+    }
+
+    protected function requireSuperadmin()
+    {
+        $this->requireLogin();
+        if ((int)($_SESSION['rol'] ?? 0) !== 4 || empty($_SESSION['is_superadmin'])) {
             $this->redirect('home/index');
         }
     }
@@ -105,11 +119,12 @@ class Controller
         return asset('uploads/perfiles/' . $nombre);
     }
 
-    protected function rolNombre()
-    {
-        $rol = isset($_SESSION['rol']) ? (int)$_SESSION['rol'] : 0;
-        if ($rol === 1) return 'Administrador';
-        if ($rol === 2) return 'Vendedor';
-        return 'Cliente';
-    }
+protected function rolNombre()
+{
+    $rol = isset($_SESSION['rol']) ? (int)$_SESSION['rol'] : 0;
+    if ($rol === 1) return 'Administrador';
+    if ($rol === 2) return 'Vendedor';
+    if ($rol === 4) return 'Superadmin';
+    return 'Cliente';
+}
 }

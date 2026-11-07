@@ -23,8 +23,8 @@
         <input type="text" placeholder="Nombres" name="nombre" required>
         <input type="text" placeholder="Apellidos" name="apellido" required>
         <input type="email" placeholder="Correo Electrónico" name="Correo" required>
-        <input type="password" placeholder="Contraseña" name="Contraseña" required>
-        <input type="password" placeholder="Confirmar Contraseña" name="Confirmar" required>
+        <input type="password" placeholder="Contraseña (mínimo 12 caracteres)" name="Contraseña" minlength="12" required autocomplete="new-password">
+        <input type="password" placeholder="Confirmar Contraseña" name="Confirmar" minlength="12" required autocomplete="new-password">
         <label><input type="checkbox" name="tratamiento-datos" required> Acepto tratamiento de datos</label>
         <button class="btn-ingresar" type="submit" name="registro">Registrar</button>
     </div>
