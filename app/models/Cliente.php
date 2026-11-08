@@ -65,6 +65,45 @@ class Cliente extends Model
         return $stmt->get_result()->fetch_assoc();
     }
 
+    public function saveFromSale($tenantId, array $data)
+    {
+        $cliente = $this->findByDocumento($data['documento'], $tenantId);
+        if ($cliente) {
+            $stmt = $this->db->prepare(
+                'UPDATE cliente SET tipoDocumentoCliente=?, nombresCliente=?, apellidosCliente=?, telefonoCliente=?, direccionCliente=?, estadoCliente=? WHERE idCliente=? AND tenant_id=?'
+            );
+            $id = (int)$cliente['idCliente'];
+            $stmt->bind_param(
+                'ssssssii',
+                $data['tipoDocumento'],
+                $data['nombres'],
+                $data['apellidos'],
+                $data['telefono'],
+                $data['direccion'],
+                $data['estado'],
+                $id,
+                $tenantId
+            );
+            return $stmt->execute();
+        }
+
+        $stmt = $this->db->prepare(
+            'INSERT INTO cliente (tipoDocumentoCliente, documentoCliente, nombresCliente, apellidosCliente, telefonoCliente, direccionCliente, estadoCliente, tenant_id) VALUES (?,?,?,?,?,?,?,?)'
+        );
+        $stmt->bind_param(
+            'sssssssi',
+            $data['tipoDocumento'],
+            $data['documento'],
+            $data['nombres'],
+            $data['apellidos'],
+            $data['telefono'],
+            $data['direccion'],
+            $data['estado'],
+            $tenantId
+        );
+        return $stmt->execute();
+    }
+
     public function update($id, $data)
     {
         $stmt = $this->db->prepare('UPDATE cliente SET tipoDocumentoCliente=?, documentoCliente=?, nombresCliente=?, apellidosCliente=?, telefonoCliente=?, direccionCliente=?, estadoCliente=? WHERE idCliente=? AND tenant_id=?');

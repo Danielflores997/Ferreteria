@@ -493,6 +493,38 @@ public function buscarProveedor()
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['guardar'])) {
             $codigo = $_POST['id'] ?? '';
             $cantidad = (int)($_POST['cantidad'] ?? 0);
+            $documentoCliente = trim($_POST['documentoCliente'] ?? '');
+            $clienteData = null;
+            if ($documentoCliente !== '') {
+                $clienteData = [
+                    'tipoDocumento' => trim($_POST['tipoDocumentoCliente'] ?? ''),
+                    'documento' => $documentoCliente,
+                    'nombres' => trim($_POST['nombresCliente'] ?? ''),
+                    'apellidos' => trim($_POST['apellidosCliente'] ?? ''),
+                    'telefono' => trim($_POST['telefonoCliente'] ?? ''),
+                    'direccion' => trim($_POST['direccionCliente'] ?? ''),
+                    'estado' => trim($_POST['estadoCliente'] ?? ''),
+                ];
+                if (
+                    !in_array($clienteData['tipoDocumento'], ['CC', 'TI', 'CE'], true)
+                    || !in_array($clienteData['estado'], ['Activo', 'Inactivo'], true)
+                    || $clienteData['nombres'] === ''
+                    || $clienteData['apellidos'] === ''
+                    || $clienteData['telefono'] === ''
+                    || $clienteData['direccion'] === ''
+                    || strlen($clienteData['documento']) > 20
+                    || strlen($clienteData['nombres']) > 100
+                    || strlen($clienteData['apellidos']) > 100
+                    || strlen($clienteData['telefono']) > 20
+                    || strlen($clienteData['direccion']) > 100
+                ) {
+                    $this->json([
+                        'success' => false,
+                        'message' => 'Completa los datos del cliente correctamente para guardarlo en Clientes.',
+                    ], 422);
+                }
+            }
+
             $prod = $productoModel->findByCodigoTenant($codigo, $tenantId);
             if (!$prod) {
                 $this->json(['success' => false, 'message' => 'Producto no encontrado']);
@@ -510,6 +542,9 @@ public function buscarProveedor()
             $db = Database::getInstance()->getConnection();
             $db->begin_transaction();
             try {
+                if ($clienteData !== null && !$clienteModel->saveFromSale($tenantId, $clienteData)) {
+                    throw new RuntimeException('No se pudo guardar el cliente.');
+                }
                 if (!$productoModel->restarStock($codigo, $cantidad, $tenantId)) {
                     $db->rollback();
                     $this->json(['success' => false, 'message' => 'No hay suficiente stock']);
@@ -527,7 +562,10 @@ public function buscarProveedor()
                     throw new RuntimeException('No se pudo registrar la venta.');
                 }
                 $db->commit();
-                $this->json(['success' => true, 'message' => '¡Datos guardados exitosamente!']);
+                $message = $clienteData === null
+                    ? '¡Venta guardada exitosamente!'
+                    : '¡Venta guardada y cliente registrado/actualizado en Clientes!';
+                $this->json(['success' => true, 'message' => $message]);
             } catch (mysqli_sql_exception | RuntimeException $e) {
                 $db->rollback();
                 error_log('Error al registrar venta: ' . $e->getMessage());

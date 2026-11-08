@@ -30,7 +30,7 @@
 <select name="tipoDocumentoCliente" id="select-TipoDocumentoCliente">
 <option value="CC">CC</option><option value="TI">TI</option><option value="CE">CE</option>
 </select></div>
-<div class="campo"><label for="documentoCliente">Documento</label><input type="text" id="documentoCliente" name="documentoCliente" placeholder="Número de documento"></div>
+<div class="campo"><label for="documentoCliente">Documento</label><input type="text" id="documentoCliente" name="documentoCliente" placeholder="Número de documento"><small id="estado-busqueda-cliente" aria-live="polite"></small></div>
 <div class="campo"><label for="nombresCliente">Nombres</label><input type="text" id="nombresCliente" name="nombresCliente"></div>
 <div class="campo"><label for="apellidosCliente">Apellidos</label><input type="text" id="apellidosCliente" name="apellidosCliente"></div>
 <div class="campo"><label for="telefonoCliente">Teléfono</label><input type="text" id="telefonoCliente" name="telefonoCliente"></div>
@@ -106,12 +106,72 @@ $sub=(float)$row['cantidad']*(float)$row['precio_unitario']; $totalVentas+=$sub;
 </div>
 <script>
 $(function(){
-  $('#documentoCliente').on('change', function(){
-    $.post('<?= url('admin/ventas') ?>',{documentoCliente:$(this).val()}, function(r){
-      if(r){ $('#nombresCliente').val(r.nombresCliente); $('#apellidosCliente').val(r.apellidosCliente);
-        $('#telefonoCliente').val(r.telefonoCliente); $('#direccionCliente').val(r.direccionCliente);
-        $('#select-Estado').val(r.estadoCliente); }
-    },'json');
+  const $documentoCliente = $('#documentoCliente');
+  const $estadoBusquedaCliente = $('#estado-busqueda-cliente');
+  let busquedaClienteTimer;
+  let ultimoDocumentoConsultado = '';
+
+  function limpiarDatosCliente() {
+    $('#nombresCliente, #apellidosCliente, #telefonoCliente, #direccionCliente').val('');
+    $('#select-Estado').val('Activo');
+  }
+
+  function buscarClientePorDocumento() {
+    const documento = $documentoCliente.val().trim();
+    clearTimeout(busquedaClienteTimer);
+
+    if (!documento) {
+      ultimoDocumentoConsultado = '';
+      limpiarDatosCliente();
+      $estadoBusquedaCliente.text('');
+      return;
+    }
+    if (documento === ultimoDocumentoConsultado) return;
+
+    ultimoDocumentoConsultado = documento;
+    limpiarDatosCliente();
+    $estadoBusquedaCliente.text('Buscando cliente...');
+
+    $.ajax({
+      url: '<?= url('admin/ventas') ?>',
+      method: 'POST',
+      dataType: 'json',
+      data: {documentoCliente: documento}
+    }).done(function(cliente) {
+      if ($documentoCliente.val().trim() !== documento) return;
+      if (!cliente) {
+        $estadoBusquedaCliente.text('No existe; completa los datos para registrarlo con la venta.');
+        return;
+      }
+
+      $('#select-TipoDocumentoCliente').val(cliente.tipoDocumentoCliente);
+      $('#nombresCliente').val(cliente.nombresCliente);
+      $('#apellidosCliente').val(cliente.apellidosCliente);
+      $('#telefonoCliente').val(cliente.telefonoCliente);
+      $('#direccionCliente').val(cliente.direccionCliente);
+      $('#select-Estado').val(cliente.estadoCliente);
+      $estadoBusquedaCliente.text('Cliente encontrado; sus datos se cargaron.');
+    }).fail(function() {
+      if ($documentoCliente.val().trim() === documento) {
+        $estadoBusquedaCliente.text('No se pudieron consultar los datos del cliente. Puedes ingresarlos manualmente.');
+      }
+    });
+  }
+
+  $documentoCliente.on('input', function() {
+    const documento = $(this).val().trim();
+    if (documento !== ultimoDocumentoConsultado) {
+      ultimoDocumentoConsultado = '';
+      limpiarDatosCliente();
+      $estadoBusquedaCliente.text('');
+    }
+    clearTimeout(busquedaClienteTimer);
+    busquedaClienteTimer = setTimeout(buscarClientePorDocumento, 350);
+  }).on('change blur', buscarClientePorDocumento).on('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      buscarClientePorDocumento();
+    }
   });
   $('#id').on('change', function(){
     $.post('<?= url('admin/ventas') ?>',{codigoProducto:$(this).val()}, function(r){

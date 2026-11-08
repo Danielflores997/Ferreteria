@@ -1,7 +1,7 @@
 <div id="menu-lateral">
     <h3><?= e($rolNombre ?? 'Usuario') ?></h3>
     <div id="foto">
-        <img src="<?= e($fotoPerfil ?? DEFAULT_AVATAR) ?>" alt="Foto de perfil" style="width:90px;height:90px;object-fit:cover;border-radius:50%">
+        <img src="<?= e($fotoPerfil ?? DEFAULT_AVATAR) ?>" alt="Foto de perfil" style="object-fit:cover;border-radius:50%">
     </div>
     <div class="nom-usuario">
         <h3>Bienvenido:<br><?= e($correo ?? '') ?></h3>

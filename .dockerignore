@@ -1,0 +1,13 @@
+.git
+.env
+.env.*
+!.env.example
+.docker-data
+.vscode
+.idea
+CSS
+imagenes
+prueba.php
+BD_FERRETERIA.sql
+database
+public/uploads/perfiles/*

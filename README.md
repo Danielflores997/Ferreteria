@@ -2,6 +2,120 @@
 
 Fusión de **`feature/mvc-migration`** (base más completa) + lo útil de **`Ferreteria-mvc`** (dashboard con totales, reportes y páginas de soporte).
 
+## Ejecutar con Docker
+
+Requiere Docker Desktop con Docker Compose habilitado.
+
+1. Copia la plantilla de variables y cambia las dos contraseñas por valores
+   largos, aleatorios y distintos:
+
+   ```powershell
+   Copy-Item .env.example .env
+   notepad .env
+   ```
+
+2. Construye y levanta la aplicación y MariaDB:
+
+   ```powershell
+   docker compose up --build -d
+   docker compose ps
+   ```
+
+3. Abre `http://localhost:8080` (o el puerto configurado en `APP_PORT`).
+
+En el primer inicio, MariaDB importa `BD_FERRETERIA.sql` y crea los datos de
+muestra. La importación se ejecuta únicamente cuando el volumen de la base está
+vacío. La base y las fotos de perfil se conservan en volúmenes de Docker al
+detener o recrear los contenedores. Para ver los registros:
+
+```powershell
+docker compose logs -f app db
+```
+
+En este entorno, el volumen Docker ya fue actualizado con la base activa de
+XAMPP, incluyendo sus usuarios, productos y cuenta superadmin. `docker compose
+down` conserva esos datos; no uses `docker compose down -v` a menos que quieras
+borrar también la base y las fotos persistidas.
+
+Para sincronizar de nuevo la base local de XAMPP al contenedor, exporta primero
+un respaldo local (no lo subas a Git: contiene datos de usuarios) y luego
+restáuralo en MariaDB:
+
+```powershell
+New-Item -ItemType Directory -Force .docker-data | Out-Null
+& C:\xampp\mysql\bin\mysqldump.exe --host=127.0.0.1 --port=3306 --user=root `
+  --single-transaction --routines --triggers --events --hex-blob `
+  --default-character-set=utf8mb4 --databases ferreterianuevo `
+  > .docker-data\ferreterianuevo.sql
+if ($LASTEXITCODE -ne 0) { throw "No se pudo exportar la base de XAMPP" }
+
+docker compose stop app
+docker compose cp .docker-data\ferreterianuevo.sql db:/tmp/ferreterianuevo.sql
+docker compose exec -T db sh -c 'mariadb -uroot -p"$MARIADB_ROOT_PASSWORD" -e "DROP DATABASE IF EXISTS ferreterianuevo; CREATE DATABASE ferreterianuevo CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"'
+docker compose exec -T db sh -c 'mariadb -uroot -p"$MARIADB_ROOT_PASSWORD" < /tmp/ferreterianuevo.sql && rm -f /tmp/ferreterianuevo.sql'
+docker compose start app
+
+Remove-Item .docker-data\ferreterianuevo.sql
+```
+
+Para detener los servicios sin borrar los datos:
+
+```powershell
+docker compose down
+```
+
+Este Compose está pensado para desarrollo/pruebas locales. Antes de exponerlo a
+Internet, configura HTTPS, secretos administrados, copias de seguridad y revisa
+los datos de muestra.
+
+## Acceso público con URL fija (sin dominio propio)
+
+Para esta instalación ya está activa la URL HTTPS fija:
+https://ferreteria-marketplace.tail8e3427.ts.net/
+
+Para configurar una instalación nueva:
+
+1. Crea una cuenta en [Tailscale](https://login.tailscale.com/start), inicia
+   sesión en la consola de administración y genera una auth key. No la publiques
+   ni la subas a Git.
+2. Agrégala al `.env` local como `TS_AUTHKEY=tskey-...`.
+3. Inicia la app con el servicio de Tailscale:
+
+   ```powershell
+   docker compose -f docker-compose.yml -f docker-compose.tailscale.yml up --build -d
+   ```
+
+4. Activa Funnel en el nodo del proyecto. Si la consola solicita habilitar la
+   política de Funnel o HTTPS para el tailnet, apruébala desde Tailscale Admin:
+
+   ```powershell
+   docker compose -f docker-compose.yml -f docker-compose.tailscale.yml exec tailscale tailscale funnel --bg 80
+   docker compose -f docker-compose.yml -f docker-compose.tailscale.yml exec tailscale tailscale funnel status
+   ```
+
+   El estado mostrará la URL HTTPS fija del hostname y tailnet.
+
+Después de registrar el nodo, elimina `TS_AUTHKEY` del `.env` y revoca esa key
+en Tailscale Admin → **Keys**. La identidad queda en el volumen persistente
+`tailscale-state`, por lo que los reinicios no requieren guardar la key ni
+deberían cambiar la URL. No elimines ese volumen ni borres el nodo de la consola
+si quieres conservar la misma identidad. Para reiniciar la configuración:
+
+```powershell
+docker compose -f docker-compose.yml -f docker-compose.tailscale.yml down
+docker compose -f docker-compose.yml -f docker-compose.tailscale.yml up -d
+```
+
+Para dejar de exponer el sitio, desactiva Funnel y detén los servicios:
+
+```powershell
+docker compose -f docker-compose.yml -f docker-compose.tailscale.yml exec tailscale tailscale funnel reset
+docker compose -f docker-compose.yml -f docker-compose.tailscale.yml down
+```
+
+Funnel hace pública la aplicación a cualquiera que tenga la URL. Usa solo datos
+de prueba y no reutilices contraseñas personales en el sitio.
+
 ## Comparación de ramas
 
 | Aspecto | Ferreteria-mvc | feature/mvc-migration | Resultado unificado |
