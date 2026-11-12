@@ -10,7 +10,7 @@
 <body>
 <?php require APP_PATH . '/views/partials/menu_publico.php'; ?>
 <form class="login" action="<?= url('auth/recuperar') ?>" method="POST">
-    <h2>Recuperar / Restablecer contraseña</h2>
+    <h2>Restablecer contraseña</h2>
     <?php if (!empty($mensaje)): ?>
         <p style="color:<?= !empty($ok) ? 'green' : 'red' ?>;text-align:center"><?= e($mensaje) ?></p>
     <?php endif; ?>
