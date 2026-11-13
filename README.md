@@ -32,6 +32,43 @@ detener o recrear los contenedores. Para ver los registros:
 docker compose logs -f app db
 ```
 
+### Asistente de búsqueda con IA
+
+El catálogo público incluye un asistente que interpreta lo que busca el visitante
+y recomienda hasta tres productos disponibles. Las coincidencias se consultan
+primero en la base de datos; Gemini solo recibe la pregunta y datos públicos de
+los productos candidatos. La respuesta nunca determina el precio, la
+disponibilidad ni los enlaces que ve el visitante. No envíes datos personales
+por el chat.
+
+Para habilitarlo, agrega al `.env` local una clave obtenida desde Google AI
+Studio. La clave solo se usa en el servidor y no debe subirse a Git:
+
+```dotenv
+AI_GEMINI_API_KEY=tu_clave_de_google_ai_studio
+AI_GEMINI_MODEL=gemini-3.5-flash-lite
+```
+
+Recrea el servicio para que Docker cargue la variable:
+
+```powershell
+docker compose up -d --force-recreate app
+```
+
+Si ejecutas la configuración pública con Tailscale Funnel, recrea también el
+servicio que comparte la red de la aplicación:
+
+```powershell
+docker compose -f docker-compose.yml -f docker-compose.tailscale.yml up -d --force-recreate app tailscale
+```
+
+Sin una clave configurada, el asistente informa que no está disponible y el
+buscador normal del catálogo sigue funcionando. Para XAMPP, configura
+`AI_GEMINI_API_KEY` y `AI_GEMINI_MODEL` en el `.env` de la raíz del proyecto.
+XAMPP carga únicamente esas dos variables de IA desde ese archivo; no cambia
+con ello la configuración de base de datos local. También puedes definirlas
+como variables del entorno de Apache.
+
 En este entorno, el volumen Docker ya fue actualizado con la base activa de
 XAMPP, incluyendo sus usuarios, productos y cuenta superadmin. `docker compose
 down` conserva esos datos; no uses `docker compose down -v` a menos que quieras

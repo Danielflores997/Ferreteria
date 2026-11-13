@@ -274,6 +274,66 @@ class Producto extends Model
         return ['rows' => $rows, 'total' => $total];
     }
 
+    public function assistantCandidates($query, $limit = 12)
+    {
+        $tokens = preg_split('/[^\p{L}\p{N}]+/u', (string)$query, -1, PREG_SPLIT_NO_EMPTY);
+        $stopWords = [
+            'busco', 'necesito', 'quiero', 'para', 'con', 'una', 'uno', 'unos', 'unas',
+            'que', 'como', 'del', 'por', 'las', 'los', 'algo', 'ayuda', 'tengo', 'me',
+            'sirve', 'usar', 'uso', 'este', 'esta', 'estos', 'estas', 'hacer',
+        ];
+        $terms = [];
+        foreach ($tokens ?: [] as $token) {
+            $token = strtolower($token);
+            if (strlen($token) < 2 || in_array($token, $stopWords, true) || in_array($token, $terms, true)) {
+                continue;
+            }
+            $terms[] = $token;
+            if (count($terms) === 8) {
+                break;
+            }
+        }
+        if ($terms === []) {
+            return [];
+        }
+
+        $conditions = [];
+        $scoreParts = [];
+        $conditionValues = [];
+        $scoreValues = [];
+        foreach ($terms as $term) {
+            $conditions[] = '(p.codigoProducto LIKE ? OR p.nombreProductos LIKE ? OR p.descripcionProducto LIKE ? OR c.nombreCategoria LIKE ?)';
+            $like = '%' . $term . '%';
+            array_push($conditionValues, $like, $like, $like, $like);
+            $scoreParts[] = '(CASE WHEN p.codigoProducto LIKE ? THEN 5 ELSE 0 END'
+                . ' + CASE WHEN p.nombreProductos LIKE ? THEN 4 ELSE 0 END'
+                . ' + CASE WHEN c.nombreCategoria LIKE ? THEN 3 ELSE 0 END'
+                . ' + CASE WHEN p.descripcionProducto LIKE ? THEN 2 ELSE 0 END)';
+            array_push($scoreValues, $like, $like, $like, $like);
+        }
+
+        $sql = 'SELECT (' . implode(' + ', $scoreParts) . ') AS relevancia, '
+            . 'p.idProducto, p.nombreProductos, p.valorProducto, p.stockProducto, p.descripcionProducto, p.imagen, '
+            . 'c.nombreCategoria AS categoriaNombre, t.nombre AS tenantNombre '
+            . 'FROM productos p '
+            . 'JOIN tenants t ON t.id = p.tenant_id '
+            . 'LEFT JOIN categoria c ON c.idCategoria = p.nombreCategoria '
+            . 'WHERE t.estado = ? AND p.stockProducto > 0 AND (' . implode(' OR ', $conditions) . ') '
+            . 'ORDER BY relevancia DESC, p.idProducto DESC LIMIT ?';
+        $values = array_merge($scoreValues, ['Activo'], $conditionValues, [max(1, min(12, (int)$limit))]);
+
+        $stmt = $this->db->prepare($sql);
+        $types = str_repeat('s', count($values) - 1) . 'i';
+        $bindValues = [$types];
+        foreach ($values as $index => &$value) {
+            $bindValues[] = &$value;
+        }
+        unset($value);
+        call_user_func_array([$stmt, 'bind_param'], $bindValues);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function countMarketplace($search = null)
     {
         $sql = "SELECT COUNT(*) AS total FROM productos p JOIN tenants t ON t.id = p.tenant_id LEFT JOIN categoria c ON c.idCategoria = p.nombreCategoria WHERE t.estado = 'Activo'";

@@ -48,7 +48,7 @@ class HomeController extends Controller
             'title' => $item['nombreProductos'] ?? 'Producto',
             'producto' => $item,
             'similares' => $similares,
-            'css' => ['css/producto.css', 'css/menu.css', 'css/footer.css']
+            'css' => ['css/producto.css?v=' . filemtime(PUBLIC_PATH . '/css/producto.css'), 'css/menu.css', 'css/footer.css']
         ]);
     }
 

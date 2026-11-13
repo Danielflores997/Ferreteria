@@ -35,3 +35,4 @@
     </nav>
 </div>
 <?php require APP_PATH . '/views/partials/carrito_flotante.php'; ?>
+<?php require APP_PATH . '/views/partials/asistente_chat.php'; ?>

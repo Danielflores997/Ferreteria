@@ -14,6 +14,8 @@ services:
       DB_NAME: ${DB_NAME:-ferreterianuevo}
       DB_USER: ${DB_USER:-ferreteria_app}
       DB_PASS: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+      AI_GEMINI_API_KEY: ${AI_GEMINI_API_KEY:-}
+      AI_GEMINI_MODEL: ${AI_GEMINI_MODEL:-gemini-3.5-flash-lite}
     volumes:
       - profile-uploads:/var/www/html/public/uploads/perfiles
 
