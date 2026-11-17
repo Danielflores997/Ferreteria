@@ -127,6 +127,57 @@
     grid-column: 1 / -1;
 }
 
+.ferreterias-destino {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.ferreterias-destino legend {
+    margin-bottom: 6px;
+    color: var(--cl-muted);
+    font-size: .76rem;
+    font-weight: 600;
+    letter-spacing: .3px;
+    text-transform: uppercase;
+}
+
+.ferreterias-ayuda {
+    margin: 0 0 10px;
+    color: var(--cl-muted);
+    font-size: .88rem;
+}
+
+.ferreterias-opciones {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 10px;
+}
+
+.cliente-wrap label.ferreteria-opcion {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 46px;
+    padding: 10px 12px;
+    border: 1px solid var(--cl-border);
+    border-radius: 8px;
+    background: var(--cl-soft);
+    color: var(--cl-text);
+    cursor: pointer;
+    font-size: .9rem;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.ferreteria-opcion input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--cl-primary);
+}
+
 .cliente-wrap label {
     font-size: .76rem;
     font-weight: 600;
@@ -444,6 +495,15 @@
     background: rgba(26, 127, 69, .1);
     border: 1px solid rgba(26, 127, 69, .3);
     color: var(--cl-ok);
+    margin-bottom: 18px;
+}
+
+.cliente-error {
+    padding: 12px 16px;
+    border: 1px solid rgba(198, 33, 40, .3);
+    border-radius: 8px;
+    background: rgba(198, 33, 40, .08);
+    color: var(--cl-primary-dark);
     margin-bottom: 18px;
 }
 

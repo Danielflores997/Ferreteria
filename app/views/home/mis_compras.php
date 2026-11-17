@@ -14,15 +14,17 @@
     <div class="cliente-tabla">
         <table>
             <thead>
-                <tr><th>ID</th><th>Producto</th><th>Cantidad</th><th>Fecha</th></tr>
+                <tr><th>ID</th><th>Producto</th><th>Precio unitario</th><th>Ferretería</th><th>Cantidad</th><th>Fecha</th></tr>
             </thead>
             <tbody>
             <?php if (empty($compras)): ?>
-                <tr><td colspan="4" class="cliente-vacio">Aún no tienes compras registradas.</td></tr>
+                <tr><td colspan="6" class="cliente-vacio">Aún no tienes compras registradas.</td></tr>
             <?php else: foreach ($compras as $c): ?>
                 <tr>
                     <td><?= e($c['id']) ?></td>
                     <td><?= e($c['producto']) ?></td>
+                    <td>$ <?= money($c['precioUnitario']) ?></td>
+                    <td><?= e($c['ferreteria']) ?></td>
                     <td><?= e($c['cantidad']) ?></td>
                     <td><?= e($c['fecha']) ?></td>
                 </tr>

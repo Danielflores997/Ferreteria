@@ -33,7 +33,7 @@
                         <div class="item">
                             <span class="titulo-item"><?= e($row['nombreProductos']) ?></span>
                             <img class="img-catalogo" src="<?= e(productImageUrl($row['imagen'])) ?>" alt="<?= e($row['nombreProductos']) ?>">
-                            <span class="categoria-item">Categoria: <?= e($row['categoriaNombre']) ?></span>
+                            <span class="descripcion-item"><?= e($row['descripcionProducto'] ?? '') ?></span>
                             <span class="vendedor-item">Vendido por: <?= e($row['tenantNombre'] ?? 'Sin información') ?></span>
                             <span class="precio-item">$ <?= money($row['valorProducto']) ?></span>
                             <button class="boton-item"

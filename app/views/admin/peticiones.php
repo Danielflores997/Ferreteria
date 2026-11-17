@@ -22,6 +22,7 @@
 <?php require APP_PATH . '/views/partials/menu_lateral.php'; ?>
 <div class="admin-main">
 <h2>Peticiones</h2>
+<?php if (!empty($mensaje)): ?><p class="mensajes-alertas" role="status"><?= e($mensaje) ?></p><?php endif; ?>
 <form method="post" action="<?= url('admin/peticiones') ?>">
 <div class="panel">
 <?php if (empty($peticiones)): ?>
@@ -42,7 +43,7 @@
 <td><?= e($row['Correo']) ?></td>
 <td><?= e($row['Motivo']) ?></td>
 <td>
-<select name="estado[<?= e($row['Correo']) ?>]">
+<select name="estado[<?= (int)$row['idPeticion'] ?>]">
 <option value="No" <?= ($row['Estado']??'')==='No'?'selected':'' ?>>No</option>
 <option value="Si" <?= ($row['Estado']??'')==='Si'?'selected':'' ?>>Sí</option>
 </select>

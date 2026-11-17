@@ -61,7 +61,7 @@ class AuthController extends Controller
             'title' => 'Iniciar sesión',
             'error' => $error,
             'returnToCart' => $returnToCart,
-            'css' => ['css/loginCliente.css', 'css/menu.css', 'css/footer.css']
+            'css' => ['css/loginCliente.css', 'css/auth-pages.css?v=' . filemtime(PUBLIC_PATH . '/css/auth-pages.css'), 'css/menu.css', 'css/footer.css']
         ]);
     }
 
@@ -104,7 +104,7 @@ class AuthController extends Controller
         $this->view('auth/register', [
             'title' => 'Registro',
             'mensaje' => $mensaje,
-            'css' => ['css/registroCliente.css', 'css/menu.css', 'css/footer.css']
+            'css' => ['css/registroCliente.css', 'css/auth-pages.css?v=' . filemtime(PUBLIC_PATH . '/css/auth-pages.css'), 'css/menu.css', 'css/footer.css']
         ]);
     }
 

@@ -8,6 +8,12 @@ class Tenant extends Model
         return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
     }
 
+    public function allActive()
+    {
+        $result = $this->db->query("SELECT id, nombre FROM tenants WHERE estado = 'Activo' ORDER BY nombre");
+        return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
+    }
+
     public static function allWithStats()
     {
         $db = Database::getInstance()->getConnection();

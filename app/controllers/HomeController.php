@@ -31,7 +31,7 @@ class HomeController extends Controller
             'total' => $total,
             'firstItem' => $total > 0 ? $offset + 1 : 0,
             'lastItem' => min($total, $offset + count($data['rows'])),
-            'css' => ['css/index.css', 'css/menu.css', 'css/footer.css', 'css/catalogo-marketplace.css']
+            'css' => ['css/index.css', 'css/menu.css', 'css/footer.css', 'css/catalogo-marketplace.css?v=' . filemtime(PUBLIC_PATH . '/css/catalogo-marketplace.css')]
         ]);
     }
 
@@ -94,7 +94,7 @@ class HomeController extends Controller
             'total' => $data['total'],
             'firstItem' => $data['total'] > 0 ? $offset + 1 : 0,
             'lastItem' => min($data['total'], $offset + count($data['rows'])),
-            'css' => ['css/index.css', 'css/menu.css', 'css/footer.css', 'css/catalogo-marketplace.css']
+            'css' => ['css/index.css', 'css/menu.css', 'css/footer.css', 'css/catalogo-marketplace.css?v=' . filemtime(PUBLIC_PATH . '/css/catalogo-marketplace.css')]
         ]);
     }
 }

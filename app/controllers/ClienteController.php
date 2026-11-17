@@ -47,15 +47,7 @@ class ClienteController extends Controller
         $usuario = $this->model('Usuario')->findByCorreo($_SESSION['correo']);
         $compras = [];
         if ($usuario) {
-            // filter to current user id if possible
-            $db = Database::getInstance()->getConnection();
-            $stmt = $db->prepare("SELECT c.id, p.nombreProductos AS producto, c.cantidad, c.fecha
-                FROM compras c JOIN productos p ON c.producto_id = p.idProducto
-                WHERE c.usuario_id = ? ORDER BY c.id DESC");
-            $uid = (int)$usuario['idUsuario'];
-            $stmt->bind_param('i', $uid);
-            $stmt->execute();
-            $compras = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            $compras = $this->model('Compra')->allByUser((int)$usuario['idUsuario']);
         }
         $this->view('home/mis_compras', [
             'title' => 'Mis compras',
@@ -122,6 +114,7 @@ class ClienteController extends Controller
                     (int)$usuario['idUsuario'],
                     (int)$prod['idProducto'],
                     $quantity,
+                    (float)$prod['valorProducto'],
                     $tenantId,
                     $checkoutId
                 )) {

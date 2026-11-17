@@ -679,9 +679,65 @@ public function buscarVenta()
     {
         $this->requireStaff();
         $tenantId = tenantId();
+        $peticionModel = $this->model('Peticion');
+        $mensaje = '';
+        $peticiones = $peticionModel->allByTenant($tenantId);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $estados = $_POST['estado'] ?? null;
+            if (!is_array($estados) || $estados === []) {
+                $mensaje = 'No se recibieron estados válidos para guardar.';
+            } else {
+                $allowedIds = array_fill_keys(
+                    array_map(static fn($peticion) => (int)$peticion['idPeticion'], $peticiones),
+                    true
+                );
+                $updates = [];
+                foreach ($estados as $id => $estado) {
+                    $idPeticion = filter_var(
+                        (string)$id,
+                        FILTER_VALIDATE_INT,
+                        ['options' => ['min_range' => 1]]
+                    );
+                    if (
+                        $idPeticion === false
+                        || !isset($allowedIds[$idPeticion])
+                        || !in_array($estado, ['Si', 'No'], true)
+                    ) {
+                        $mensaje = 'Hay un estado de petición inválido; no se guardaron los cambios.';
+                        break;
+                    }
+                    $updates[] = [(int)$idPeticion, $estado];
+                }
+
+                if ($mensaje === '') {
+                    $db = $peticionModel->getConnection();
+                    $transactionStarted = false;
+                    try {
+                        $db->begin_transaction();
+                        $transactionStarted = true;
+                        foreach ($updates as [$idPeticion, $estado]) {
+                            if (!$peticionModel->updateEstado($idPeticion, $estado, $tenantId)) {
+                                throw new RuntimeException('No fue posible guardar todos los estados de respuesta.');
+                            }
+                        }
+                        $db->commit();
+                        $mensaje = 'Estados de respuesta guardados correctamente.';
+                    } catch (mysqli_sql_exception | RuntimeException $error) {
+                        if ($transactionStarted) {
+                            $db->rollback();
+                        }
+                        error_log('PQRS status update failed: ' . $error->getMessage());
+                        $mensaje = 'No fue posible guardar los estados. Inténtalo de nuevo.';
+                    }
+                }
+            }
+        }
+
         $this->view('admin/peticiones', $this->adminData([
             'title' => 'Peticiones',
-            'peticiones' => $this->model('Peticion')->allByTenant($tenantId),
+            'peticiones' => $peticionModel->allByTenant($tenantId),
+            'mensaje' => $mensaje,
             'css' => ADMIN_CSS
         ]));
     }
