@@ -49,11 +49,11 @@
                         <div class="similares-grid">
                             <?php foreach ($similares as $sim): ?>
                                 <div class="similar-item">
-                                    <img src="<?= e(productImageUrl($sim['imagen'])) ?>" alt="<?= e($sim['nombreProductos']) ?>">
                                     <span class="similar-titulo"><?= e($sim['nombreProductos']) ?></span>
+                                    <img src="<?= e(productImageUrl($sim['imagen'])) ?>" alt="<?= e($sim['nombreProductos']) ?>">
                                     <p class="similar-descripcion"><?= e($sim['descripcionProducto'] ?? '') ?></p>
                                     <span class="similar-precio">$ <?= money($sim['valorProducto']) ?></span>
-                                    <span class="similar-vendedor">por <?= e($sim['tenantNombre'] ?? '') ?></span>
+                                    <span class="similar-vendedor">Vendido por: <?= e($sim['tenantNombre'] ?? 'Sin información') ?></span>
                                     <button class="boton-item"
                                         type="button"
                                         data-titulo="<?= e($sim['nombreProductos']) ?>"
